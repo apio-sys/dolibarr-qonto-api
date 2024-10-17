@@ -1,0 +1,166 @@
+# Copyright (C) 2019 SuperAdmin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#
+# Générique
+#
+ModuleImportFromBankCsvName = Konfiguration des Bankimports, Erstellung, Zahlung und Abgleich
+ModuleImportFromBankCsvDesc = Import von Bankauszügen, automatische Generierung von Lieferantenrechnungen, Gebühren, Steuern, MwSt., Gehältern, Darlehenszahlungen und Zahlungen von Kundenrechnungen und automatischer Abgleich
+
+#
+# Générique
+#
+ImportFromCSV = Import Kontoauszug
+ImportList = Liste Konto-Importe
+ImportFromBankCsv = Modul Bank-Import von CSV
+
+#
+# Page d'administration
+#
+ImportFromBankCsvSetup = Konfiguration des Bankimports, Erstellung, Zahlung und Ableich 
+Settings =  Einstellungen
+ImportFromBankCsvSetupPage = Konfiguration des Moduls 'Import von Bankauszügen, Generierung Zahlung und Abgleich'
+PrefixToEliminate = Liste der zu löschenden Präfixe
+HelpPrefixToEliminate = Geben Sie die zu entfernenden Präfixe für die Zeile und Beschriftung <br>exe: an und lösche den Anfang der Phrase, die mit CARD und TRANSFERT<br>Wert -> CARD ;TRANSFERT beginnt
+DefautProjet =  Standardprojekt
+HelpDefautProjet = Standardprojekt für den Import
+DefautVAT = Standard Mehrwertsteuer
+HelpDefautVAT = So berechnen Sie standardmäßig den Betrag vor Mehrwertsteuer
+DefautPaiementFactFour = Standard-Zahlungsart für Lieferantenrechnungen
+DefautPaiementCharge = Standardzahlungsart für Gebühren
+DefautPaiementTVA = Standardzahlungsart für die Mehrwertsteuer
+DefautPaiementSalaire = Standard-Zahlungsart für Gehälter
+DefautPaiementEmprunt = Standardzahlungsart für Darlehen
+DefautPaiementFactClient = Standard-Zahlungsart für Kundenrechnungen
+SeeOnlyOpenedProject = nur geöffnete Projekte anzeigen
+HelpSeeOnlyOpenedProject = Interessenten ausblenden (0=inactive 1=active)
+GenerateUniqueRef = Generieren Sie einen eindeutigen Code für das Referenzfeld der Lieferantenrechnungen
+HelpGenerateUniqueRef = Fehler bei doppelter Referenz vermeiden (0=inactive 1=active)
+BankAccountID = Bankkonto-ID
+HelpBankAccountID = Geben Sie Ihre Standard-Bankkonto-ID für die Importe an.<br>ex : Importieren der Kontoauszugszeilen der Bankkonto-ID  = 1 -> value -> 1
+
+#
+# Page À propos
+#
+About = Info 
+ImportFromBankCsvAbout = über ImportFromBankCsv 
+ImportFromBankCsvAboutPage = ImportFromBankCsv Info-Seite 
+
+#
+# Page index
+#
+ModuleImportPageTitre = Kontoauszug und Generierungs-Modul importieren
+AddnewCsvFile = eine neue csv-Datei hinzufügen
+ImportCsv = Upload cvs-Datei 
+DelimiteurPointVirgule = .cvs getrennt mit Semikolon
+HideColumns = Spalten ausblenden
+ShowAllColumns = zeige alle Spalten
+SelectLinesAndColumns = zu importierende Zeilen und Spalten auswählen  (lassen Sie das Feld leer, wenn Sie die Zeile oder Spalte nicht importieren möchten.). Das Datumsformat muss dd/mm/yyyy sein.
+HideNoSelectedColumns = ausblenden der nicht ausgewählten Spalten 
+Statement = Bezeichnung
+Import = Import
+CheckModuleConfiguration = Bitte stellen Sie Ihre Standard-Bankkonto-ID auf der Modulkonfigurationsseite ein, bevor Sie beginnen
+
+#
+# Page liste
+#
+listOfImports = Liste der Kontoauszüge
+ImportToComplete = Liste der abgeschlossenen Importe
+fromd =  von
+RemainingLines = übrige Zeilen
+Imported = importiert
+Deleted = gelöscht
+ImportDone = Liste der durchgeführten Importe
+
+#
+# Page process
+#
+TypeOfSocialFiscalCharge = Typ
+SureToDelete = Sind Sie sicher, dass Sie löschen möchten?
+ProviderReference = Referenz des Anbieters
+Provider = Anbieter
+OperationDate = Datum
+HTAmount = Betrag (ohne Mehrwertsteuer)
+DetailsLine = Details
+IncludingInterest = einschließlich Zinsen
+IncludingInsurance = einschließlich Versicherung
+TypeOfSocialFiscalCharge = Gebührentyp
+Employee = Mitarbeiter_in
+PeriodStartDate = Beginn der Periode
+PeriodEndDate = Ende der Periode
+
+#
+# Listes
+#
+AmountCreditDebit = Betrag (Soll/ Haben)
+DateOpOption = Buchungsdatum 
+DateValueOption = Buchungsdatum (Option)
+LabelOption = Begünstiger/Zahlungspflichtiger
+MoreLabelOption = Verwendungszweck (Option)
+
+ProviderInvoice = Lieferanten-Rechnung
+SocialTaxCharges = Sozialabgaben
+VAT = VAT
+Salary = Gehälter
+Loan = Darlehen
+CustomerInvoice = Kundenrechnung
+
+#
+# Erreurs et msg events
+#
+ErrorFileType = Der Datei-Typ ist nicht korrekt 
+ErrorFileWhileOpening = Fehler beim öffnen der Datei
+AtLeastOneColumnAmount = Wählen Sie mindestens eine Spalte aus 'Betrag'
+AtLeastOneColumnDateOp = Wählen Sie mindestens eine Spalte aus 'Buchnungsdatum'
+AtLeastOneColumnLabel = Wählen Sie mindestens eine Spalte aus 'Label'
+NoMoreThan2ColumnAmount = Wählen Sie maximal 2 Spalten 'Betrag' aus
+NoMoreThan1ColumnDateOp = Wählen Sie maximal 1 Spalte 'Buchungsdatum' aus 
+NoMoreThan1ColumnDateVal = Wählen Sie maximal 1 Spalte 'Buchungsdatum (Option)' aus 
+NoMoreThan1ColumnLabel = Wählen Sie maximal 1 Spalte 'Verwendungszweck (Option)'  aus
+NoMoreThan1ColumnLabelBis = Wählen Sie maximal 1 Spalte 'Verwendungszweck sekundär ' aus
+ErrorAmount = mindestens ein 'Betrag' hat keinen gültigen Wert
+DateOpNotDate = mindestens ein 'Buchungsdatum' hat nicht den gültigen Wert dd/mm/yyyy
+DateValNotDate = mindestens ein 'Wertstellungsdatum' ist kein gültiger Wert
+LabelTooShort = Das label-Feld darf nicht leer sein 
+statementNameEmpty = Bezeichnungs-Feld darf nicht leer sein
+statementNamePersonalize = Bitte Bezeichnung ausfüllen
+
+ImpossibleToUpdate = Aktualisierung nicht möglich
+Updated = aktualisiert
+EmptyRowid = id nicht definiert
+ElementTypeUndefine = Element type  nicht definiert
+EmptyRefImport = RefImport nicht definiert
+EmptyLabel = Begünstigter/Zahlungspflichtiger nicht definiert
+DateBadFormat = falsches Datumsformat
+ProjectNotValid = Projekt nicht gültig
+AmountNotValid = Betrag nicht gültig
+ProviderNotValid = Anbieter nicht gültig
+HTNotHigherThanTTC = Betrag (ohne Mehrwertsteuer) > Betrag (inkl. Mehrwertsteuer)
+TVANotHigherThanTTC = VAT > Betrag (inkl. Mehrwertsteuer)
+StatementLinkSQLError = SQL-Fehler während Abgleich
+CustomerInvoiceNotvalid = Kundenrechnung nicht gültig
+LoanNotValid = Darlehen nicht gültig
+InterestNotValid = Zins nicht gültig 
+InsuranceNotValid = Versicherung nicht gültig
+InterestAndInsuranceValueTooHigh = zu großer Wert Zins und Versicherung
+UserUndefine = Mitarbeiter ist nicht definiert
+
+ElementDeleted = Element gelöscht
+Invoice = Rechnung
+Created = ok
+StatementLink = Finanzabgleich
+Payment = Zahlung
+PaymentCustomerInvoice = Zahlung der Kundenrechnung
+PaymentLoan = Auszahlung des Darlehens
