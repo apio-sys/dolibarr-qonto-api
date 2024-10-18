@@ -1,0 +1,5 @@
+{
+    "require": {
+        "tavux/qonto-php": "^1.0"
+    }
+}
