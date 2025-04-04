@@ -10,7 +10,7 @@ Then it allows to create and paye elements.
 ![Screenshot bankimportapi](img/screenshot_bankimportapi.png?raw=true "BankImportApi"){imgmd}
 -->
 
-Other modules are available on [Dolistore.com](https://www.dolistore.com>).
+Other modules are available on [Dolistore.com](https://www.dolistore.com).
 
 ## Translations
 
