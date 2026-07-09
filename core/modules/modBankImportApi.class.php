@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '2.29';
+        $this->version = '2.30';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(
@@ -120,6 +120,13 @@ class modBankImportApi extends DolibarrModules
         $this->rights[$r][1] = 'Read objects of BankImportApi'; // Permission label
         $this->rights[$r][4] = 'mybankimports'; // In php code, permission will be checked by test if ($user->rights->bankimportapi->level1->level2)
         $this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->bankimportapi->level1->level2)
+        $r++;
+
+        // Dedicated write permission: required to create/pay/reconcile/link elements from the AJAX endpoints.
+        $this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
+        $this->rights[$r][1] = 'Create/pay elements from BankImportApi'; // Permission label
+        $this->rights[$r][4] = 'mybankimports';
+        $this->rights[$r][5] = 'write'; // Checked via $user->rights->bankimportapi->mybankimports->write
         $r++;
         /* END MODULEBUILDER PERMISSIONS */
 
@@ -214,6 +221,10 @@ class modBankImportApi extends DolibarrModules
         $sql = array(
             "UPDATE ".MAIN_DB_PREFIX."extrafields SET list = '3' WHERE elementtype = 'bank_account' AND name IN ('id_api', 'key_api')",
             "UPDATE ".MAIN_DB_PREFIX."extrafields SET type = 'password' WHERE elementtype = 'bank_account' AND name = 'key_api'",
+            // Grant the new 'write' permission to every user/group that already holds 'read',
+            // so existing installs keep working right after the upgrade (no manual re-grant needed).
+            "INSERT INTO ".MAIN_DB_PREFIX."user_rights (entity, fk_user, fk_id) SELECT DISTINCT ur.entity, ur.fk_user, ".((int) $this->numero + 1)." FROM ".MAIN_DB_PREFIX."user_rights ur WHERE ur.fk_id = ".((int) $this->numero)." AND NOT EXISTS (SELECT 1 FROM ".MAIN_DB_PREFIX."user_rights e WHERE e.fk_user = ur.fk_user AND e.entity = ur.entity AND e.fk_id = ".((int) $this->numero + 1).")",
+            "INSERT INTO ".MAIN_DB_PREFIX."usergroup_rights (entity, fk_usergroup, fk_id) SELECT DISTINCT gr.entity, gr.fk_usergroup, ".((int) $this->numero + 1)." FROM ".MAIN_DB_PREFIX."usergroup_rights gr WHERE gr.fk_id = ".((int) $this->numero)." AND NOT EXISTS (SELECT 1 FROM ".MAIN_DB_PREFIX."usergroup_rights e WHERE e.fk_usergroup = gr.fk_usergroup AND e.entity = gr.entity AND e.fk_id = ".((int) $this->numero + 1).")",
         );
 
         return $this->_init($sql, $options);
