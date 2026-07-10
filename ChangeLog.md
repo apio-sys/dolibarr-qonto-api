@@ -1,5 +1,8 @@
 # CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 2.29
+FIX : Security - hide Qonto API secret key from bank account lists (key_api extrafield changed to 'password' type and no longer displayed in lists, existing installs migrated on module upgrade)
+
 ## 2.28
 FIX : update compatibility for version 20 of Dolibarr
 

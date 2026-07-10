@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '2.28';
+        $this->version = '2.29';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(
@@ -149,8 +149,10 @@ class modBankImportApi extends DolibarrModules
 		dol_include_once('/core/class/extrafields.class.php');
 		
         $extrafields = new ExtraFields($this->db);
-		$result1=$extrafields->addExtraField('id_api', "ID API", 'varchar', 1, 100, 'bank_account', 0, 0, '', '', 1, '', 1, 0, '', '', 'bankimportapi@bankimportapi', '$conf->bankimportapi->enabled');
-		$result2=$extrafields->addExtraField('key_api', "KEY API", 'varchar', 2, 100, 'bank_account', 0, 0, '', '', 1, '', 1, 0, '', '', 'bankimportapi@bankimportapi', '$conf->bankimportapi->enabled');
+		// Security: id_api = Qonto login (semi-sensitive) -> list=3 (shown on the account card, never in lists)
+		$result1=$extrafields->addExtraField('id_api', "ID API", 'varchar', 1, 100, 'bank_account', 0, 0, '', '', 1, '', 3, 0, '', '', 'bankimportapi@bankimportapi', '$conf->bankimportapi->enabled');
+		// Security: key_api = Qonto SECRET key -> type 'password' (masked display) + list=3 (never in lists)
+		$result2=$extrafields->addExtraField('key_api', "KEY API", 'password', 2, 100, 'bank_account', 0, 0, '', '', 1, '', 3, 0, '', '', 'bankimportapi@bankimportapi', '$conf->bankimportapi->enabled');
 
 		$result3=$extrafields->addExtraField(
 			'bank_name_api',	//$attrname
@@ -206,8 +208,13 @@ class modBankImportApi extends DolibarrModules
 		
 		if (empty($resultMenu)) return -1;
 
-        $sql = array();
-
+        // Security: also fixes already-existing installations. addExtraField() does NOT alter
+        // an already-created field, so we force the visibility (list=3) and mask the secret
+        // key (type=password) directly in DB. Idempotent.
+        $sql = array(
+            "UPDATE ".MAIN_DB_PREFIX."extrafields SET list = '3' WHERE elementtype = 'bank_account' AND name IN ('id_api', 'key_api')",
+            "UPDATE ".MAIN_DB_PREFIX."extrafields SET type = 'password' WHERE elementtype = 'bank_account' AND name = 'key_api'",
+        );
 
         return $this->_init($sql, $options);
     }
