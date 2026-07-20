@@ -29,6 +29,9 @@ if (! $res && file_exists($_SERVER['DOCUMENT_ROOT']."/main.inc.php"))
 if (! $res) $res=@include("../../main.inc.php");		// For "custom" directory
 if (! $res) $res=@include("../../../main.inc.php");		// For "custom" directory
 
+// Access control (shared) - must run after main.inc.php has loaded $user.
+require_once __DIR__ . '/security_ajax.inc.php';
+
 dol_include_once('/compta/facture/class/facture.class.php');
 
 $langs->loadLangs(array("bankimportapi@bankimportapi", "other", 'bills', 'banks', 'companies'));

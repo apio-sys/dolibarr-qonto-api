@@ -1,5 +1,8 @@
 # CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 2.30
+FIX : Security - enforce access control on all AJAX endpoints (were reachable by any authenticated user). Added a dedicated 'write' permission for create/pay/reconcile/link endpoints, kept 'read' for list endpoints, via a shared guard (lib/security_ajax.inc.php). Existing 'read' holders are auto-granted 'write' on module upgrade.
+
 ## 2.29
 FIX : Security - hide Qonto API secret key from bank account lists (key_api extrafield changed to 'password' type and no longer displayed in lists, existing installs migrated on module upgrade)
 
