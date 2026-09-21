@@ -58,7 +58,7 @@ if (empty($bankApiObject) || !is_object($bankApiObject))
 	
 		<tr>
 			<td class="titlefield"><span class="fieldrequired"><?php print $langs->trans("Provider"); ?> <i style="display: none;" class="fas fa-spinner fa-spin loading_spinner_2"></span></td>
-			<td><?php print $form->select_company('', 'socid_ajax_provider_invoices', 's.fournisseur=1', 'SelectThirdParty', 0, 0, null, 0, 'minwidth200'); ?></td>
+			<td><?php print $form->select_company('', 'socid_ajax_provider_invoices', '(s.fournisseur:=:1)', 'SelectThirdParty', 0, 0, null, 0, 'minwidth200'); ?></td>
 		</tr>
 
 	</table>
