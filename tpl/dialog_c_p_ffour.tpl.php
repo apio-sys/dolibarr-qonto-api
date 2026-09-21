@@ -88,7 +88,7 @@ if (empty($bankApiObject) || !is_object($bankApiObject))
 
 		<tr>
 			<td class="titlefield"><span class="fieldrequired"><?php print $langs->trans("Provider"); ?></span></td>
-			<td><?php print $form->select_company('', 'socid', 's.fournisseur=1', 'SelectThirdParty', 0, 0, null, 0, 'minwidth200'); ?></td>
+			<td><?php print $form->select_company('', 'socid', '(s.fournisseur:=:1)', 'SelectThirdParty', 0, 0, null, 0, 'minwidth200'); ?></td>
 		</tr>
 		
 		<tr>
