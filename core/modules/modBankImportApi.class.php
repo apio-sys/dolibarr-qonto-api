@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '2.30';
+        $this->version = '2.31';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(

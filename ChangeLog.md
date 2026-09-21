@@ -1,5 +1,8 @@
 # CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 2.31
+FIX : Arrow to quick-copy "remain to pay" into "paid amount" was missing since Dolibarr v20+/23.0.3. Dolibarr's img_picto() no longer falls back to the legacy 'rightarrow.png' image for unknown picto names (it now always tries to render a FontAwesome icon), so the icon silently rendered empty. Switched to the 'fa-arrow-right' picto (rendered via a code path unaffected by that change) and fixed the AutoFillAmout/data attributes to use double quotes so Dolibarr's class-merging regex does not drop the AutoFillAmout class (which would have kept the icon visible but non-clickable).
+
 ## 2.30
 FIX : Security - enforce access control on all AJAX endpoints (were reachable by any authenticated user). Added a dedicated 'write' permission for create/pay/reconcile/link endpoints, kept 'read' for list endpoints, via a shared guard (lib/security_ajax.inc.php). Existing 'read' holders are auto-granted 'write' on module upgrade.
 

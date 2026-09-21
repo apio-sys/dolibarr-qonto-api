@@ -200,7 +200,7 @@ if(empty($retour['error'])){
 						if ($action != 'add_paiement')
 						{
 							if (!empty($conf->use_javascript_ajax))
-								$htmlList .=img_picto("Auto fill", 'rightarrow', "class='AutoFillAmout' data-rowname='".$namef."' data-value='".($sign * $multicurrency_remaintopay)."'");
+								$htmlList .=img_picto("Auto fill", 'fa-arrow-right', 'class="AutoFillAmout" data-rowname="'.$namef.'" data-value="'.($sign * $multicurrency_remaintopay).'"');
 							$htmlList .='<input type="text" class="maxwidth75 multicurrency_amount" name="'.$namef.'" value="'.$_POST[$namef].'">';
 							$htmlList .='<input type="hidden" class="multicurrency_remain" name="'.$nameRemain.'" value="'.$multicurrency_remaintopay.'">';
 						}
@@ -236,7 +236,7 @@ if(empty($retour['error'])){
 				if ($action != 'add_paiement')
 				{
 					if (!empty($conf->use_javascript_ajax))
-						$htmlList .=img_picto("Auto fill", 'rightarrow', "class='AutoFillAmout' data-rowname='".$namef."' data-value='".($sign * $remaintopay)."'");
+						$htmlList .=img_picto("Auto fill", 'fa-arrow-right', 'class="AutoFillAmout" data-rowname="'.$namef.'" data-value="'.($sign * $remaintopay).'"');
 					$htmlList .='<input type="text" class="maxwidth75 amount" name="'.$namef.'" value="'.dol_escape_htmltag(GETPOST($namef)).'">';
 					$htmlList .='<input type="hidden" class="remain" name="'.$nameRemain.'" value="'.$remaintopay.'">';
 				}
