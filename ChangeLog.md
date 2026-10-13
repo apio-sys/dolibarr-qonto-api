@@ -1,5 +1,8 @@
 # CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 2.32
+FIX : Closed (inactive) suppliers and customers were listed in the thirdparty dropdowns of the pay / create-and-pay / credit note dialogs (unless COMPANY_HIDE_INACTIVE_IN_COMBOBOX was enabled). The select_company() filters now also require s.status = 1.
+
 ## 2.31
 FIX : Arrow to quick-copy "remain to pay" into "paid amount" was missing since Dolibarr v20+/23.0.3. Dolibarr's img_picto() no longer falls back to the legacy 'rightarrow.png' image for a bare 'rightarrow' picto name (it now always tries to render a FontAwesome icon instead), so the icon silently rendered empty. Now calls img_picto("Auto fill", 'rightarrow.png') with the explicit .png extension, matching what Dolibarr's own native "add payment" page (compta/paiement.php) still does today, and moved the AutoFillAmout class/data attributes onto a wrapping button so the icon markup stays identical to core's.
 
