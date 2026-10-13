@@ -1,5 +1,8 @@
 # CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 2.34
+FIX : Linking a bank transaction to an existing VAT payment found nothing when the VAT declaration was paid later or in several payments. The search now looks at VAT payments (llx_payment_vat, amount and payment date) and links their declaration, instead of matching the declaration amount and date. Also fixed undefined $htmlList / $retour['message'] warnings in ajax_get_payments_list.php.
+
 ## 2.33
 FIX : PHP warnings when paying invoices: $atleastonepaymentnotnull and $amounts were not initialised in ajax_import_p_ffour.php / ajax_import_p_fclient.php, and supplier payments did not fill the per-invoice multicurrency_code / multicurrency_tx arrays read by PaiementFourn::create() ("Undefined array key" in paiementfourn.class.php).
 

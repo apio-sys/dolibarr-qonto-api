@@ -54,6 +54,8 @@ $montant_ttc = $transactionLine['amount'];
 
 
 $retour['error'] = 0;
+$retour['message'] = '';
+$htmlList = '';
 //-----------------------------------------------------------------
 //CHECK DATAS
 //-----------------------------------------------------------------
@@ -106,12 +108,14 @@ if(empty($retour['error'])){
 
 	}elseif($link_type == 'tva'){
 		
-		$sql = 'SELECT rowid, label as ref, amount';
-		$sql .= ' FROM '.MAIN_DB_PREFIX.'tva';
-		$sql .= ' WHERE entity = '.$conf->entity;
-		$sql .= ' AND amount = '.$montant_ttc;
-		//$sql .= ' AND datep > "'.strtotime($dateRequest).'"';
-		$sql .= ' AND datep > "'.$dateRequestMySqlFormat.'"';
+		// Search VAT payments (since Dolibarr 14 a VAT declaration can be paid later, in one or more payments),
+		// but return the declaration id: that is what the 'tva' link type stores.
+		$sql = 'SELECT DISTINCT t.rowid, t.label as ref, p.amount';
+		$sql .= ' FROM '.MAIN_DB_PREFIX.'payment_vat as p';
+		$sql .= ' INNER JOIN '.MAIN_DB_PREFIX.'tva as t ON t.rowid = p.fk_tva';
+		$sql .= ' WHERE t.entity = '.$conf->entity;
+		$sql .= ' AND p.amount = '.$montant_ttc;
+		$sql .= ' AND p.datep > "'.$dateRequestMySqlFormat.'"';
 
 	}elseif($link_type == 'chargesociales'){	
 
