@@ -319,6 +319,7 @@ if (!$retour['error'])
 		$paiement->amounts      = $tab;   // Array of amounts
 		$paiement->multicurrency_amounts = $tab;
 		$paiement->paiementid   = $mode_reglement_id;
+		setSupplierPaymentMulticurrency($paiement);
 		
 		$paiement_id = $paiement->create($user, 1);
 		if ($paiement_id < 0)
