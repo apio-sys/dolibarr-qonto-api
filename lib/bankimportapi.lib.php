@@ -481,3 +481,24 @@ function transferFiles($bankId,$object,$listOfIdsAttachement){
 	
 }
 
+
+/**
+ * Fill the per-invoice multicurrency arrays of a supplier payment, like core fourn/facture/paiement.php does.
+ * PaiementFourn::create() reads them for each invoice in $paiement->amounts.
+ *
+ * @param PaiementFourn $paiement
+ * @return void
+ */
+function setSupplierPaymentMulticurrency($paiement){
+	global $db;
+
+	$paiement->multicurrency_code = array();
+	$paiement->multicurrency_tx = array();
+
+	foreach($paiement->amounts as $key => $val){
+		$tmpinvoice = new FactureFournisseur($db);
+		$tmpinvoice->fetch($key);
+		$paiement->multicurrency_code[$key] = $tmpinvoice->multicurrency_code;
+		$paiement->multicurrency_tx[$key] = $tmpinvoice->multicurrency_tx;
+	}
+}

@@ -76,6 +76,8 @@ $mode_reglement_id = (!empty($mode_reglement_id))?$mode_reglement_id:$formTab['m
 
 $totalPayment = 0;
 $tab = array();
+$amounts = array();
+$atleastonepaymentnotnull = 0;
 
 foreach($formTab as $key=>$val){
 	

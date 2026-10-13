@@ -1,5 +1,8 @@
 # CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 2.33
+FIX : PHP warnings when paying invoices: $atleastonepaymentnotnull and $amounts were not initialised in ajax_import_p_ffour.php / ajax_import_p_fclient.php, and supplier payments did not fill the per-invoice multicurrency_code / multicurrency_tx arrays read by PaiementFourn::create() ("Undefined array key" in paiementfourn.class.php).
+
 ## 2.32
 FIX : Closed (inactive) suppliers and customers were listed in the thirdparty dropdowns of the pay / create-and-pay / credit note dialogs (unless COMPANY_HIDE_INACTIVE_IN_COMBOBOX was enabled). The select_company() filters now also require s.status = 1.
 
