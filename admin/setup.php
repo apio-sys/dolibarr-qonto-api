@@ -43,7 +43,6 @@ global $langs, $user;
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formprojet.class.php';
 require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
-require_once DOL_DOCUMENT_ROOT.'/compta/paiement/class/paiement.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/translate.class.php';
 
 
@@ -62,7 +61,6 @@ $arrayofparameters=array(
 	'BANKIMPORTAPI_ID_PROJET_DEFAUT'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_DEFAUT_VAT'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_HIDE_VAT_WARNING'=>array('css'=>'minwidth500','enabled'=>1),
-	'BANKIMPORTAPI_ONLY_OPENED_PROJECTS'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_GENERATE_UNIQUE_REF'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_PERIOD_SHOWED_DAYS'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_ALLOW_FILES_TRANSFERT'=>array('css'=>'minwidth500','enabled'=>1),
@@ -81,7 +79,6 @@ if ((float) DOL_VERSION >= 6)
 }
 
 $form=new Form($db);
-$objectPaiement = new Paiement($db);
 
 /*
  * View
@@ -118,14 +115,7 @@ if ($action == 'edit')
 	
 	foreach ($arrayofparameters as $key => $val){
 		
-		if($key == 'BANKIMPORTAPI_LIST_PREFIXES'){
-			$tempValue = ($conf->global->$key)?$conf->global->$key:'CB ;VIR ';
-			$modeSelect = '';
-			$tempInput = '<input name="'.$key.'"  class="flat '.(empty($val['css'])?'minwidth200':$val['css']).'" value="' . $tempValue . '">';
-			$tempTitre = $langs->trans('PrefixToEliminate');
-			$tempHelp = $langs->trans('HelpPrefixToEliminate');
-			
-		}elseif($key == 'BANKIMPORTAPI_ID_PROJET_DEFAUT'){
+		if($key == 'BANKIMPORTAPI_ID_PROJET_DEFAUT'){
 			if($conf->global->$key){
 				$objProject = new Project($db);
 				$objProject->fetch($conf->global->$key);
@@ -143,13 +133,6 @@ if ($action == 'edit')
 			$tempInput = '<input type="number" name="'.$key.'"  class="flat '.(empty($val['css'])?'minwidth100':$val['css']).'" value="' . $tempValue . '">';
 			$tempTitre = $langs->trans('DefautVAT');
 			$tempHelp = $langs->trans('HelpDefautVAT');
-			
-		}elseif($key == 'BANKIMPORTAPI_ONLY_OPENED_PROJECTS'){
-			$tempValue = ($conf->global->$key)?$conf->global->$key:0;
-			$modeSelect = '';
-			$tempInput = '<input type="number" name="'.$key.'"  class="flat '.(empty($val['css'])?'minwidth100':$val['css']).'" value="' . $tempValue . '">';
-			$tempTitre = $langs->trans('SeeOnlyOpenedProject');
-			$tempHelp = $langs->trans('HelpSeeOnlyOpenedProject');
 			
 		}elseif($key == 'BANKIMPORTAPI_ALLOW_FILES_TRANSFERT'){
 			$tempValue = ($conf->global->$key)?$conf->global->$key:0;
@@ -204,9 +187,8 @@ if ($action == 'edit')
 		{
 			if ($modeSelect == 'projet'){
 				$formproject = new FormProjets($db);
-				$formproject->select_projects((empty($conf->global->PROJECT_CAN_ALWAYS_LINK_TO_ALL_SUPPLIERS)?$societe->id:-1), $conf->global->$key, $key, 0, 0, 1, 0);
-			}elseif ($modeSelect == 'modePaiement'){
-				$form->select_types_paiements($conf->global->$key, $key,'',0,1,1);
+				// -1 = all projects; closed ones are hidden like in the import dialogs
+				$formproject->select_projects(-1, $conf->global->$key, $key, 0, 0, 1, 1);
 			}else{
 				print $tempInput;
 			}

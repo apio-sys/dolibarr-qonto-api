@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.3
+FIX : The "Default project" setting only listed projects without a third party, on the setup page and in the import dialogs (create & pay vendor/customer invoice, credit note, charge, salary), because the project selector was filtered on an undefined third party. All open projects are now listed, so the default project can be chosen and is pre-selected. Removed the "Only show opened projects" setting, which had no effect (closed projects were always hidden), plus dead setup code (list of prefixes, default payment types) and the unused listSelectProject() helper. On re-activation the module deletes the BANKIMPORTAPI_ONLY_OPENED_PROJECTS and BANKIMPORTAPI_LIST_PREFIXES constants.
+
 ## 3.2.1
 FIX : Saving a new KEY API on a bank account crashed with PHP 8 (TypeError "Cannot access offset of type string on string" in CommonObject::insertExtraFields), because the key_api password extrafield had an empty param. On re-activation the module now sets a valid param: on Dolibarr 19+ the key is stored encrypted (dolcrypt) and existing keys stored in clear are encrypted, on older versions it is kept as is. The key_api column is widened to 255 characters for the encrypted value.
 

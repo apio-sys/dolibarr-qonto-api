@@ -84,8 +84,7 @@ if (empty($bankApiObject) || !is_object($bankApiObject))
 			<td class="titlefield"><span><?php print $langs->trans("Project"); ?></span></td>
 			<td>
 				<?php 
-					//print listSelectProject($db, $conf->global->BANKIMPORTAPI_ONLY_OPENED_PROJECTS, $conf->global->BANKIMPORTAPI_ID_PROJET_DEFAUT, 'minwidth200', 'projectid');
-					$formproject->select_projects((empty($conf->global->PROJECT_CAN_ALWAYS_LINK_TO_ALL_SUPPLIERS) ? $societe->id : -1), $conf->global->BANKIMPORTAPI_ID_PROJET_DEFAUT, 'projectid', 0, 0, 1, 1, 0, 0, 0, '', 0, 0, 'minwidth300 maxwidth500');
+					$formproject->select_projects(-1, $conf->global->BANKIMPORTAPI_ID_PROJET_DEFAUT, 'projectid', 0, 0, 1, 1, 0, 0, 0, '', 0, 0, 'minwidth300 maxwidth500');
 				?>
 			</td>
 		</tr>

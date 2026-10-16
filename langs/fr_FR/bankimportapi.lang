@@ -27,20 +27,10 @@ dolimportDesc = Récupère les transactions bancaires via l'API Qonto, puis cré
 # Page d'administration
 #
 Settings = Réglages
-PrefixToEliminate = Liste des préfixes à éliminer
-HelpPrefixToEliminate = Indiquer les préfixes à éliminer pour la ligne du relevé et le libellé<br>ex : éliminer les débuts de phrase qui commencent par CB et VIREMENT<br>Valeur -> CB ;VIREMENT
 DefautProjet = Projet par défaut
 HelpDefautProjet = Choisissez un projet par défaut pour les imports
 DefautVAT = Valeur de TVA par défaut
 HelpDefautVAT = Permet le calcul par défaut du montant HT des factures
-DefautPaiementFactFour = Mode de paiement par défaut pour les factures fournisseurs
-DefautPaiementCharge = Mode de paiement par défaut pour les charges
-DefautPaiementTVA = Mode de paiement par défaut pour la TVA
-DefautPaiementSalaire = Mode de paiement par défaut pour les salaires
-DefautPaiementEmprunt = Mode de paiement par défaut pour les emprunts
-DefautPaiementFactClient = Mode de paiement par défaut pour les factures client
-SeeOnlyOpenedProject = Montrer les projets ouvert seulement
-HelpSeeOnlyOpenedProject = Cache les opportunités (0=inactif 1=actif)
 GenerateUniqueRef = Générer un code unique dans les factures fournisseurs
 HelpGenerateUniqueRef = Permet d'éviter les erreurs pour doublons de références des factures fournisseurs (0=inactif 1=actif)
 BankAccountID = ID du compte en banque

@@ -26,20 +26,10 @@ dolimportDesc = Fetch bank transactions from the Qonto API, then create, pay and
 # Page d'administration
 #
 Settings = Settings
-PrefixToEliminate = List of prefixes to delete
-HelpPrefixToEliminate = Indicate the prefixes to eliminate for the statement's line and labels<br>ex : delete the beginning of the phrase that start by CARD and TRANSFERT<br>value -> CARD ;TRANSFERT
 DefautProjet = Default project
 HelpDefautProjet = Select default project for imports
 DefautVAT = Default VAT value
 HelpDefautVAT = To calculate amount before VAT by default
-DefautPaiementFactFour = Default payment type for vendor invoices
-DefautPaiementCharge = Default payment type for charges
-DefautPaiementTVA = Default payment type for VAT
-DefautPaiementSalaire = Default payment type for salaries
-DefautPaiementEmprunt = Default payment type for loan
-DefautPaiementFactClient = Default payment type for customer invoices
-SeeOnlyOpenedProject = Only show opened projects
-HelpSeeOnlyOpenedProject = Hide leads (0=inactive 1=active)
 GenerateUniqueRef = Generate a unique code for the vendor invoices reference field
 HelpGenerateUniqueRef = Avoid error for double reference (0=inactive 1=active)
 AllowFileTransfertFromQonto = Allow file transfert from Qonto to Dolibarr
