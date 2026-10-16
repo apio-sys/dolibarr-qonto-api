@@ -33,6 +33,8 @@ GenerateUniqueRef = Generieren Sie einen eindeutigen Code für das Referenzfeld 
 HelpGenerateUniqueRef = Fehler bei doppelter Referenz vermeiden (0=inactive 1=active)
 BankAccountID = Bankkonto-ID
 HelpBankAccountID = Geben Sie Ihre Standard-Bankkonto-ID für die Importe an.<br>ex : Importieren der Kontoauszugszeilen der Bankkonto-ID  = 1 -> value -> 1
+AllowCreateElements = Erstellen neuer Elemente erlauben
+HelpAllowCreateElements = Zeigt die Aktionen "Erstellen und bezahlen" (Kundenrechnung, Gutschrift, Lieferantenrechnung, MwSt., Gehalt, Sozialabgabe/Steuer). 0 setzen, um nur bestehende Elemente zu bezahlen oder zu verknüpfen (0=inaktiv 1=aktiv)
 
 #
 # Page À propos

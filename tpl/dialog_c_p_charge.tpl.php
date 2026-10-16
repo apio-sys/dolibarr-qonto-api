@@ -183,13 +183,5 @@ $( ".button_c_p_charge" ).click(function() {
 	
 });
 
-//Add 0 if only 1 digit
-function pad(s) { return (s < 10) ? '0' + s : s; }
-
-//convert date to dd/mm/yyyy
-function convertDate(myDate) {
-  var d = myDate;
-  return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
-}
 
 </script>

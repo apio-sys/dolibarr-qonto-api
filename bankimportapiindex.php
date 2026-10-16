@@ -154,6 +154,9 @@ if($conf->global->BANKIMPORTAPI_DEV_MODE == 1){
 
 
 $bank_rappro = $bankApiObject->rappro;
+
+// "Create and pay" actions can be switched off in the module setup (only pay/link existing elements)
+$createAllowed = bankimportapiCreateAllowed();
 ?>
 
 <table class="centpercent notopnoleftnoright table-fiche-title">
@@ -228,6 +231,16 @@ if(empty($bankApiObject->transaction)){
 		var bankId = "<?php echo $bankId ?>";
 		var bank_rappro = "<?php echo $bank_rappro ?>";
 		var transactions = <?php echo json_encode($bankApiObject->transaction) ?>;
+
+		// Date helpers shared by the dialogs (create and pay dialogs may not be included)
+		//Add 0 if only 1 digit
+		function pad(s) { return (s < 10) ? '0' + s : s; }
+
+		//convert date to dd/mm/yyyy
+		function convertDate(myDate) {
+		  var d = myDate;
+		  return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
+		}
 		var currentTransactionId = 0;
 		var default_vat = parseFloat("<?php echo $conf->global->BANKIMPORTAPI_DEFAUT_VAT; ?>");
 	</script>
@@ -330,17 +343,21 @@ if(empty($bankApiObject->transaction)){
 						
 
 					}elseif($val['side'] == 'credit'){
-						if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeInvoice").'" class="fas fa-file-invoice-dollar button_c_p_fclient"></i>';
-						if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeCreditNote").'" class="fas fa-hand-holding-usd button_c_p_creditnote"></i>';
-						print'<br>';
+						if($createAllowed){
+							if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeInvoice").'" class="fas fa-file-invoice-dollar button_c_p_fclient"></i>';
+							if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeCreditNote").'" class="fas fa-hand-holding-usd button_c_p_creditnote"></i>';
+							print'<br>';
+						}
 						if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:Coral;" title="'.$langs->trans("PayeInvoice").'" class="fas fa-file-invoice-dollar button_p_fclient"></i>';
 					
 					}else{
-						if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeInvoice").'" class="fas fa-file-invoice-dollar button_c_p_ffour"></i>';
-						if(! empty($conf->tax->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeVAT").'" class="fas fa-percent button_c_p_tax"></i>';
-						if(! empty($conf->salaries->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeSalary").'" class="fas fa-users button_c_p_salary"></i>';
-						if(! empty($conf->tax->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeCharge").'" class="fas fa-user-shield button_c_p_charge"></i>';
-						print'<br>';
+						if($createAllowed){
+							if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeInvoice").'" class="fas fa-file-invoice-dollar button_c_p_ffour"></i>';
+							if(! empty($conf->tax->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeVAT").'" class="fas fa-percent button_c_p_tax"></i>';
+							if(! empty($conf->salaries->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeSalary").'" class="fas fa-users button_c_p_salary"></i>';
+							if(! empty($conf->tax->enabled)) print'<i style="margin:5px;cursor: pointer;color:blue;" title="'.$langs->trans("CreateAndPayeCharge").'" class="fas fa-user-shield button_c_p_charge"></i>';
+							print'<br>';
+						}
 						
 						if(! empty($conf->facture->enabled)) print'<i style="margin:5px;cursor: pointer;color:Coral;" title="'.$langs->trans("PayeInvoice").'" class="fas fa-file-invoice-dollar button_p_ffour"></i>';
 						if(! empty($conf->loan->enabled)) print'<i style="margin:5px;cursor: pointer;color:Coral;" title="'.$langs->trans("PayeLoan").'" class="fas fa-coins button_p_loan"></i>';
@@ -374,15 +391,17 @@ if(empty($bankApiObject->transaction)){
 		$formproject = new FormProjets($db);
 	}
 
-	include './tpl/dialog_c_p_ffour.tpl.php';
-	include './tpl/dialog_c_p_creditnote.tpl.php';
-	include './tpl/dialog_c_p_vat.tpl.php';
-	include './tpl/dialog_c_p_salary.tpl.php';
-	include './tpl/dialog_c_p_charge.tpl.php';
+	if ($createAllowed) {
+		include './tpl/dialog_c_p_ffour.tpl.php';
+		include './tpl/dialog_c_p_creditnote.tpl.php';
+		include './tpl/dialog_c_p_vat.tpl.php';
+		include './tpl/dialog_c_p_salary.tpl.php';
+		include './tpl/dialog_c_p_charge.tpl.php';
+		include './tpl/dialog_c_p_fclient.tpl.php';
+	}
 	include './tpl/dialog_p_ffour.tpl.php';
 	include './tpl/dialog_p_loan.tpl.php';
 	include './tpl/dialog_p_fclient.tpl.php';
-	include './tpl/dialog_c_p_fclient.tpl.php';
 	include './tpl/dialog_p_expense_report.tpl.php';
 	include './tpl/dialog_link_manu.tpl.php';
 

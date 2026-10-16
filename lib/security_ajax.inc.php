@@ -27,7 +27,10 @@
  * endpoint (create/pay/reconcile/link) MUST set
  *     $bankimportapiRequireWrite = true;
  * before including this file, so the dedicated 'write' permission is required
- * instead. Any failing check stops the request with accessforbidden().
+ * instead. A "create and pay" endpoint also sets
+ *     $bankimportapiRequireCreate = true;
+ * so it is refused when those actions are disabled in the module setup.
+ * Any failing check stops the request with accessforbidden().
  */
 
 // Defensive: refuse to run if the Dolibarr environment was not loaded first.
@@ -48,4 +51,10 @@ if (!empty($bankimportapiRequireWrite)) {
 	if (empty($user->rights->bankimportapi->mybankimports->read)) {
 		accessforbidden();
 	}
+}
+
+// "Create and pay" endpoints: refused when disabled in setup (same test as bankimportapiCreateAllowed()).
+if (!empty($bankimportapiRequireCreate)
+	&& isset($conf->global->BANKIMPORTAPI_ALLOW_CREATE) && (string) $conf->global->BANKIMPORTAPI_ALLOW_CREATE === '0') {
+	accessforbidden();
 }

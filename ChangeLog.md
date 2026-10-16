@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4
+NEW : Setting "Allow creating new elements" (BANKIMPORTAPI_ALLOW_CREATE, on by default). Set to 0 to hide the "create and pay" actions (customer invoice, credit note, vendor invoice, VAT, salary, social/fiscal tax) and only pay or link existing elements. When off, the matching AJAX endpoints refuse requests too.
+
 ## 3.3
 FIX : The "Default project" setting only listed projects without a third party, on the setup page and in the import dialogs (create & pay vendor/customer invoice, credit note, charge, salary), because the project selector was filtered on an undefined third party. All open projects are now listed, so the default project can be chosen and is pre-selected. Removed the "Only show opened projects" setting, which had no effect (closed projects were always hidden), plus dead setup code (list of prefixes, default payment types) and the unused listSelectProject() helper. On re-activation the module deletes the BANKIMPORTAPI_ONLY_OPENED_PROJECTS and BANKIMPORTAPI_LIST_PREFIXES constants.
 

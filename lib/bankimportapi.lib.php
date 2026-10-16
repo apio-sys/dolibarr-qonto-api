@@ -25,6 +25,19 @@ dol_include_once('/bankimportapi/class/importedline.class.php');
 
 
 /**
+ * Whether the "create and pay" actions are enabled (setting BANKIMPORTAPI_ALLOW_CREATE).
+ * On when the setting does not exist yet. Same test as in security_ajax.inc.php.
+ *
+ * @return bool
+ */
+function bankimportapiCreateAllowed()
+{
+	global $conf;
+	return !isset($conf->global->BANKIMPORTAPI_ALLOW_CREATE) || (string) $conf->global->BANKIMPORTAPI_ALLOW_CREATE !== '0';
+}
+
+
+/**
  * Prepare admin pages header
  *
  * @return array

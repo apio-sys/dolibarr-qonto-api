@@ -31,6 +31,7 @@ if (! $res) $res=@include("../../../main.inc.php");		// For "custom" directory
 
 // Access control (shared) - must run after main.inc.php has loaded $user.
 $bankimportapiRequireWrite = true;
+$bankimportapiRequireCreate = true;
 require_once __DIR__ . '/security_ajax.inc.php';
 
 dol_include_once('/salaries/class/paymentsalary.class.php');

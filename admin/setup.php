@@ -58,6 +58,7 @@ $action = GETPOST('action', 'alpha');
 $backtopage = GETPOST('backtopage', 'alpha');
 
 $arrayofparameters=array(
+	'BANKIMPORTAPI_ALLOW_CREATE'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_ID_PROJET_DEFAUT'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_DEFAUT_VAT'=>array('css'=>'minwidth500','enabled'=>1),
 	'BANKIMPORTAPI_HIDE_VAT_WARNING'=>array('css'=>'minwidth500','enabled'=>1),
@@ -141,6 +142,14 @@ if ($action == 'edit')
 			$tempTitre = $langs->trans('AllowFileTransfertFromQonto');
 			$tempHelp = $langs->trans('HelpAllowFileTransfertFromQonto');
 			
+		}elseif($key == 'BANKIMPORTAPI_ALLOW_CREATE'){
+			// On when not set yet
+			$tempValue = (isset($conf->global->$key) && $conf->global->$key !== '')?$conf->global->$key:1;
+			$modeSelect = '';
+			$tempInput = '<input type="number" min="0" max="1" name="'.$key.'"  class="flat '.(empty($val['css'])?'minwidth100':$val['css']).'" value="' . $tempValue . '">';
+			$tempTitre = $langs->trans('AllowCreateElements');
+			$tempHelp = $langs->trans('HelpAllowCreateElements');
+
 		}elseif($key == 'BANKIMPORTAPI_GENERATE_UNIQUE_REF'){
 			$tempValue = ($conf->global->$key)?$conf->global->$key:0;
 			$modeSelect = '';

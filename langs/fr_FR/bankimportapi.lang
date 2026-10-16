@@ -37,6 +37,8 @@ BankAccountID = ID du compte en banque
 HelpBankAccountID = Renseigner l'ID de votre compte en banque par défaut pour les imports<br> ex : Importer les relevés sur le compte bancaire ID=1<br>Valeur -> 1
 AllowFileTransfertFromQonto = Permettre le transfert des fichiers depuis Qonto vers Dolibarr
 HelpAllowFileTransfertFromQonto = Au moment de la création d'une facture, les fichiers sont transférés (0=inactif 1=actif)
+AllowCreateElements = Autoriser la création de nouveaux éléments
+HelpAllowCreateElements = Affiche les actions "créer et payer" (facture client, avoir, facture fournisseur, TVA, salaire, charge sociale/fiscale). Mettre 0 pour seulement payer ou lier des éléments existants (0=inactif 1=actif)
 
 #
 # Page À propos
