@@ -32,7 +32,6 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 require_once __DIR__ . '/lib/bankimportapi.lib.php';
 require_once __DIR__ . '/class/importedline.class.php';
 require_once __DIR__ . '/class/bankapi.class.php';
-require_once __DIR__ . '/class/csvlines.class.php';
 
 // NO WARNING
 error_reporting(E_ERROR | E_PARSE);
@@ -65,43 +64,6 @@ if ($action == 'forgetpaiement' && !empty($transaction_id))
 	
 	header("Location: ".$_SERVER['PHP_SELF']."?id_bank=".$bankId);
 }
-
- //DELETE CSV LINE
- if ($action == 'deleteCsvLine' && !empty($transaction_id) && substr($transaction_id, 0, 3) == 'csv')
- {
-
-	$sql = 'DELETE FROM '.MAIN_DB_PREFIX.'bankimportapi_csvlines WHERE rowid = "'.substr($transaction_id,4).'" AND fk_bank ="'.$bankId.'"';
-
-	$resql = $db->query($sql);
-
-	if ($resql) {
-
-		header("Location: ".$_SERVER['PHP_SELF']."?id_bank=".$bankId);
-	} else {
-		dol_print_error($db);
-	}
-
-	/*
-	$objectCsvLine = new csvLines($db);
-	$result = $objectCsvLine->fetch(substr($transaction_id,4));
-
-	print 'objectId'.$result;
-
-	if($result<0){
-		dol_print_error($db);
-	}else{
-		$result = $objectCsvLine->delete($user);
-
-		if($result<0){
-			dol_print_error($db);
-		}else{
-			header("Location: ".$_SERVER['PHP_SELF']."?id_bank=".$bankId);
-		}
-	}
-	*/
-
- }
-
 
 /*
 *TABLEAU DES DATES -> PERIODE
@@ -271,9 +233,6 @@ if(empty($bankApiObject->transaction)){
 		print_r($bankApiObject);
 		print'</pre>';
 
-	}else{
-	
-		print 'No transactions to show, please load a csv file: <a href="'.dol_buildpath("/bankimportapi/loadcsv.php", 1).'?id_bank='.$bankId.'">importCSV</a>';
 	}
 	
 }else
@@ -411,12 +370,6 @@ if(empty($bankApiObject->transaction)){
 						print'<i style="margin:5px;cursor: pointer;color:orange;" title="'.$langs->trans("CreateManually").'" class="fas fa-link button_link_manu"></i>';
 					}
 
-
-					if(empty($bankApiObject->bankName)) {
-						print '<a class="delete_csv" href="'.$_SERVER["PHP_SELF"].'?id_bank='.$bankId.'&action=deleteCsvLine&transaction_id='.$val['transaction_id'].'">';
-						print'<i style="margin-left:10px;" title="'.$langs->trans("DeleteCSVLine").'" class="fas fa-trash"></i>';
-						print '</a>';
-					}
 
 					print'</td>';
 					
@@ -606,19 +559,6 @@ if(empty($bankApiObject->transaction)){
 		
 		var y=document.createElement('span');
 		y.innerHTML=<?php print '"'.$langs->trans("SureToUnlink").'"'?>;
-		
-		if (confirm(y.innerHTML)){
-			return;
-		}else{
-			event.preventDefault();
-		}
-	});
-
-	//Eliminate csv line from database
-	$( ".delete_csv" ).click(function() {
-		
-		var y=document.createElement('span');
-		y.innerHTML=<?php print '"'.$langs->trans("SureToDelete").'"'?>;
 		
 		if (confirm(y.innerHTML)){
 			return;

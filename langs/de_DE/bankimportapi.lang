@@ -16,22 +16,15 @@
 #
 # Générique
 #
-ModuleImportFromBankCsvName = Konfiguration des Bankimports, Erstellung, Zahlung und Abgleich
-ModuleImportFromBankCsvDesc = Import von Bankauszügen, automatische Generierung von Lieferantenrechnungen, Gebühren, Steuern, MwSt., Gehältern, Darlehenszahlungen und Zahlungen von Kundenrechnungen und automatischer Abgleich
-
-#
-# Générique
-#
-ImportFromCSV = Import Kontoauszug
-ImportList = Liste Konto-Importe
-ImportFromBankCsv = Modul Bank-Import von CSV
+BankImportApi = Bank API (Qonto)
+ModuleBankImportApiName = Bank API (Qonto)
+ModuleBankImportApiDesc = Ruft Banktransaktionen über die Qonto-API ab und erstellt, bezahlt und gleicht anschließend die entsprechenden Dolibarr-Elemente ab
+dolimportDesc = Ruft Banktransaktionen über die Qonto-API ab und erstellt, bezahlt und gleicht anschließend die entsprechenden Dolibarr-Elemente ab
 
 #
 # Page d'administration
 #
-ImportFromBankCsvSetup = Konfiguration des Bankimports, Erstellung, Zahlung und Ableich 
 Settings =  Einstellungen
-ImportFromBankCsvSetupPage = Konfiguration des Moduls 'Import von Bankauszügen, Generierung Zahlung und Abgleich'
 PrefixToEliminate = Liste der zu löschenden Präfixe
 HelpPrefixToEliminate = Geben Sie die zu entfernenden Präfixe für die Zeile und Beschriftung <br>exe: an und lösche den Anfang der Phrase, die mit CARD und TRANSFERT<br>Wert -> CARD ;TRANSFERT beginnt
 DefautProjet =  Standardprojekt
@@ -55,40 +48,22 @@ HelpBankAccountID = Geben Sie Ihre Standard-Bankkonto-ID für die Importe an.<br
 # Page À propos
 #
 About = Info 
-ImportFromBankCsvAbout = über ImportFromBankCsv 
-ImportFromBankCsvAboutPage = ImportFromBankCsv Info-Seite 
 
 #
 # Page index
 #
-ModuleImportPageTitre = Kontoauszug und Generierungs-Modul importieren
-AddnewCsvFile = eine neue csv-Datei hinzufügen
-ImportCsv = Upload cvs-Datei 
-DelimiteurPointVirgule = .cvs getrennt mit Semikolon
-HideColumns = Spalten ausblenden
-ShowAllColumns = zeige alle Spalten
-SelectLinesAndColumns = zu importierende Zeilen und Spalten auswählen  (lassen Sie das Feld leer, wenn Sie die Zeile oder Spalte nicht importieren möchten.). Das Datumsformat muss dd/mm/yyyy sein.
-HideNoSelectedColumns = ausblenden der nicht ausgewählten Spalten 
-Statement = Bezeichnung
 Import = Import
 CheckModuleConfiguration = Bitte stellen Sie Ihre Standard-Bankkonto-ID auf der Modulkonfigurationsseite ein, bevor Sie beginnen
 
 #
 # Page liste
 #
-listOfImports = Liste der Kontoauszüge
-ImportToComplete = Liste der abgeschlossenen Importe
-fromd =  von
-RemainingLines = übrige Zeilen
 Imported = importiert
-Deleted = gelöscht
-ImportDone = Liste der durchgeführten Importe
 
 #
 # Page process
 #
 TypeOfSocialFiscalCharge = Typ
-SureToDelete = Sind Sie sicher, dass Sie löschen möchten?
 ProviderReference = Referenz des Anbieters
 Provider = Anbieter
 OperationDate = Datum
@@ -104,11 +79,6 @@ PeriodEndDate = Ende der Periode
 #
 # Listes
 #
-AmountCreditDebit = Betrag (Soll/ Haben)
-DateOpOption = Buchungsdatum 
-DateValueOption = Buchungsdatum (Option)
-LabelOption = Begünstiger/Zahlungspflichtiger
-MoreLabelOption = Verwendungszweck (Option)
 
 ProviderInvoice = Lieferanten-Rechnung
 SocialTaxCharges = Sozialabgaben
@@ -120,22 +90,6 @@ CustomerInvoice = Kundenrechnung
 #
 # Erreurs et msg events
 #
-ErrorFileType = Der Datei-Typ ist nicht korrekt 
-ErrorFileWhileOpening = Fehler beim öffnen der Datei
-AtLeastOneColumnAmount = Wählen Sie mindestens eine Spalte aus 'Betrag'
-AtLeastOneColumnDateOp = Wählen Sie mindestens eine Spalte aus 'Buchnungsdatum'
-AtLeastOneColumnLabel = Wählen Sie mindestens eine Spalte aus 'Label'
-NoMoreThan2ColumnAmount = Wählen Sie maximal 2 Spalten 'Betrag' aus
-NoMoreThan1ColumnDateOp = Wählen Sie maximal 1 Spalte 'Buchungsdatum' aus 
-NoMoreThan1ColumnDateVal = Wählen Sie maximal 1 Spalte 'Buchungsdatum (Option)' aus 
-NoMoreThan1ColumnLabel = Wählen Sie maximal 1 Spalte 'Verwendungszweck (Option)'  aus
-NoMoreThan1ColumnLabelBis = Wählen Sie maximal 1 Spalte 'Verwendungszweck sekundär ' aus
-ErrorAmount = mindestens ein 'Betrag' hat keinen gültigen Wert
-DateOpNotDate = mindestens ein 'Buchungsdatum' hat nicht den gültigen Wert dd/mm/yyyy
-DateValNotDate = mindestens ein 'Wertstellungsdatum' ist kein gültiger Wert
-LabelTooShort = Das label-Feld darf nicht leer sein 
-statementNameEmpty = Bezeichnungs-Feld darf nicht leer sein
-statementNamePersonalize = Bitte Bezeichnung ausfüllen
 
 ImpossibleToUpdate = Aktualisierung nicht möglich
 Updated = aktualisiert

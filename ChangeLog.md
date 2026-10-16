@@ -1,4 +1,7 @@
-# CHANGELOG BANKIMPORTAPI FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
+# CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
+
+## 3.0
+FEAT : CSV statement import removed, the module now only works with bank APIs (Qonto). Removed loadcsv.php, the csvlines class/table, the CSV-only constants and translations, and the CSV fallback and delete-CSV-line action on the transactions page. The bank menu now only lists bank accounts with a BANK API configured. On re-activation the module drops llx_bankimportapi_csvlines and the BANKIMPORTAPI_DATE_FORMAT / AMOUNT_FORMAT / PAYMENTMODE_FORMAT / PAYMENT_MODE_TRANSLATION_TAB constants (back up that table first if you still need CSV lines). Module renamed to "Bank API (Qonto)" with a new description; README rewritten.
 
 ## 2.34
 FIX : Linking a bank transaction to an existing VAT payment found nothing when the VAT declaration was paid later or in several payments. The search now looks at VAT payments (llx_payment_vat, amount and payment date) and links their declaration, instead of matching the declaration amount and date. Also fixed undefined $htmlList / $retour['message'] warnings in ajax_get_payments_list.php.

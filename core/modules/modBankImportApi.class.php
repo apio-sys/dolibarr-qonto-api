@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '2.34';
+        $this->version = '3.0';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(
@@ -87,12 +87,7 @@ class modBankImportApi extends DolibarrModules
         // Example: $this->const=array(1 => array('BANKIMPORTAPI_MYNEWCONST1', 'chaine', 'myvalue', 'This is a constant to add', 1),
         //                             2 => array('BANKIMPORTAPI_MYNEWCONST2', 'chaine', 'myvalue', 'This is another constant to add', 0, 'current', 1)
         // );
-        $this->const = array(
-            1 => array('BANKIMPORTAPI_DATE_FORMAT', 'chaine', '1', 'AmountFormat', 1, 'allentities', 1),
-			2 => array('BANKIMPORTAPI_AMOUNT_FORMAT', 'chaine', '1', 'DateFormat', 1, 'allentities', 1),
-			3 => array('BANKIMPORTAPI_PAYMENTMODE_FORMAT', 'chaine', '1', 'PaymentModeFormat', 1, 'allentities', 1),
-			4 => array('BANKIMPORTAPI_PAYMENT_MODE_TRANSLATION_TAB', 'chaine', '1', 'PaymentModeTranslationTab', 1, 'allentities', 1),
-        );
+        $this->const = array();
 		
         // Array to add new pages in new tabs
         $this->tabs = array();
@@ -225,6 +220,9 @@ class modBankImportApi extends DolibarrModules
             // so existing installs keep working right after the upgrade (no manual re-grant needed).
             "INSERT INTO ".MAIN_DB_PREFIX."user_rights (entity, fk_user, fk_id) SELECT DISTINCT ur.entity, ur.fk_user, ".((int) $this->numero + 1)." FROM ".MAIN_DB_PREFIX."user_rights ur WHERE ur.fk_id = ".((int) $this->numero)." AND NOT EXISTS (SELECT 1 FROM ".MAIN_DB_PREFIX."user_rights e WHERE e.fk_user = ur.fk_user AND e.entity = ur.entity AND e.fk_id = ".((int) $this->numero + 1).")",
             "INSERT INTO ".MAIN_DB_PREFIX."usergroup_rights (entity, fk_usergroup, fk_id) SELECT DISTINCT gr.entity, gr.fk_usergroup, ".((int) $this->numero + 1)." FROM ".MAIN_DB_PREFIX."usergroup_rights gr WHERE gr.fk_id = ".((int) $this->numero)." AND NOT EXISTS (SELECT 1 FROM ".MAIN_DB_PREFIX."usergroup_rights e WHERE e.fk_usergroup = gr.fk_usergroup AND e.entity = gr.entity AND e.fk_id = ".((int) $this->numero + 1).")",
+            // CSV import was removed in 3.0: drop its table and the constants it used on existing installs.
+            "DROP TABLE IF EXISTS ".MAIN_DB_PREFIX."bankimportapi_csvlines",
+            "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name IN ('BANKIMPORTAPI_DATE_FORMAT', 'BANKIMPORTAPI_AMOUNT_FORMAT', 'BANKIMPORTAPI_PAYMENTMODE_FORMAT', 'BANKIMPORTAPI_PAYMENT_MODE_TRANSLATION_TAB')",
         );
 
         return $this->_init($sql, $options);
@@ -267,6 +265,7 @@ class modBankImportApi extends DolibarrModules
 		$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."bank_account_extrafields as ef ON (b.rowid = ef.fk_object)";		
 		$sql .= " WHERE b.entity = ".$conf->entity;
 		$sql .= " AND b.clos = 0";
+		$sql .= " AND ef.bank_name_api IS NOT NULL AND ef.bank_name_api <> ''";
 		$sql .= " ORDER BY b.label";
 
 		$resql = $this->db->query($sql);
@@ -278,17 +277,18 @@ class modBankImportApi extends DolibarrModules
 			while ($i < $numr)
 			{
 				$objp = $this->db->fetch_object($resql);
+				$i++;
 				
-				
-				if(!empty($objp->options_bank_name_api)) $suffix = '(API)';
-				else $suffix = '('.$langs->trans("List").')';
+				// Same test as bankApi::getBankDatas(), so the menu never lists an account the page refuses
+				// (the select extrafield can hold '0' or '' when no bank API is chosen).
+				if (empty($objp->options_bank_name_api)) continue;
 				
 				$refMainMenu = 'import'.$r;
 				
 				$this->menu[$r++]=array(
 					'fk_menu'=>'fk_mainmenu=bank',                          // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 					'type'=>'left',
-					'titre'=>'<i class="fas fa-align-justify"></i> '.$objp->label.' '.$suffix,
+					'titre'=>'<i class="fas fa-align-justify"></i> '.$objp->label,
 					'mainmenu'=>'bank',
 					'leftmenu'=>$refMainMenu,
 					'url'=>'/bankimportapi/bankimportapiindex.php?id_bank='.$objp->rowid,
@@ -299,27 +299,6 @@ class modBankImportApi extends DolibarrModules
 					'target'=>'',
 					'user'=>0,				                // 0=Menu for internal users, 1=external users, 2=both
 				);
-				
-				
-				if(empty($objp->options_bank_name_api)){
-					$this->menu[$r++]=array(
-						'fk_menu'=>'fk_mainmenu=bank,fk_leftmenu='.$refMainMenu,                          // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-						'type'=>'left',
-						'titre'=>'<i class="fas fa-file-csv"></i> '.$langs->trans("LoadCsv"),
-						'mainmenu'=>'bank',
-						'leftmenu'=>$refMainMenu,
-						'url'=>'/bankimportapi/loadcsv.php?id_bank='.$objp->rowid,
-						'langs'=>'',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-						'position'=>1+$r,
-						'enabled'=>'$conf->bankimportapi->enabled',  // Define condition to show or hide menu entry. Use '$conf->dashboard->enabled' if entry must be visible if module is enabled.
-						'perms'=>'1',			                // Use 'perms'=>'$user->rights->dashboard->level1->level2' if you want your menu with a permission rules
-						'target'=>'',
-						'user'=>0,				                // 0=Menu for internal users, 1=external users, 2=both
-					);
-
-				}		
-				
-				$i++;
 			}
 			return 1;
 		}
