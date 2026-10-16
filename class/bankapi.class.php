@@ -151,7 +151,8 @@ class bankApi extends CommonObject
 				return $this;
 				break;
 			default:
-				$this->getCsvDatas();
+				$this->error = 1;
+				$this->errorMsg = 'Bank account is not configured for API (set "BANK API" on the bank account)';
 				return $this;
 			
 		}
@@ -300,50 +301,6 @@ class bankApi extends CommonObject
 			return $this;
 		}
 	}
-	
-	
-	/**
-	 * get datas from QONTO API
-	 * @return object
-	 */
-	private function getCsvDatas()
-	{
-		
-		$sql = 'SELECT *';
-		$sql .= ' FROM '.MAIN_DB_PREFIX.'bankimportapi_csvlines';
-		$sql .= ' WHERE fk_bank = '.$this->dolibarrBankId;
-		$sql .= " AND emitted_at BETWEEN '".$this->db->idate($this->dateFromTmstp)."' AND '".$this->db->idate($this->dateToTmstp)."'";
-		$sql .= ' ORDER BY emitted_at DESC';
-
-		$resql = $this->db->query($sql);
-		$num =  $this->db->num_rows($resql);
-		
-		$i = 0;
-
-		while ($i < $num)
-		{
-			$obj = $this->db->fetch_object($resql);
-			
-			$refId = 'csv_'.$obj->rowid;
-			
-			$this->transaction[$refId]['transaction_id'] = $refId;
-			$this->transaction[$refId]['emitted_at'] = strtotime($obj->emitted_at);
-			$this->transaction[$refId]['settled_at'] = strtotime($obj->settled_at);
-			$this->transaction[$refId]['label'] = $obj->label;
-			$this->transaction[$refId]['reference'] = $obj->label_bis;
-			$this->transaction[$refId]['amount'] = $obj->amount;
-			$this->transaction[$refId]['vat_amount'] = $obj->vat_amount;
-			$this->transaction[$refId]['side'] = $obj->side;
-			$this->transaction[$refId]['operation_type'] = $obj->operation_type;
-			$this->transaction[$refId]['mode_reglement_id'] = $obj->reglement_id;
-			$this->transaction[$refId]['statement_name'] = $obj->statement_name;
-
-			$i++;
-		}
-		
-		return $this;
-	}
-	
 	
 	
 	/**

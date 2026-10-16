@@ -17,17 +17,16 @@
 # Générique
 #
 
-BankImportApi = Dolimport API
-ImportList = Liste des relevés importés
-dolimportDesc = Génération d'élément Dolibarr à partir de relevées bancaires au format CSV ou depuis la connexion QONTO API
+BankImportApi = Bank API (Qonto)
+ModuleBankImportApiName = Bank API (Qonto)
+ModuleBankImportApiDesc = Récupère les transactions bancaires via l'API Qonto, puis crée, paie et rapproche les éléments Dolibarr correspondants
+dolimportDesc = Récupère les transactions bancaires via l'API Qonto, puis crée, paie et rapproche les éléments Dolibarr correspondants
 
 
 #
 # Page d'administration
 #
-ImportFromBankCsvSetup = Configuration du module 'Import bancaire, génération, paiement et rapprochement'
 Settings = Réglages
-ImportFromBankCsvSetupPage = Page de configuration du module 'Import bancaire, génération, paiement et rapprochement'
 PrefixToEliminate = Liste des préfixes à éliminer
 HelpPrefixToEliminate = Indiquer les préfixes à éliminer pour la ligne du relevé et le libellé<br>ex : éliminer les débuts de phrase qui commencent par CB et VIREMENT<br>Valeur -> CB ;VIREMENT
 DefautProjet = Projet par défaut
@@ -53,39 +52,21 @@ HelpAllowFileTransfertFromQonto = Au moment de la création d'une facture, les f
 # Page À propos
 #
 About = À propos
-ImportFromBankCsvAbout = À propos de Import bancaire, génération, paiement et rapprochement
-ImportFromBankCsvAboutPage = Page à propos de Import bancaire, génération, paiement et rapprochement
 
 #
 # Page index
 #
-ModuleImportPageTitre = Module d'importation des comptes bancaires
-AddnewCsvFile = Ajouter un nouveau fichier au format csv
-ImportCsv = Charger fichier CSV
-DelimiteurPointVirgule = Séparateur du CSV : point-virgule
-HideColumns = Cacher les colonnes
-ShowAllColumns = Montrer toutes les colonnes
-SelectLinesAndColumns = Sélectionnez les lignes et colonnes à importer
-HideNoSelectedColumns = Cacher les colonnes sans catégorie (simplifie l'affichage)
-Statement = Relevé
 Import = Importer
 
 #
 # Page liste
 #
-listOfImports = Liste des relevés importés
-ImportToComplete = Liste des imports à compléter
-fromd = du
-RemainingLines = lignes restantes
 Imported = importé(s)
-Deleted = supprimé(s)
-ImportDone = Liste des Imports réalisés
 
 #
 # Page process
 #
 TypeOfSocialFiscalCharge = Type
-SureToDelete = Confirmez-vous la suppression?
 ProviderReference = Référence fournisseur
 Provider = Fournisseur
 OperationDate = Date
@@ -102,11 +83,6 @@ PeriodEndDate = Fin de période
 #
 # Listes
 #
-AmountCreditDebit = Montant (débit et/ou crédit)
-DateOpOption = Date de l'opération
-DateValueOption = Date valeur (optionnel)
-LabelOption = Libellé
-MoreLabelOption = Libellé secondaire (optionnel)
 
 ProviderInvoice = Facture fournisseur
 SocialTaxCharges = Charges sociales et fiscales
@@ -118,22 +94,6 @@ CustomerInvoice = Facture client
 #
 # Erreurs et msg events
 #
-ErrorFileType = Type de fichier incorrecte
-ErrorFileWhileOpening = Erreur pendant l'ouverture du fichier
-AtLeastOneColumnAmount = Sélectionnez au moins une colonne 'Montant'
-AtLeastOneColumnDateOp = Sélectionnez au moins une colonne 'Date de l'opération'
-AtLeastOneColumnLabel = Sélectionnez au moins une colonne 'Libéllé'
-NoMoreThan2ColumnAmount = Sélectionnez 2 colonnes 'Montant' au maximum
-NoMoreThan1ColumnDateOp = Sélectionnez 1 colonne 'Date de l'opération' au maximum
-NoMoreThan1ColumnDateVal = Sélectionnez 1 colonne 'Date valeur' au maximum
-NoMoreThan1ColumnLabel = Sélectionnez 1 colonne 'Libellé' au maximum
-NoMoreThan1ColumnLabelBis = Sélectionnez 1 colonne 'Libellé secondaire' au maximum
-ErrorAmount = Au moins une valeur des montants n'est pas correcte
-DateOpNotDate = Au moins une valeur des 'dates opération' n'est pas correcte
-DateValNotDate = Au moins une valeur des 'dates valeur' n'est pas correcte
-LabelTooShort = Le libellé ne peut pas être vide
-statementNameEmpty = Le nom du relevé ne peut être vide
-statementNamePersonalize = Personnalisez le nom du relevé
 
 ImpossibleToUpdate = Mise à jour impossible
 Updated = actualisé
@@ -162,32 +122,15 @@ StatementLink = Rapprochement
 Payment = Paiement
 PaymentCustomerInvoice = Paiement de la facture client
 PaymentLoan = Paiement de l'emprunt
-DeleteCSVLine = Supprimé la ligne de l'import CSV
 
 #
 # dolimport API
 #
-BANKIMPORTAPISetup = Bank Import API - Administration
+BANKIMPORTAPISetup = Bank API (Qonto) - Administration
 BANKIMPORTAPISetupPage = Page d'administration
 HowManyDaysToShow = Combien de jour afficher dans la liste des transactions
-ErrorFileType = Type de fichier incorrect
-DateFormat = Format de date
-AmountFormat = Format de montant
-PaymentModeType = Mode de paiement
-Translation = Traduction
-2cols_1credit_1debit = 2 colonnes (crédit et débit)
-1col_with_sign = 1 seul colonne pour crédit et débit (signe "moins" pour les débits)
-noPaymentMode = Le mode de paiement n'est pas défini dans le fichier CSV
-1col_payment_mode = 1 colonne pour définir le mode de paiement
-payment_mode_same_col_label = Le mode de paiement est indiqué en début de description
-RelationBetweenCsvAndDolibarr = Permet de mettre en relation les modes de paiement du fichier CSV et de Dolibarr
-DateNotValid = La date n'est pas valide
-AmountNotEmpty = Le montant ne peut pas être vide
-LabelNotEmpty = La description ne peut pas être vide
-FileImported = Fichier importé
 HideImported = Cacher les lignes importees
 ShowImported = Montrer les lignes importees
-LoadCsv = Charger le fichier CSV
 PayeInvoice = Payer les factures
 CreateAndPayeInvoice = Créer et payer les factures
 CreateAndPayeCreditNote = Créer et payer un avoir
@@ -208,9 +151,6 @@ NoUnpaidCustomerInvoice = Aucune facture impayée pour ce client
 NoUnpaidProviderInvoice =  Aucune facture payée pour ce founrisseur
 amountDoesNotFitWithExpenseReport = Les montants ne correspondent pas
 amountCapital = Montant du capital
-NewImport = Nouvel import
-PaymentModeOption = Mode de paiement
-ToMuchRowAndColumnsPhpUsuallyAllow1000var = Il y a trop de lignes et de colonnes, en général PHP limite à 1000 le nombre de variables.
 CustomerNotValid = Client non valide
 EmptyidLineDetails = Choisir un produit
 InvoiceRefClient = Référence client

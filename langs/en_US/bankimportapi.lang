@@ -17,16 +17,15 @@
 # Générique
 #
 
-BankImportApi = Dolimport API
-ImportList = List of imported statements
-dolimportDesc = Dolibarr element generation from bank statement at csv format or directly from QONTO Bank API
+BankImportApi = Bank API (Qonto)
+ModuleBankImportApiName = Bank API (Qonto)
+ModuleBankImportApiDesc = Fetch bank transactions from the Qonto API, then create, pay and reconcile the matching Dolibarr elements
+dolimportDesc = Fetch bank transactions from the Qonto API, then create, pay and reconcile the matching Dolibarr elements
 
 #
 # Page d'administration
 #
-ImportFromBankCsvSetup = Configuration of Import Bank statement, generation, payment and reconcile
 Settings = Settings
-ImportFromBankCsvSetupPage = Configuration of module 'Import Bank statement, generation, payment and reconcile'
 PrefixToEliminate = List of prefixes to delete
 HelpPrefixToEliminate = Indicate the prefixes to eliminate for the statement's line and labels<br>ex : delete the beginning of the phrase that start by CARD and TRANSFERT<br>value -> CARD ;TRANSFERT
 DefautProjet = Default project
@@ -50,40 +49,22 @@ HelpAllowFileTransfertFromQonto = The files saved in Qonto are transfered to Dol
 # Page À propos
 #
 About = About
-ImportFromBankCsvAbout = About ImportFromBankCsv
-ImportFromBankCsvAboutPage = ImportFromBankCsv about page
 
 #
 # Page index
 #
-ModuleImportPageTitre = Import bank statement and generation module
-AddnewCsvFile = Add a new csv file
-ImportCsv = Upload a csv file
-DelimiteurPointVirgule = .cvs separated with semicolon
-HideColumns = Hide columns
-ShowAllColumns = Show all columns
-SelectLinesAndColumns = Select lines and columns to import
-HideNoSelectedColumns = Hide the unselected columns
-Statement = Statement
 Import = Import
 CheckModuleConfiguration = Please set your default bank account ID in the module configuration page before to begin.
 
 #
 # Page liste
 #
-listOfImports = List of bank statements
-ImportToComplete = List of import completed
-fromd = from
-RemainingLines = remaining lines
 Imported = imported
-Deleted = deleted
-ImportDone = List of imports done
 
 #
 # Page process
 #
 TypeOfSocialFiscalCharge = Type
-SureToDelete = Are you sure you want to delete?
 ProviderReference = Vendor reference
 Provider = Vendor
 OperationDate = Date
@@ -100,11 +81,6 @@ PeriodEndDate = End of period
 #
 # Listes
 #
-AmountCreditDebit = Amount (debit and/or credit)
-DateOpOption = Oper. date
-DateValueOption = Value date (option)
-LabelOption = Label
-MoreLabelOption = secondary label (option)
 
 ProviderInvoice = Vendor invoices
 SocialTaxCharges = Social/fiscal taxes
@@ -116,22 +92,6 @@ CustomerInvoice = Customer invoices
 #
 # Erreurs et msg events
 #
-ErrorFileType = Type of file is not correct
-ErrorFileWhileOpening = Error while opening the file
-AtLeastOneColumnAmount = Select at least one column 'amount'
-AtLeastOneColumnDateOp = Select at least one column 'oper. date'
-AtLeastOneColumnLabel = Select at least one column 'Label'
-NoMoreThan2ColumnAmount = Select 2 columns 'amount' max
-NoMoreThan1ColumnDateOp = Select 1 column 'oper. date' max
-NoMoreThan1ColumnDateVal = Select 1 column 'Value date' max
-NoMoreThan1ColumnLabel = Select 1 column 'Secondary label' max
-NoMoreThan1ColumnLabelBis = Select 1 column 'Libellé secondaire' max
-ErrorAmount = At least one 'amount' is not a valid value
-DateOpNotDate = At least one 'oper. date' is not a valid value
-DateValNotDate = At least one 'value date' is not a valid value
-LabelTooShort = Le label field can not be empty
-statementNameEmpty = The statement field can not be empty
-statementNamePersonalize = Please personalize the name of the statement
 
 ImpossibleToUpdate = Impossible to udpate
 Updated = updated
@@ -160,32 +120,15 @@ StatementLink = Reconcile
 Payment = Payment
 PaymentCustomerInvoice = Payment of the customer invoice
 PaymentLoan = Payment of the loan
-DeleteCSVLine = Delete the line from import CSV
 
 #
 # dolimport API
 #
-BANKIMPORTAPISetup = Bank Import API - Setup
+BANKIMPORTAPISetup = Bank API (Qonto) - Setup
 BANKIMPORTAPISetupPage = Setup page
 HowManyDaysToShow = How many days do we show in list of bank transaction
-ErrorFileType = File type is not correct
-DateFormat = Date format
-AmountFormat = Amount format
-PaymentModeType = Payment mode
-Translation = Translation
-2cols_1credit_1debit = 2 columns (credit and debit)
-1col_with_sign = only one column for credit and debit (with minus sign for debit)
-noPaymentMode = Payment mode is not define
-1col_payment_mode = 1 column to define payment mode
-payment_mode_same_col_label = The payment mode is written at the begining of the label
-RelationBetweenCsvAndDolibarr = Allow to connect Dolibarr payment mode with csv payment mode
-DateNotValid = It is not a valid date
-AmountNotEmpty = Amount value is empty
-LabelNotEmpty = Label value is empty
-FileImported = File has been imported
 HideImported = Hide imported line
 ShowImported = Show imported line
-LoadCsv = Load CSV
 PayeInvoice = Paye invoice
 CreateAndPayeInvoice = Create and paye invoice
 CreateAndPayeCreditNote = Create and paye credit note
@@ -207,9 +150,6 @@ NoUnpaidCustomerInvoice = No invoice customer invoice found
 NoUnpaidProviderInvoice =  No provider invoice invoice found
 amountDoesNotFitWithExpenseReport = The amount does not correspond
 amountCapital = Capital amount
-NewImport = New import
-PaymentModeOption = Payment mode
-ToMuchRowAndColumnsPhpUsuallyAllow1000var = There is too much row and columns, usually PHP limite of variables is 1000
 DebugMode = Debug mode
 Put1InCaseOfBugToHelpDevTeam = Put the value at 1 in case of bugs to help dev team (default 0)
 HideVatWarning = Hide the warning icon when the VAT is not imported

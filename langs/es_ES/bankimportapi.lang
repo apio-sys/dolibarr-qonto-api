@@ -18,16 +18,16 @@
 # Générique
 #
 
-BankImportApi = Dolimport API
-ImportList = Lista de los extractos bancarios importados
-dolimportDesc = Generacion de elementos Dolibarr desde un extracto bancario al formato csv o desde una connexion al API del banco QONTO
+BankImportApi = Bank API (Qonto)
+ModuleBankImportApiName = Bank API (Qonto)
+ModuleBankImportApiDesc = Recupera las transacciones bancarias desde la API de Qonto y luego crea, paga y concilia los elementos de Dolibarr correspondientes
+dolimportDesc = Recupera las transacciones bancarias desde la API de Qonto y luego crea, paga y concilia los elementos de Dolibarr correspondientes
 
 #
 # Page d'administration
 #
 
 Settings = Ajustes
-ImportFromBankCsvSetupPage = Pagina de configuracion del modulo 'Importación de extracto bancario, generación, pago y conciliación'
 PrefixToEliminate = Lista de prefijos para eliminar
 HelpPrefixToEliminate = Indiquer les préfixes à éliminer pour la ligne du relevé et le libellé<br>ex : éliminer les débuts de phrase qui commencent par CB et VIREMENT<br>Valeur -> CB ;VIREMENT
 HelpPrefixToEliminate = Indicar los prefijos para eliminar para la linea de del extracto<br>ex : eliminar el principio de la frase qui empieza por TARJETA y TRANSFERENCIA<br>Valor -> TARJETA ;TRANSFERENCIA
@@ -54,40 +54,22 @@ HelpAllowFileTransfertFromQonto = Los archivos estan transferidos cuando se crea
 # Page À propos
 #
 About = Sobre
-ImportFromBankCsvAbout = Sobre Importación de extracto bancario, pago y conciliación
-ImportFromBankCsvAboutPage = Pagina sobre Importación de extracto bancario, pago y conciliación
 
 #
 # Page index
 #
-ModuleImportPageTitre = Modulo de importación de extracto bancario
-AddnewCsvFile = Agregar un nuevo archivo con formato CSV
-ImportCsv = Cargar archivo CSV
-DelimiteurPointVirgule = Separacion de linea del CSV : punto y coma
-HideColumns = Esconder las columnas
-ShowAllColumns = Mostrar las columnas
-SelectLinesAndColumns = Seleccionar las lineas y columnas para importar
-HideNoSelectedColumns = Esconder las columnas sin categorias
-Statement = Extracto
 Import = Importar
 CheckModuleConfiguration = Antes de empezar, configurar el ID de la cuenta de banco que quiere utilizar en la pagina de configuracion del modulo.
 
 #
 # Page liste
 #
-listOfImports = Lista de las importaciones
-ImportToComplete = Lista des las importaciones para completar
-fromd = del
-RemainingLines = lineas restantes
 Imported = importada(s)
-Deleted = eliminada(s)
-ImportDone = Lista de los importaciones realizadas
 
 #
 # Page process
 #
 TypeOfSocialFiscalCharge = Tipo
-SureToDelete = Confirma la eliminación?
 ProviderReference = Referencia proveedor
 Provider = Proveedor
 OperationDate = Date
@@ -104,11 +86,6 @@ PeriodEndDate = Final del periodo
 #
 # Listes
 #
-AmountCreditDebit = Importe (debito y/o credito)
-DateOpOption = Fecha de la operación
-DateValueOption = Fecha valor
-LabelOption = Descripción
-MoreLabelOption = Descripción secundaria
 
 ProviderInvoice = Factura proveedor
 SocialTaxCharges = Impuesto fiscale/sociale
@@ -120,22 +97,7 @@ CustomerInvoice = Factura cliente
 #
 # Erreurs et msg events
 #
-ErrorFileType = Tipo de archivo incorrecto
-ErrorFileWhileOpening = Error durante la apertura del archivo
 SelectColumnAmount = Seleccionar columna(s) Importe
-AtLeastOneColumnDateOp = Seleccionar por lo menos una columna 'Fecha de operación'
-AtLeastOneColumnLabel = Seleccionar por lo menos una columna 'Descripción'
-NoMoreThan2ColumnAmount = Seleccionar 2 columnas 'Importe' maximo
-NoMoreThan1ColumnDateOp = Seleccionar 1 columna 'Fecha de operación' maximo
-NoMoreThan1ColumnDateVal = Seleccionar 1 columna 'Fecha valor' maximo
-NoMoreThan1ColumnLabel = Seleccionar 1 columna 'Descripción' maximo
-NoMoreThan1ColumnLabelBis = Seleccionar 1 columna 'Descripción secundaria' maximo
-ErrorAmount = Por lo menos un valor 'importe' no es correcto
-DateOpNotDate = Por lo menos un valor 'fecha operación' no es correcto
-DateValNotDate = Por lo menos un valor 'fecha valor' no es correcto
-LabelTooShort = Las descripciones no pueden estar vacias
-statementNameEmpty = El nombre del extracto bancario no puede estar vacio
-statementNamePersonalize = Poner un nombre de extracto bancario personalisado
 
 ImpossibleToUpdate = Impossible actualizar
 Updated = actualizado
@@ -164,32 +126,15 @@ StatementLink = conciliación
 Payment = Pago
 PaymentCustomerInvoice = Pago de la factura a cliente
 PaymentLoan = Pago del prestamo
-DeleteCSVLine = Eliminar la linea del import CSV
 
 #
 # dolimport API
 #
-BANKIMPORTAPISetup = Bank Import API - Administracion
+BANKIMPORTAPISetup = Bank API (Qonto) - Administracion
 BANKIMPORTAPISetupPage = Pagina de administracion
 HowManyDaysToShow = Cuantos dias mostrar por defecto en la lista de importes
-ErrorFileType = Tipo de archivo incorrecto
-DateFormat = Formato de fecha
-AmountFormat = Formato de importe
-PaymentModeType = Modo de pago
-Translation = Traducción
-2cols_1credit_1debit = 2 columnas (credito y debito)
-1col_with_sign = 1 sola columna para credito y debito (con signo menos para debito)
-noPaymentMode = Ninguna columna para definir el modo de pago
-1col_payment_mode = 1 columna para definir el modo de pago
-payment_mode_same_col_label = El modo de pago esta descripto en principio de la descripción
-RelationBetweenCsvAndDolibarr = Permite relacionar los modos de pago del CSV con los de Dolibarr
-DateNotValid = no es una fecha valida
-AmountNotEmpty = Las columnas de importe no pueden estar vacias
-LabelNotEmpty = La columna descripción no puede estar vacia
-FileImported = Archivo importado
 HideImported = Esconder lineas importadas
 ShowImported = Mostrar lineas importadas
-LoadCsv = Cargar CSV
 PayeInvoice = Pagar facturas
 CreateAndPayeInvoice = Crear y pagar factura
 CreateAndPayeCreditNote = Crear y pagar abono
@@ -213,9 +158,6 @@ NoUnpaidCustomerInvoice = No se ha encontrado factura no pagada para este client
 NoUnpaidProviderInvoice =  No se ha encontrado factura no pagada para este proveedor
 amountDoesNotFitWithExpenseReport = Los importes no corresponden
 amountCapital = Importe del capital
-NewImport = Nueva importación
-PaymentModeOption = Modo de pago
-ToMuchRowAndColumnsPhpUsuallyAllow1000var = Hay demasiada lineas y columnas, PHP suele limitar a 1000 la cantidad de variables.
 DebugMode = Modo debug
 Put1InCaseOfBugToHelpDevTeam = Poner a 1 en caso de bugs para ayudar al equipo de desarroladores (sino 0)
 HideVatWarning = Esconder el icono warning cuando el IVA no esta importado
