@@ -20,6 +20,7 @@ Transactions that are already processed are flagged so you don't import them twi
 ## Requirements
 
 - Dolibarr with the *Banks & Cash* module enabled
+- PHP with the curl extension (already required by Dolibarr). The module bundles no third-party libraries.
 - A Qonto account with an API key (login and secret key, generated from the Qonto web app)
 
 ## Installation
