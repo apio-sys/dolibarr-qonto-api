@@ -15,6 +15,8 @@ For each Qonto transaction on a configured bank account, you can:
 - reconcile the bank line against the Qonto statement
 - optionally copy the attachments stored in Qonto into the Dolibarr element
 
+If you only want to pay or link existing elements, switch off **Allow creating new elements** on the module setup page. The "create and pay" actions are then hidden and refused.
+
 Transactions that are already processed are flagged so you don't import them twice. You can unlink them at any time.
 
 ## Requirements
@@ -45,7 +47,7 @@ If Dolibarr doesn't list the module, check that `$dolibarr_main_url_root_alt` an
    - **KEY API**: your Qonto API secret key
 2. Save. The account now appears in the left menu of *Banks & Cash*. Only bank accounts with a **BANK API** set show up there.
 3. Grant users the module permissions (*Read* to see transactions, *Create/pay* to import them).
-4. Optionally adjust the defaults on the module setup page (default project, default VAT rate, number of days shown, attachment transfer, etc.).
+4. Optionally adjust the defaults on the module setup page (allow creating new elements, default project, default VAT rate, number of days shown, attachment transfer, etc.).
 
 ## Upgrading from 2.x
 

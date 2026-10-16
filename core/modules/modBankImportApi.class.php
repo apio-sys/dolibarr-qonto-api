@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '3.3';
+        $this->version = '3.4';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(
@@ -87,7 +87,10 @@ class modBankImportApi extends DolibarrModules
         // Example: $this->const=array(1 => array('BANKIMPORTAPI_MYNEWCONST1', 'chaine', 'myvalue', 'This is a constant to add', 1),
         //                             2 => array('BANKIMPORTAPI_MYNEWCONST2', 'chaine', 'myvalue', 'This is another constant to add', 0, 'current', 1)
         // );
-        $this->const = array();
+        $this->const = array(
+            // On by default; not deleted on deactivation so a user's choice survives re-activation
+            1 => array('BANKIMPORTAPI_ALLOW_CREATE', 'chaine', '1', 'Allow "create and pay" actions', 0, 'current', 0),
+        );
 		
         // Array to add new pages in new tabs
         $this->tabs = array();

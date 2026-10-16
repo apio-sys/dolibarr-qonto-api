@@ -37,6 +37,8 @@ GenerateUniqueRef = Generar un codigo unico para la referencia de las facturas p
 HelpGenerateUniqueRef = Permite evitar errores de doble referencias (0=inactivo 1=activo)
 AllowFileTransfertFromQonto = Permitir la transferencia de archivo desde Qonto hasta Dolibarr
 HelpAllowFileTransfertFromQonto = Los archivos estan transferidos cuando se crea una factura (0=inactivo 1=activ0)
+AllowCreateElements = Permitir crear nuevos elementos
+HelpAllowCreateElements = Muestra las acciones "crear y pagar" (factura a cliente, abono, factura de proveedor, IVA, salario, impuesto social/fiscal). Poner 0 para solo pagar o vincular elementos existentes (0=inactivo 1=activo)
 
 
 #

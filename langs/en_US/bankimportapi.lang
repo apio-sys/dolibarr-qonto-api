@@ -34,6 +34,8 @@ GenerateUniqueRef = Generate a unique code for the vendor invoices reference fie
 HelpGenerateUniqueRef = Avoid error for double reference (0=inactive 1=active)
 AllowFileTransfertFromQonto = Allow file transfert from Qonto to Dolibarr
 HelpAllowFileTransfertFromQonto = The files saved in Qonto are transfered to Dolibarr (0=inactive 1=active)
+AllowCreateElements = Allow creating new elements
+HelpAllowCreateElements = Show the "create and pay" actions (customer invoice, credit note, vendor invoice, VAT, salary, social/fiscal tax). Set 0 to only pay or link existing elements (0=inactive 1=active)
 
 #
 # Page À propos
