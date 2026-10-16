@@ -28,22 +28,11 @@ dolimportDesc = Recupera las transacciones bancarias desde la API de Qonto y lue
 #
 
 Settings = Ajustes
-PrefixToEliminate = Lista de prefijos para eliminar
-HelpPrefixToEliminate = Indiquer les préfixes à éliminer pour la ligne du relevé et le libellé<br>ex : éliminer les débuts de phrase qui commencent par CB et VIREMENT<br>Valeur -> CB ;VIREMENT
-HelpPrefixToEliminate = Indicar los prefijos para eliminar para la linea de del extracto<br>ex : eliminar el principio de la frase qui empieza por TARJETA y TRANSFERENCIA<br>Valor -> TARJETA ;TRANSFERENCIA
 
 DefautProjet = Proyecto por defecto
 HelpDefautProjet = Elige un proyecto por defecto para las importaciones
 DefautVAT = Valor del IVA por defecto
 HelpDefautVAT = Permite el calculo del importe sin IVA de las facturas proveedor
-DefautPaiementFactFour = Modo de pago por defecto para las facturas proveedores
-DefautPaiementCharge = Modo de pago por defecto para los impuestos
-DefautPaiementTVA = Modo de pago por defecto para el IVA
-DefautPaiementSalaire = Modo de pago por defecto para los salarios
-DefautPaiementEmprunt = Modo de pago por defecto para los prestamos
-DefautPaiementFactClient = Modo de pago por defecto para las facturas a clientes
-SeeOnlyOpenedProject = Solo mostrar los proyectos abiertos
-HelpSeeOnlyOpenedProject = Esconder las oportunidades (0=inactivo 1=activo)
 GenerateUniqueRef = Generar un codigo unico para la referencia de las facturas proveedores
 HelpGenerateUniqueRef = Permite evitar errores de doble referencias (0=inactivo 1=activo)
 AllowFileTransfertFromQonto = Permitir la transferencia de archivo desde Qonto hasta Dolibarr

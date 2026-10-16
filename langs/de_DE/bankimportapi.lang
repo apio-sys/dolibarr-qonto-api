@@ -25,20 +25,10 @@ dolimportDesc = Ruft Banktransaktionen über die Qonto-API ab und erstellt, beza
 # Page d'administration
 #
 Settings =  Einstellungen
-PrefixToEliminate = Liste der zu löschenden Präfixe
-HelpPrefixToEliminate = Geben Sie die zu entfernenden Präfixe für die Zeile und Beschriftung <br>exe: an und lösche den Anfang der Phrase, die mit CARD und TRANSFERT<br>Wert -> CARD ;TRANSFERT beginnt
 DefautProjet =  Standardprojekt
 HelpDefautProjet = Standardprojekt für den Import
 DefautVAT = Standard Mehrwertsteuer
 HelpDefautVAT = So berechnen Sie standardmäßig den Betrag vor Mehrwertsteuer
-DefautPaiementFactFour = Standard-Zahlungsart für Lieferantenrechnungen
-DefautPaiementCharge = Standardzahlungsart für Gebühren
-DefautPaiementTVA = Standardzahlungsart für die Mehrwertsteuer
-DefautPaiementSalaire = Standard-Zahlungsart für Gehälter
-DefautPaiementEmprunt = Standardzahlungsart für Darlehen
-DefautPaiementFactClient = Standard-Zahlungsart für Kundenrechnungen
-SeeOnlyOpenedProject = nur geöffnete Projekte anzeigen
-HelpSeeOnlyOpenedProject = Interessenten ausblenden (0=inactive 1=active)
 GenerateUniqueRef = Generieren Sie einen eindeutigen Code für das Referenzfeld der Lieferantenrechnungen
 HelpGenerateUniqueRef = Fehler bei doppelter Referenz vermeiden (0=inactive 1=active)
 BankAccountID = Bankkonto-ID

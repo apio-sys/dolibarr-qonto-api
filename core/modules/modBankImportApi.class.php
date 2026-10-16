@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '3.2.1';
+        $this->version = '3.3';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(
@@ -225,6 +225,8 @@ class modBankImportApi extends DolibarrModules
             // CSV import was removed in 3.0: drop its table and the constants it used on existing installs.
             "DROP TABLE IF EXISTS ".MAIN_DB_PREFIX."bankimportapi_csvlines",
             "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name IN ('BANKIMPORTAPI_DATE_FORMAT', 'BANKIMPORTAPI_AMOUNT_FORMAT', 'BANKIMPORTAPI_PAYMENTMODE_FORMAT', 'BANKIMPORTAPI_PAYMENT_MODE_TRANSLATION_TAB')",
+            // Settings without effect, removed from the setup page in 3.3.
+            "DELETE FROM ".MAIN_DB_PREFIX."const WHERE name IN ('BANKIMPORTAPI_ONLY_OPENED_PROJECTS', 'BANKIMPORTAPI_LIST_PREFIXES')",
         );
 
         return $this->_init($sql, $options);
