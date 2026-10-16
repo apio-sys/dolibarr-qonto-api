@@ -52,7 +52,7 @@ class modBankImportApi extends DolibarrModules
         $this->descriptionlong = "dolimportDescLong";
         $this->editor_name = 'Florian DUFOURG';
         $this->editor_url = 'https://simple-soft.eu';
-        $this->version = '3.2';
+        $this->version = '3.2.1';
         $this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
         $this->picto = 'generic';
         $this->module_parts = array(
@@ -203,6 +203,8 @@ class modBankImportApi extends DolibarrModules
         */
 
 
+		$this->fixKeyApiStorage();
+
         // Permissions
         $this->remove($options);
 		
@@ -226,6 +228,35 @@ class modBankImportApi extends DolibarrModules
         );
 
         return $this->_init($sql, $options);
+    }
+
+    /**
+     *  key_api is a 'password' extrafield. When a new value is saved, core reads its
+     *  param['options'] to pick an encryption: the empty param created by older versions of
+     *  this module made PHP 8 crash with a TypeError when updating the key on the bank account.
+     *  From Dolibarr 19, use 'dolcrypt' (reversible, core decrypts it when loading the account)
+     *  and encrypt keys already stored in clear. Before 19, no encryption (an unknown algo would
+     *  be hashed, which would destroy the key). Idempotent.
+     *
+     *  @return void
+     */
+    private function fixKeyApiStorage()
+    {
+		$useDolcrypt = ((int) DOL_VERSION >= 19 && function_exists('dolEncrypt'));
+		$param = serialize(array('options' => ($useDolcrypt ? array('dolcrypt' => '') : array())));
+
+		$this->db->query("UPDATE ".MAIN_DB_PREFIX."extrafields SET param = '".$this->db->escape($param)."', size = '255' WHERE elementtype = 'bank_account' AND name = 'key_api'");
+		// An encrypted key is ~50 chars longer than the key itself
+		$this->db->DDLUpdateField(MAIN_DB_PREFIX.'bank_account_extrafields', 'key_api', array('type' => 'varchar', 'value' => '255', 'null' => 'YES'));
+
+		if (!$useDolcrypt) return;
+
+		$resql = $this->db->query("SELECT rowid, key_api FROM ".MAIN_DB_PREFIX."bank_account_extrafields WHERE key_api IS NOT NULL AND key_api <> '' AND key_api NOT LIKE 'dolcrypt:%'");
+		if (!$resql) return;
+		while ($obj = $this->db->fetch_object($resql)) {
+			$this->db->query("UPDATE ".MAIN_DB_PREFIX."bank_account_extrafields SET key_api = '".$this->db->escape(dolEncrypt($obj->key_api))."' WHERE rowid = ".((int) $obj->rowid));
+		}
+		$this->db->free($resql);
     }
 
     /**

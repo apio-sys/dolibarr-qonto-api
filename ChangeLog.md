@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.2.1
+FIX : Saving a new KEY API on a bank account crashed with PHP 8 (TypeError "Cannot access offset of type string on string" in CommonObject::insertExtraFields), because the key_api password extrafield had an empty param. On re-activation the module now sets a valid param: on Dolibarr 19+ the key is stored encrypted (dolcrypt) and existing keys stored in clear are encrypted, on older versions it is kept as is. The key_api column is widened to 255 characters for the encrypted value.
+
 ## 3.2
 SEC : Hardened diagnostic output. The transactions page and AJAX endpoints no longer dump internal objects to the browser: debug mode (BANKIMPORTAPI_DEV_MODE=1) now masks the API secret key and leaves out the database handler, an empty period shows "No transaction in the selected period", an IBAN not found in Qonto shows a plain error instead of dumping the organization, and an SQL error in ajax_get_payments_list.php is logged instead of printed. API error messages are HTML-escaped.
 
