@@ -195,9 +195,7 @@ class bankApi extends CommonObject
 				//If iban not found in Qonto send error
 				if(!is_integer($qontoAccountIndex)){
 					$this->error = 1;
-					print "Iban of account ".$this->iban." was not founded in Qonto, please make sure there are no error on Iban";
-					print '</br></br>';
-					print '<pre>'; print_r($organization); print '</pre>';exit();
+					$this->errorMsg = 'IBAN '.$this->iban.' of this bank account was not found in Qonto, please check the IBAN of the Dolibarr bank account';
 					return $this;
 				}
 
@@ -296,6 +294,22 @@ class bankApi extends CommonObject
 	}
 	
 	
+	/**
+	 * Return the object's data for debug display, without the API secret key or the database handler
+	 *
+	 * @return array
+	 */
+	public function getDebugInfo()
+	{
+		$data = get_object_vars($this);
+		unset($data['db']);
+		if (!empty($data['keyBankApi'])) {
+			$data['keyBankApi'] = '********';
+		}
+		return $data;
+	}
+
+
 	/**
 	 * get attachement
 	 *

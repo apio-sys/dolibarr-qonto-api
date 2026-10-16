@@ -129,6 +129,7 @@ BANKIMPORTAPISetupPage = Setup page
 HowManyDaysToShow = How many days do we show in list of bank transaction
 HideImported = Hide imported line
 ShowImported = Show imported line
+NoTransactionInPeriod = No transaction in the selected period
 PayeInvoice = Paye invoice
 CreateAndPayeInvoice = Create and paye invoice
 CreateAndPayeCreditNote = Create and paye credit note

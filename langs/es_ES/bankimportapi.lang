@@ -135,6 +135,7 @@ BANKIMPORTAPISetupPage = Pagina de administracion
 HowManyDaysToShow = Cuantos dias mostrar por defecto en la lista de importes
 HideImported = Esconder lineas importadas
 ShowImported = Mostrar lineas importadas
+NoTransactionInPeriod = Ninguna transacción en el periodo seleccionado
 PayeInvoice = Pagar facturas
 CreateAndPayeInvoice = Crear y pagar factura
 CreateAndPayeCreditNote = Crear y pagar abono

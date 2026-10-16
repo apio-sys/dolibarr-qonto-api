@@ -149,7 +149,7 @@ if($conf->global->BANKIMPORTAPI_DEV_MODE > 0){
 }
 
 if($conf->global->BANKIMPORTAPI_DEV_MODE == 1){
-	print '<pre>'; print_r($bankApiObject); print '</pre>';exit();
+	print '<pre>'.dol_escape_htmltag(print_r($bankApiObject->getDebugInfo(), true)).'</pre>';exit();
 }
 
 
@@ -205,34 +205,17 @@ $bank_rappro = $bankApiObject->rappro;
 
 <?php
 
-$debug = 0;
-	
-if($debug){
-	print '<h3>$banApiObject:</h3>';
-	print'<pre>';
-	print_r($bankApiObject);
-	print'</pre>';
-}
-
 
 
 if(empty($bankApiObject->transaction)){
 	
 	if(	$bankApiObject->error ){
 		
-		print $bankApiObject->errorMsg;
+		print dol_escape_htmltag($bankApiObject->errorMsg);
 		print '<br>';
 		print '<br>';
-	}
-	
-	if(!empty($bankApiObject->bankName)){
-	
-		print 'No transactions to show, it seems the api connection is not working';
-
-		print'<pre>';
-		print_r($bankApiObject);
-		print'</pre>';
-
+	}else{
+		print $langs->trans("NoTransactionInPeriod");
 	}
 	
 }else

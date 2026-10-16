@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.2
+SEC : Hardened diagnostic output. The transactions page and AJAX endpoints no longer dump internal objects to the browser: debug mode (BANKIMPORTAPI_DEV_MODE=1) now masks the API secret key and leaves out the database handler, an empty period shows "No transaction in the selected period", an IBAN not found in Qonto shows a plain error instead of dumping the organization, and an SQL error in ajax_get_payments_list.php is logged instead of printed. API error messages are HTML-escaped.
+
 ## 3.1
 SEC : Removed all third-party PHP code. lib/oauth-api (an unused phpclasses OAuth library whose ~70 demo scripts were reachable from the web without Dolibarr authentication) is deleted. The tavux/qonto-php library and its vendored Guzzle 6.5.2 / psr7 1.6.1 stack (affected by multiple security advisories, none fixed in Guzzle 6 or psr7 1.x) are replaced by a small built-in client, class/qontoclient.class.php, using PHP curl (HTTPS only, certificate verification, no redirects, timeouts, Dolibarr proxy settings). lib/vendor, lib/composer.json and lib/composer.lock are removed.
 
