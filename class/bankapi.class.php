@@ -26,12 +26,10 @@
 
 dol_include_once('/compta/bank/class/account.class.php');
 
-dol_include_once('/bankimportapi/lib/vendor/autoload.php');
+dol_include_once('/bankimportapi/class/qontoclient.class.php');
 
 dol_include_once('/core/class/commonobject.class.php');
 
-
-use \Tavux\Qonto\QontoClient;
 
 /**
  * Class for bankapi
@@ -165,7 +163,7 @@ class bankApi extends CommonObject
 	 */
 	private function getQontoDatas()
 	{
-		$qonto = new QontoClient($this->idBankApi, $this->keyBankApi);
+		$qonto = new QontoApiClient($this->idBankApi, $this->keyBankApi);
 
 		
 
@@ -208,18 +206,13 @@ class bankApi extends CommonObject
 			}
 
 			
-			$transactions = $qonto->listTransactions(
-				$organization->bank_accounts[$qontoAccountIndex]->slug, //slug required
-				$organization->bank_accounts[$qontoAccountIndex]->iban, //iban required
-				null, //status
-				null, //updated_at_from
-				null, //updated_at_to
-				$this->dateFrom, //settled_at_from
-				$this->dateTo, //settled_at_to
-				null, //sort_by
-				1, //current_page
-				null //per_page
-			);
+			$transactions = $qonto->listTransactions(array(
+				'slug' => $organization->bank_accounts[$qontoAccountIndex]->slug, //slug required
+				'iban' => $organization->bank_accounts[$qontoAccountIndex]->iban, //iban required
+				'settled_at_from' => $this->dateFrom,
+				'settled_at_to' => $this->dateTo,
+				'current_page' => 1,
+			));
 			
 			$this->organization = $organization;
 			$this->iban = $organization->bank_accounts[$qontoAccountIndex]->iban;
@@ -295,7 +288,7 @@ class bankApi extends CommonObject
 			
 			return $this;
 			
-		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+		} catch (QontoApiException $e) {
 			$this->error = 1;
 			$this->errorMsg = $e->getMessage();
 			return $this;
@@ -353,12 +346,12 @@ class bankApi extends CommonObject
 		
 		
 		try{
-			$qonto = new QontoClient($this->idBankApi, $this->keyBankApi);
+			$qonto = new QontoApiClient($this->idBankApi, $this->keyBankApi);
 			$file = $qonto->getAttachment($attachment_id);
 			return $file->url;
 			//return $file;
 			
-		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+		} catch (QontoApiException $e) {
 			$this->error = 1;
 			$this->errorMsg = $e->getMessage();
 			
