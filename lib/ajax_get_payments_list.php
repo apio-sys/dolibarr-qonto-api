@@ -225,8 +225,9 @@ if(empty($retour['error'])){
 				$retour['message'] .= $langs->trans("NoPaymentFound").'<br>';
 			}
 		}else{
-			print_r($db);
-			return;
+			dol_syslog('ajax_get_payments_list.php SQL error: '.$db->lasterror(), LOG_ERR);
+			$retour['error']++;
+			$retour['message'] .= 'SQL error, see Dolibarr logs<br>';
 		}
 	}
 }

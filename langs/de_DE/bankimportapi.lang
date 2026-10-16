@@ -118,3 +118,4 @@ StatementLink = Finanzabgleich
 Payment = Zahlung
 PaymentCustomerInvoice = Zahlung der Kundenrechnung
 PaymentLoan = Auszahlung des Darlehens
+NoTransactionInPeriod = Keine Transaktion im ausgewählten Zeitraum
