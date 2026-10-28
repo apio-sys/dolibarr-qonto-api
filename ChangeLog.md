@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.1
+SEC : When Qonto could not return an attachment, lib/ajax_get_attachement_url.php sent the whole bankApi object back to the browser, including the decrypted Qonto API secret key, the API login and the public properties of the database handler. Any user with the module Read permission could get the key by asking for an attachment that does not exist, and a failed attachment display also printed it in the browser console. The endpoint now reads its parameters with GETPOST and only returns the attachment URL or an error message, bankApi::getFile() returns false on any error, and the API credentials are private properties of bankApi. If users you don't fully trust had the Read permission, generate a new secret key in Qonto and update KEY API on your bank accounts.
+
 ## 3.4
 NEW : Setting "Allow creating new elements" (BANKIMPORTAPI_ALLOW_CREATE, on by default). Set to 0 to hide the "create and pay" actions (customer invoice, credit note, vendor invoice, VAT, salary, social/fiscal tax) and only pay or link existing elements. When off, the matching AJAX endpoints refuse requests too.
 

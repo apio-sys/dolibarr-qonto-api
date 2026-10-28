@@ -34,13 +34,21 @@ require_once __DIR__ . '/security_ajax.inc.php';
 
 dol_include_once('/bankimportapi/class/bankapi.class.php');
 
+$bankId = GETPOST('bankId', 'int');
+$attachmentId = GETPOST('id_attachement', 'aZ09');
+
 $bankobject = new bankApi($db);
 
-$result = $bankobject->getFile($_POST['bankId'],$_POST['id_attachement']);
+$url = $bankobject->getFile($bankId, $attachmentId);
 
-if (filter_var($result, FILTER_VALIDATE_URL) === FALSE && $result->error > 1) {
-    echo $result->errorMsg;
-}else{
-	echo json_encode($result);
+// Only the URL or an error message may be sent back, never the bankApi object: it holds the Qonto credentials.
+// text/plain because the page parses the JSON itself and shows the error with alert(), never as HTML.
+header('Content-Type: text/plain; charset=UTF-8');
+
+if ($url !== false && filter_var($url, FILTER_VALIDATE_URL) !== false) {
+	echo json_encode($url);
+} else {
+	dol_syslog('ajax_get_attachement_url.php: attachment '.$attachmentId.' of bank account '.$bankId.' not retrieved: '.$bankobject->errorMsg, LOG_WARNING);
+	echo ($bankobject->errorMsg !== '' ? $bankobject->errorMsg : 'Attachment URL not available');
 }
 
