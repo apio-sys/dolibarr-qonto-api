@@ -40,8 +40,9 @@ class bankApi extends CommonObject
 	public $dolibarrBankId;
 	public $bankLabel;
 	public $bankName;
-	public $idBankApi;
-	public $keyBankApi;
+	// Qonto credentials: private so that serializing this object (json_encode) can never expose them
+	private $idBankApi;
+	private $keyBankApi;
 	public $dateFrom;
 	public $dateFromTmstp;
 	
@@ -311,10 +312,11 @@ class bankApi extends CommonObject
 
 
 	/**
-	 * get attachement
+	 * Get the temporary download URL of a Qonto attachment
 	 *
-	 * @param  attachment_id $attachment_id      id of attachement
-	 * @return strinf             url of file
+	 * @param  int           $bankId         Dolibarr bank account id
+	 * @param  string        $attachment_id  Qonto attachment id
+	 * @return string|false                  URL of the file, false on error (see errorMsg)
 	 */
 	public function getFile($bankId,$attachment_id)
 	{
@@ -326,11 +328,11 @@ class bankApi extends CommonObject
 		$bankObject = new Account($this->db);
 		$result = $bankObject->fetch($bankId);
 		
-		if($result<0){
+		if($result<=0){
 			$this->error = 1;
 			$this->errorMsg = 'Impossible to load Dolibarr bank Object';
 			
-			return $this;
+			return false;
 		}
 		
 		$this->idBankApi = $bankObject->array_options['options_id_api'];
@@ -340,21 +342,21 @@ class bankApi extends CommonObject
 			$this->error = 1;
 			$this->errorMsg = 'attachment_id is empty';
 		
-			return 'attachment_id is empty';
+			return false;
 		}
 		
 		if(empty($this->idBankApi)){
 			$this->error = 1;
 			$this->errorMsg = 'idBankApi is empty';
 			
-			return $this;
+			return false;
 		}
 		
 		if(empty($this->keyBankApi)){
 			$this->error = 1;
 			$this->errorMsg = 'keyBankApi is empty';
 			
-			return $this;
+			return false;
 		}
 		
 		
@@ -369,7 +371,7 @@ class bankApi extends CommonObject
 			$this->error = 1;
 			$this->errorMsg = $e->getMessage();
 			
-			return $this;
+			return false;
 		}
 		
 		
