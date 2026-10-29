@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.8
+FIX : The transactions of the end date of the period were never listed (#38): Qonto was asked for the transactions settled until 00:00 of that day. It now gets the end of the end date (23:59:59), and the current time when no end date is chosen. The default period (BANKIMPORTAPI_PERIOD_SHOWED_DAYS, 45 days) now starts at the beginning of its first day instead of the time the page was opened.
+
 ## 3.4.7
 FIX : "Create and pay a salary" was unusable on Dolibarr 21 and later: the employee field showed "Error bad param $morefilter" (#42), because these versions only accept the universal search filter syntax in select_dolusers(). The dialog now uses (u.employee:=:1) from Dolibarr 21, and keeps the SQL filter for older versions. The salary also never got the employee's reference salary: the endpoint read the employee id from a POST parameter that the dialog does not send.
 
