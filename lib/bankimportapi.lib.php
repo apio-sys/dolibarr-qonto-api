@@ -273,6 +273,18 @@ function rapprocher($releve,$bank_line_id){
 }
 
 
+/**
+ * URL of the "forget" action of a transaction on the transactions page
+ *
+ * @param  int    $bankId        Dolibarr bank account id
+ * @param  string $transactionId Qonto transaction id
+ * @return string                URL with the CSRF token, which the action requires
+ */
+function bankimportapiForgetUrl($bankId, $transactionId)
+{
+	return dol_buildpath('/bankimportapi/bankimportapiindex.php', 1).'?id_bank='.((int) $bankId).'&action=forgetpaiement&transaction_id='.urlencode($transactionId).'&token='.newToken();
+}
+
 //Add line imported in database
 function addImportedLine($id_line,$id_bank,$element_type,$ref_element){
 	
