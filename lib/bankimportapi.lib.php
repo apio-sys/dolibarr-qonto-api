@@ -119,6 +119,9 @@ function convertDatePost($date,$originFormat = 'dd/mm/yyyy',$outFormat = 'Y-m-d 
 		if(empty($dtime)){
 			$error++;
 		}else{
+			// createFromFormat() keeps the current time of day: use noon, as the core forms do (dol_mktime(12, 0, 0, ...)),
+			// so the day does not change with the timezone or when days are added across a DST change.
+			$dtime->setTime(12, 0, 0);
 			$timestamp = $dtime->getTimestamp();
 		}
 		
