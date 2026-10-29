@@ -148,14 +148,15 @@ if (!$retour['error'])
 	//Réglement de la facture
 	//----------------------------------------------------------------------------------------
 	
+	// Keyed by the employee of the expense report, as the core does: addPaymentToBank() links the bank line to this user
 	$tab = array();
-	$tab[$user->id] = $montant_ttc;
+	$tab[$expensereport->fk_user_author] = $montant_ttc;
 	
 	$payment = new PaymentExpenseReport($db);
 	$payment->fk_expensereport = $expensereport->id;
-	$payment->datepaid       = $date_op;
+	// create() requires datep (a timestamp: the core reads a 'Y-m-d H:i:s' string as GMT), and computes the total from amounts
+	$payment->datep          = $date_op_tms;
 	$payment->amounts        = $tab;   // Tableau de montant
-	$payment->total          = $montant_ttc;
 	$payment->fk_typepayment = $mode_reglement_id;
 	$payment->fk_user_creat = $user->fk_user_creat;
 	
@@ -184,7 +185,7 @@ if (!$retour['error'])
 			$result = $expensereport->set_paid($expensereport->id, $user);
 			if (!$result > 0) {
 				$retour['error']++;
-				$retour['message'] .= $payment->error.'<br>';
+				$retour['message'] .= $expensereport->error.'<br>';
 			}
 		}
 	}
@@ -194,8 +195,8 @@ if (!$retour['error'])
 	if (!$retour['error'])
 	{
 		$sql = "SELECT fk_bank FROM ".MAIN_DB_PREFIX."bank_url";
-		$sql .= " WHERE url_id = ".$idPaymentER;
-		$sql .= ' AND type = "payment_expensereport"';
+		$sql .= " WHERE url_id = ".((int) $idPaymentER);
+		$sql .= " AND type = 'payment_expensereport'";
 		
 		$resql = $db->query($sql);
 		$obj = $db->fetch_object($resql);
