@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.7
+FIX : "Create and pay a salary" was unusable on Dolibarr 21 and later: the employee field showed "Error bad param $morefilter" (#42), because these versions only accept the universal search filter syntax in select_dolusers(). The dialog now uses (u.employee:=:1) from Dolibarr 21, and keeps the SQL filter for older versions. The salary also never got the employee's reference salary: the endpoint read the employee id from a POST parameter that the dialog does not send.
+
 ## 3.4.6
 FIX : Paying an expense report from a transaction always failed with ErrorBadValueForParameterCreatePaymentExpenseReport (#41): the module set the payment date in $datepaid, while the core requires $datep. The payment now gets the transaction time as a timestamp. The payment amount was also assigned to the user making the import instead of the employee of the expense report, so the bank line would have been linked to the wrong user: it is now assigned to the employee, as the core does.
 

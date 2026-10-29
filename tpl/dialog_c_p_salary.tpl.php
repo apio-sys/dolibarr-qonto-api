@@ -76,7 +76,10 @@ if (empty($bankApiObject) || !is_object($bankApiObject))
 			<div class="tagtd maxwidthonsmartphone">
 			<?php
 				$noactive=0;	// We keep active and unactive users
-				print $form->select_dolusers('', 'fk_user', 1, '', 0, '', '', 0, 0, 0, 'AND employee=1', 0, '', 'minwidth200imp', $noactive);
+				// Dolibarr 21+ only accepts the universal search filter syntax in $morefilter (else "Error bad param $morefilter"),
+				// older versions append it to the SQL query as is
+				$employeefilter = ((int) DOL_VERSION >= 21) ? '(u.employee:=:1)' : 'AND u.employee = 1';
+				print $form->select_dolusers('', 'fk_user', 1, '', 0, '', '', 0, 0, 0, $employeefilter, 0, '', 'minwidth200imp', $noactive);
 			?>
 			</div>
 			</td>
