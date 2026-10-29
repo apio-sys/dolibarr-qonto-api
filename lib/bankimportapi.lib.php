@@ -240,28 +240,38 @@ function flo_getNomUrl($idElement,$typeOfElement)
 
 //Rapprochement
 function rapprocher($releve,$bank_line_id){
-	global $db,$conf;
+	global $db, $user, $langs;
 
-	$sql = 'UPDATE '.MAIN_DB_PREFIX.'bank';
-	$sql.= ' SET num_releve="'.$releve.'"';
-	$sql.=', rappro = 1';
-	$sql.= ' WHERE rowid = '.$bank_line_id;
+	require_once DOL_DOCUMENT_ROOT.'/compta/bank/class/account.class.php';
+	// The core translates its BANK_STATEMENT_REGEX_RULE error during the call
+	$langs->load('errors');
 
-	dol_syslog("ligne.php", LOG_DEBUG);
-	
-	$result = $db->query($sql);
-	
-	if (!$result)
-	{
+	$retour = array('error' => 0, 'message' => '');
+
+	// The statement name comes from the browser: update_conciliation() escapes it, records who reconciled the line
+	// and applies the BANK_STATEMENT_REGEX_RULE setting
+	$line = new AccountLine($db);
+	if ($line->fetch((int) $bank_line_id) <= 0) {
 		$retour['error']++;
 		$retour['message'] .= 'Error while "rapprochement" <br>';
-		
 		return $retour;
 	}
-	
+	$line->num_releve = $releve;
+
+	$transactionLevel = $db->transaction_opened;
+	if ($line->update_conciliation($user, 0, 1) < 0) {
+		// update_conciliation() returns without closing its transaction when the statement doesn't match BANK_STATEMENT_REGEX_RULE
+		while ($db->transaction_opened > $transactionLevel) {
+			$db->rollback();
+		}
+		$retour['error']++;
+		$retour['message'] .= dol_escape_htmltag('Error while "rapprochement": '.($line->error ? $line->error : implode(', ', $line->errors))).'<br>';
+		return $retour;
+	}
+
 	return 1;
-	
 }
+
 
 //Add line imported in database
 function addImportedLine($id_line,$id_bank,$element_type,$ref_element){
