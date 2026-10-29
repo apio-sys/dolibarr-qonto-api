@@ -1,0 +1,39 @@
+# Publishes a GitHub release with a zip that Dolibarr's
+# "Deploy/install external app/module" page accepts, when a tag vX.Y.Z is pushed.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check that the tag matches the module version
+        run: |
+          version=$(sed -nE "s/.*this->version = '([^']+)'.*/\1/p" core/modules/modBankImportApi.class.php)
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match module version $version"
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      # Dolibarr wants module_<dir>-<version>.zip with the module directory at its root
+      - name: Build the module zip
+        run: git archive --format=zip --prefix=bankimportapi/ -o "module_bankimportapi-$VERSION.zip" "$GITHUB_REF_NAME"
+
+      - name: Extract the release notes from ChangeLog.md
+        run: |
+          awk -v v="## $VERSION" '{ sub(/\r$/, "") } $0 == v { f = 1; next } /^## / { f = 0 } f' ChangeLog.md > notes.md
+          cat notes.md
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" "module_bankimportapi-$VERSION.zip" --title "$VERSION" --notes-file notes.md
