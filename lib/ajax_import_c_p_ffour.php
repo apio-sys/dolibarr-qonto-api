@@ -199,8 +199,9 @@ if (!$retour['error'])
 	$object->libelle = $label;
 	
 	$object->socid         = $socid;
-	$object->date          = $datefacturation;
-	$object->date_echeance = $datefacturation;
+	// Timestamps: the core reads a 'Y-m-d H:i:s' string as GMT
+	$object->date          = strtotime($datefacturation);
+	$object->date_echeance = strtotime($datefacturation);
 
 	$object->mode_reglement_id = $mode_reglement_id;
 	$object->fk_project    = $projectid;

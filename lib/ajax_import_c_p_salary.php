@@ -155,8 +155,9 @@ if (!$retour['error'])
 	$object->amount=$montant_ttc;
 	$object->accountid=$bankId;
 	$object->fk_user=$fk_user;
-	$object->datev=$date_valeur;
-	$object->datep=$date_op;
+	// Timestamps: the core reads a 'Y-m-d H:i:s' string as GMT, so a late import was dated the next day
+	$object->datev=strtotime($date_valeur);
+	$object->datep=$date_op_tms;
 	$object->label=$ref_element;
 	$object->datesp=strtotime($period_start_salary);
 	$object->dateep=strtotime($period_end_salary);
@@ -187,9 +188,9 @@ if (!$retour['error'])
 		$paiement = new PaymentSalary($db);
 		$paiement->fk_salary    = $idSalary;
 		$paiement->chid         = $idSalary;	//DEPRECATED
-		$paiement->datepaye     = $date_op;		//DEPRECATED
-		$paiement->datep        = $datepaye;
-		$paiement->datev		= $date_valeur;
+		$paiement->datepaye     = $date_op_tms;		//DEPRECATED
+		$paiement->datep        = $date_op_tms;
+		$paiement->datev		= strtotime($date_valeur);
 		$paiement->amounts      = array($idSalary=>$montant_ttc); // Tableau de montant
 		$paiement->paiementtype = $mode_reglement_id;	//DEPRECATED
 		$paiement->fk_typepayment = $mode_reglement_id;

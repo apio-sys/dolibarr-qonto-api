@@ -201,7 +201,9 @@ if (!$retour['error'])
 	$object->socid = $socid;
 	$object->type            = Facture::TYPE_STANDARD;
 	$object->ref             = $ref_customer;
-	$object->date            = $datefacturation;
+	// Timestamp: the core adds the payment term days to it to compute the due date (a string gave a due date in 1970)
+	// and reads a 'Y-m-d H:i:s' string as GMT
+	$object->date            = strtotime($datefacturation);
 	$object->ref_client      = $ref_customer;
 	$object->fk_project = $projectid;
 	$object->mode_reglement_id	= $mode_reglement_id;

@@ -139,8 +139,9 @@ if (!$retour['error'])
 
 	$object->fk_account=$bankId;
 	$object->type_payment=$mode_reglement_id;
-	$object->datev=$period;
-	$object->datep=$date_op;
+	// Timestamps: the core reads a 'Y-m-d H:i:s' string as GMT, so a late import was dated the next day
+	$object->datev=strtotime($period);
+	$object->datep=$date_op_tms;
 	$object->amount=$montant_ttc;
 	$object->label=$ref_element;	
 	
@@ -160,7 +161,7 @@ if (!$retour['error'])
 		// Create a line of payments
 		$paiement = new PaymentVAT($db);
 		$paiement->chid         = $object->id;
-		$paiement->datepaye     = $date_op;
+		$paiement->datepaye     = $date_op_tms;
 		$paiement->amounts      = array($object->id=>$montant_ttc); // Tableau de montant
 		$paiement->paiementtype = $mode_reglement_id;
 		$paiement->num_payment  = "";

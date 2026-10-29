@@ -166,7 +166,8 @@ if (!$retour['error'])
 	// Create a line of payments
 	$object = new PaymentLoan($db);
 	$object->chid				= $emprunt_id;
-	$object->datep 			= $date_op;
+	// Timestamp: the core reads a 'Y-m-d H:i:s' string as GMT, so a late import was dated the next day
+	$object->datep 			= $date_op_tms;
 	$object->label             = 'Remboursement emprunt';
 	$object->amount_capital	= $amount_capital;
 	$object->amount_insurance	= $amount_insurance;
