@@ -168,7 +168,7 @@ if (!$retour['error'])
 
 	// Set user current salary as ref salary for the payment
 	$fuser = new User($db);
-	$fuser->fetch(GETPOST("fk_user", "int"));
+	$fuser->fetch((int) $fk_user);	// fk_user comes in formTab, not as a POST parameter
 	$object->salary = $fuser->salary;
 
 
