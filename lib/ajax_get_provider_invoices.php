@@ -109,9 +109,9 @@ if(empty($retour['error'])){
 			$retour['message'] .= $langs->trans("NoProviderInvoice").'<br>';
 		}
 	}else{
-
+		dol_syslog('ajax_get_provider_invoices.php SQL error: '.$db->lasterror(), LOG_ERR);
 		$retour['error']++;
-		$retour['message'] .= 'Error SQL : '.$db->lasterror().'<br>';
+		$retour['message'] .= 'SQL error, see Dolibarr logs<br>';
 
 	}
 
