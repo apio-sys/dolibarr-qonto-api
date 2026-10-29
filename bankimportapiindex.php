@@ -90,28 +90,31 @@ if($datestart>0){
 	
 	if(empty($conf->global->BANKIMPORTAPI_PERIOD_SHOWED_DAYS)) $period = 45;
 	else $period = $conf->global->BANKIMPORTAPI_PERIOD_SHOWED_DAYS;
-	$tmstpStart = dol_now()-(24*3600*$period);
+	// From the start of the first day: dol_now() alone cut that day at the time the page was opened
+	$tmparray = dol_getdate(dol_now()-(24*3600*$period));
+	$tmstpStart = dol_mktime(0, 0, 0, $tmparray['mon'], $tmparray['mday'], $tmparray['year']);
 
 }
 
 if($dateend>0){
-	$tmstpEnd = $dateend+3600*24-1;
+	// Qonto is asked until the end of the end date: 00:00 of that day left all its transactions out
+	$tmstpEnd = dol_mktime(23, 59, 59, GETPOST('dateendmonth', 'int'), GETPOST('dateendday', 'int'), GETPOST('dateendyear', 'int'));
 	$tmstpEndToShow = $dateend;
 }
 else{
 	
-	$tmstpEndToShow = dol_now();
+	$tmstpEnd = dol_now();
+	$tmstpEndToShow = $tmstpEnd;
 }
 
 $datestartfiltre=$db->idate($tmstpStart);
-$dateendfiltre=$db->idate($tmstpEnd);
 $dateendToShow=$db->idate($tmstpEndToShow);
  
  
 //Obtenir les informations bancaire depuis API
 $bankApiObject = new bankApi($db);
 
-$bankApiObject = $bankApiObject->getBankDatas($bankId,$tmstpStart,$tmstpEndToShow);
+$bankApiObject = $bankApiObject->getBankDatas($bankId,$tmstpStart,$tmstpEnd);
 
 
 //Charger la table des imports réalisés
