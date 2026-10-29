@@ -425,7 +425,8 @@ if(empty($bankApiObject->transaction)){
 	<script>
 
 	//Variable PHP
-	var newToken = "<?php echo $_SESSION['newtoken']; ?>";
+	// The AJAX endpoints don't renew the token, so they check the current one, as for the core AJAX calls
+	var csrfToken = "<?php echo currentToken(); ?>";
 
 	//Importer with AJAX
 	$( ".ImportLine" ).click(function() {	
@@ -459,7 +460,7 @@ if(empty($bankApiObject->transaction)){
 				bank_rappro: bank_rappro,
 				formTab: JSON.stringify(formTab),
 				transactionLine: JSON.stringify(transactionLine),
-				token: newToken,
+				token: csrfToken,
 			},
 			beforeSend: function(){
 			 importButton.prop('disabled', true);
@@ -522,7 +523,7 @@ if(empty($bankApiObject->transaction)){
 			{
 				id_attachement: $(this).attr('value'),
 				bankId: bankId,
-				token: newToken,
+				token: csrfToken,
 			},
 
 			function(data){

@@ -26,8 +26,8 @@
  * By default it requires the module 'read' permission. A state-changing
  * endpoint (create/pay/reconcile/link) MUST set
  *     $bankimportapiRequireWrite = true;
- * before including this file, so the dedicated 'write' permission is required
- * instead. A "create and pay" endpoint also sets
+ * before including this file, so the dedicated 'write' permission and the CSRF
+ * token of the page are required instead. A "create and pay" endpoint also sets
  *     $bankimportapiRequireCreate = true;
  * so it is refused when those actions are disabled in the module setup.
  * Any failing check stops the request with accessforbidden().
@@ -42,8 +42,9 @@ if (!defined('DOL_DOCUMENT_ROOT') || !isset($user) || !is_object($user)) {
 }
 
 if (!empty($bankimportapiRequireWrite)) {
-	// State-changing endpoints: require the dedicated write permission.
-	if (empty($user->rights->bankimportapi->mybankimports->write)) {
+	// State-changing endpoints: require the dedicated write permission and the token, checked here too because
+	// the core lets a request with a wrong token go on (without its POST data) and skips the check when disabled.
+	if (empty($user->rights->bankimportapi->mybankimports->write) || GETPOST('token', 'alpha') !== currentToken()) {
 		accessforbidden();
 	}
 } else {
