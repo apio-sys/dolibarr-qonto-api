@@ -46,7 +46,7 @@ If Dolibarr doesn't list the module, check that `$dolibarr_main_url_root_alt` an
    - **ID API**: your Qonto API login
    - **KEY API**: your Qonto API secret key
 2. Save. The account now appears in the left menu of *Banks & Cash*. Only bank accounts with a **BANK API** set show up there.
-3. Grant users the module permissions (*Read* to see transactions, *Create/pay* to import them).
+3. Grant users the module permissions (*Read* to see transactions, *Create/pay* to import them or forget an import).
 4. Optionally adjust the defaults on the module setup page (allow creating new elements, default project, default VAT rate, number of days shown, attachment transfer, etc.).
 
 ## Upgrading from 2.x

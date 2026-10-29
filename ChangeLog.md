@@ -1,5 +1,9 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.4
+SEC : The statement name typed in the import dialogs was concatenated into the SQL query that reconciles the bank line (rapprocher() in lib/bankimportapi.lib.php). A user with the module Create/pay permission could rewrite any column of any bank line, of every bank account, or copy data from other tables into it with a subquery. The line is now reconciled by the core (AccountLine::update_conciliation()), which escapes the statement name, records who reconciled the line and applies the BANK_STATEMENT_REGEX_RULE setting.
+SEC : The "forget" action of the transactions page deletes the "imported" mark of a transaction, so that it can be imported again. It was a plain link that only needed the Read permission and no CSRF token: a link opened by a logged-in user could delete marks, and the transactions could then be imported twice. It now requires the Create/pay permission and the CSRF token, carried by the links of the page and of the import results, which are only shown to users with that permission. The transaction id is escaped in the query, and the page stops right after the redirection instead of loading the transactions again.
+
 ## 3.4.3
 FIX : The transactions page only listed the first page of the Qonto API response, so a period with more than 100 transactions lost the oldest ones: they could not be imported, linked or reconciled from the module, and the Credit / Debit totals left them out, with nothing on screen to tell. The module now reads every page (100 transactions each, newest first) and lists each transaction once, even when one is settled while the pages are read. Reading stops after 50 pages (5,000 transactions): the page then keeps the most recent ones and shows a warning to choose a shorter period.
 

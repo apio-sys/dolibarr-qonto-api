@@ -367,7 +367,7 @@ if (!$retour['error'])
 		}else{
 			$retour['message'] .= $paiement->getNomUrl(1);
 			//$retour['message'] .= '<a class="link_forget" href="'.$_SERVER["PHP_SELF"].'?id_bank='.$bankId.'&action=forgetpaiement&transaction_id='.$id_line.'">';
-			$retour['message'] .= '<a class="link_forget" href="'.dol_buildpath('/custom/bankimportapi/bankimportapiindex.php', 1).'?id_bank='.$bankId.'&action=forgetpaiement&transaction_id='.$id_line.'">';
+			$retour['message'] .= '<a class="link_forget" href="'.bankimportapiForgetUrl($bankId, $id_line).'">';
 			$retour['message'] .= '<i style="margin-left:10px;" title="'.$langs->trans("ForgetImport").'" class="fas fa-unlink"></i>';
 			$retour['message'] .= '</a>';
 		}

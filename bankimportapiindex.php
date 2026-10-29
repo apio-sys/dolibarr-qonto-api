@@ -55,14 +55,20 @@ $form = new form($db);
  */
  
  //FORGET PAYMENT
+// Deletes the "imported" mark, so the transaction can be imported again: it needs the write permission and the CSRF
+// token, which the core does not require for a GET action with this name
 if ($action == 'forgetpaiement' && !empty($transaction_id))
 {
-	$sql = 'DELETE FROM '.MAIN_DB_PREFIX.'bankimportapi_importedline WHERE ref ="'.$transaction_id.'" AND fk_bank ="'.$bankId.'"';
-	$resql = $db->query($sql);
-	
-	$db->free($resql);
-	
-	header("Location: ".$_SERVER['PHP_SELF']."?id_bank=".$bankId);
+	if (empty($user->rights->bankimportapi->mybankimports->write) || GETPOST('token', 'alpha') !== currentToken()) {
+		accessforbidden();
+	}
+
+	$sql = "DELETE FROM ".MAIN_DB_PREFIX."bankimportapi_importedline";
+	$sql .= " WHERE ref = '".$db->escape($transaction_id)."' AND fk_bank = ".((int) $bankId);
+	$db->query($sql);
+
+	header("Location: ".$_SERVER['PHP_SELF']."?id_bank=".((int) $bankId));
+	exit;
 }
 
 /*
@@ -339,9 +345,11 @@ if(empty($bankApiObject->transaction)){
 						print flo_getNomUrl($ImportedLines['ref_element'][$key],$ImportedLines['import_type'][$key]);
 					
 						
-						print '<a class="link_forget" href="'.$_SERVER["PHP_SELF"].'?id_bank='.$bankId.'&action=forgetpaiement&transaction_id='.$val['transaction_id'].'">';
-						print'<i style="margin-left:10px;" title="'.$langs->trans("Unlink").'" class="fas fa-unlink"></i>';
-						print '</a>';
+						if (!empty($user->rights->bankimportapi->mybankimports->write)) {
+							print '<a class="link_forget" href="'.bankimportapiForgetUrl($bankId, $val['transaction_id']).'">';
+							print'<i style="margin-left:10px;" title="'.$langs->trans("Unlink").'" class="fas fa-unlink"></i>';
+							print '</a>';
+						}
 						
 
 					}elseif($val['side'] == 'credit'){
