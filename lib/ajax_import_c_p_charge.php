@@ -147,8 +147,12 @@ if (!$retour['error'])
 	
 	$object->type				= $typecode;
 	$object->lib				= $ref_element;
-	$object->date_ech			= $date_op;
-	$object->periode			= $period_end_charge;
+	// Timestamps, as the invoice endpoints do: the core reads a 'Y-m-d H:i:s' string as GMT and adds the current
+	// time to the payment date, so an import made late in the evening was dated the next day.
+	$object->date_ech			= $date_op_tms;
+	$object->periode			= strtotime($period_end_charge);
+	// Dolibarr 23 reads period in ChargeSociales::create(), older versions read periode
+	$object->period				= $object->periode;
 	$object->amount				= $montant_ttc;
 	$object->mode_reglement_id	= $mode_reglement_id;
 	$object->fk_account			= $bankId;
@@ -169,7 +173,7 @@ if (!$retour['error'])
 		// Create a line of payments
 		$paiement = new PaymentSocialContribution($db);
 		$paiement->chid         = $idCharge;
-		$paiement->datepaye     = $date_op;
+		$paiement->datepaye     = $date_op_tms;
 		
 		$tab = array();
 		$tab[$idCharge] = $montant_ttc;
@@ -218,9 +222,10 @@ if (!$retour['error'])
 	//Get ID bank
 	if (!$retour['error'])
 	{
+		// $idCharges is the id of the payment created above: addPaymentToBank() links it to its bank line as 'payment_sc'
 		$sql = "SELECT fk_bank FROM ".MAIN_DB_PREFIX."bank_url";
-		$sql .= " WHERE url_id = ".$idCharges;
-		$sql .= ' AND type = "payment_salary"';
+		$sql .= " WHERE url_id = ".((int) $idCharges);
+		$sql .= " AND type = 'payment_sc'";
 		
 		$resql = $db->query($sql);
 		$obj = $db->fetch_object($resql);

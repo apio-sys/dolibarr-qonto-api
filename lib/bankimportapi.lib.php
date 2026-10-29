@@ -192,8 +192,9 @@ function flo_getNomUrl($idElement,$typeOfElement)
 			break;
 			
 		case "chargesociales":
+			// "Create and pay" and "link" both store the id of the social contribution payment, not of the contribution
 			require_once DOL_DOCUMENT_ROOT.'/compta/sociales/class/paymentsocialcontribution.class.php';
-			$chargePayment = new ChargeSociales($db);
+			$chargePayment = new PaymentSocialContribution($db);
 			$chargePayment->fetch($idElement);
 			return $chargePayment->getNomUrl(1);
 			break;
