@@ -430,6 +430,8 @@ if(empty($bankApiObject->transaction)){
 	//Importer with AJAX
 	$( ".ImportLine" ).click(function() {	
 
+		// Disabled during the request: a double click sent the import twice (the server refuses it too)
+		var importButton = $(this);
 
 		//GET DATAS OF DIALOG INPUTS
 		var formTab = {};
@@ -460,10 +462,12 @@ if(empty($bankApiObject->transaction)){
 				token: newToken,
 			},
 			beforeSend: function(){
+			 importButton.prop('disabled', true);
 			 $(".loading_spinner").show();
 			},
 			complete: function(){
 			 $(".loading_spinner").hide();
+			 importButton.prop('disabled', false);
 			},
 			success:  function(data){
 				if(data){

@@ -272,7 +272,8 @@ function rapprocher($releve,$bank_line_id){
 		return $retour;
 	}
 
-	return 1;
+	// Always an array: the callers read $res['error']
+	return $retour;
 }
 
 
@@ -292,23 +293,53 @@ function bankimportapiForgetUrl($bankId, $transactionId)
 function addImportedLine($id_line,$id_bank,$element_type,$ref_element){
 	
 	global $db,$user;
-	
+
+	// Always an array: the callers read $res['error']
+	$retour = array('error' => 0, 'message' => '');
+
 	$object = new importedline($db);
-	
+
 	$object->ref = $id_line;
 	$object->fk_bank = $id_bank;
 	$object->import_type = $element_type;
 	$object->ref_element = $ref_element;
 	$res = $object->create($user);
-	
+
 	if ($res < 0)
 	{
 		$retour['error']++;
-		$retour['message'] .= $object->errors.'<br>';
+		$retour['message'] .= dol_escape_htmltag($object->errorsToString()).'<br>';
 		return $retour;
 	}
 
-	return 1;
+	return $retour;
+}
+
+/**
+ * Whether a Qonto transaction is already imported on a bank account
+ *
+ * The import endpoints check it before any write: a double click, a second tab, a second user or a retry
+ * must not create a second payment and a second bank line for the same transaction.
+ *
+ * @param  string $id_line Qonto transaction id
+ * @param  int    $id_bank Dolibarr bank account id
+ * @return int             1 if imported, 0 if not, -1 on error
+ */
+function isImportedLine($id_line, $id_bank)
+{
+	global $db;
+
+	$sql = "SELECT rowid FROM ".MAIN_DB_PREFIX."bankimportapi_importedline";
+	$sql .= " WHERE fk_bank = ".((int) $id_bank);
+	$sql .= " AND ref = '".$db->escape($id_line)."'";
+	$resql = $db->query($sql);
+	if (!$resql) {
+		return -1;
+	}
+	$num = $db->num_rows($resql);
+	$db->free($resql);
+
+	return ($num > 0 ? 1 : 0);
 }
 
 

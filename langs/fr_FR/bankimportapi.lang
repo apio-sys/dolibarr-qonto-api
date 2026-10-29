@@ -144,6 +144,7 @@ NoPaymentFound = Aucun payment trouvé de ce montant pour cette période
 NoUnpaidCustomerInvoice = Aucune facture impayée pour ce client
 NoUnpaidProviderInvoice =  Aucune facture payée pour ce founrisseur
 amountDoesNotFitWithExpenseReport = Les montants ne correspondent pas
+TransactionAlreadyImported = Cette transaction est déjà importée sur ce compte bancaire : rien n'a été créé. Rechargez la page pour la voir.
 amountCapital = Montant du capital
 CustomerNotValid = Client non valide
 EmptyidLineDetails = Choisir un produit

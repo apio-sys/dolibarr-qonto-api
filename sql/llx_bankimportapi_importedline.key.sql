@@ -15,11 +15,19 @@
 
 
 -- BEGIN MODULEBUILDER INDEXES
-ALTER TABLE llx_bankimportapi_importedline ADD INDEX idx_bankimportapi_importedline_rowid (rowid);
 ALTER TABLE llx_bankimportapi_importedline ADD INDEX idx_bankimportapi_importedline_ref (ref);
 ALTER TABLE llx_bankimportapi_importedline ADD CONSTRAINT llx_bankimportapi_importedline_fk_user_creat FOREIGN KEY (fk_user_creat) REFERENCES llx_user(rowid);
 ALTER TABLE llx_bankimportapi_importedline ADD INDEX idx_bankimportapi_importedline_fk_bank (fk_bank);
 -- END MODULEBUILDER INDEXES
+
+-- rowid is the primary key already
+ALTER TABLE llx_bankimportapi_importedline DROP INDEX idx_bankimportapi_importedline_rowid;
+
+-- A Qonto transaction can only be imported once on a bank account. run_sql() ignores the duplicate key error, so the
+-- unique key would silently not be created while duplicates remain: the extra marks of a transaction imported twice
+-- are renamed first (the first import keeps the mark), and stay in the table with the id of the duplicate element.
+UPDATE llx_bankimportapi_importedline SET ref = CONCAT(ref, '-duplicate-', rowid) WHERE rowid NOT IN (SELECT keep FROM (SELECT MIN(rowid) AS keep FROM llx_bankimportapi_importedline GROUP BY fk_bank, ref) AS k);
+ALTER TABLE llx_bankimportapi_importedline ADD UNIQUE INDEX uk_bankimportapi_importedline_fk_bank_ref (fk_bank, ref);
 
 --ALTER TABLE llx_bankimportapi_importedline ADD UNIQUE INDEX uk_bankimportapi_importedline_fieldxy(fieldx, fieldy);
 

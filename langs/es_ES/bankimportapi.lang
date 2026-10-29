@@ -150,6 +150,7 @@ NoPaymentFound = No se ha encontrado pago con este importe en este periodo
 NoUnpaidCustomerInvoice = No se ha encontrado factura no pagada para este cliente
 NoUnpaidProviderInvoice =  No se ha encontrado factura no pagada para este proveedor
 amountDoesNotFitWithExpenseReport = Los importes no corresponden
+TransactionAlreadyImported = Esta transacción ya está importada en esta cuenta bancaria: no se ha creado nada. Recargue la página para verla.
 amountCapital = Importe del capital
 DebugMode = Modo debug
 Put1InCaseOfBugToHelpDevTeam = Poner a 1 en caso de bugs para ayudar al equipo de desarroladores (sino 0)
