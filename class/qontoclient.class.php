@@ -37,6 +37,9 @@ class QontoApiClient
 {
 	const BASE_URL = 'https://thirdparty.qonto.com/v2';
 
+	// Most Qonto list endpoints return 100 items per page at most (and by default)
+	const MAX_PER_PAGE = 100;
+
 	/** @var string */
 	private $login;
 
@@ -70,8 +73,8 @@ class QontoApiClient
 	}
 
 	/**
-	 * @param  array $parameters Query parameters (slug, iban, settled_at_from, settled_at_to, current_page, per_page, ...)
-	 * @return stdClass          Object with transactions[] and meta
+	 * @param  array $parameters Query parameters (iban, settled_at_from, settled_at_to, sort_by, page, per_page, ...)
+	 * @return stdClass          Object with transactions[] and meta (one page, see listAllTransactions())
 	 */
 	public function listTransactions($parameters)
 	{
@@ -82,6 +85,39 @@ class QontoApiClient
 			$response->transactions = array();
 		}
 		return $response;
+	}
+
+	/**
+	 * List the transactions of every page, following meta->next_page
+	 *
+	 * @param  array    $parameters Query parameters, as for listTransactions(), without page and per_page
+	 * @param  int      $maxPages   Stop after this many pages, so a very wide period can't hang the page
+	 * @return stdClass             Object with transactions[] and truncated (true if pages were left after $maxPages)
+	 */
+	public function listAllTransactions($parameters, $maxPages)
+	{
+		$result = new stdClass();
+		$result->transactions = array();
+		$result->truncated = false;
+
+		for ($page = 1; ; $page++) {
+			$response = $this->listTransactions(array_merge($parameters, array(
+				'page' => $page,
+				'per_page' => self::MAX_PER_PAGE,
+			)));
+			$result->transactions = array_merge($result->transactions, $response->transactions);
+
+			// next_page is null on the last page
+			if (empty($response->meta->next_page)) {
+				break;
+			}
+			if ($page >= $maxPages) {
+				$result->truncated = true;
+				break;
+			}
+		}
+
+		return $result;
 	}
 
 	/**

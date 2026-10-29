@@ -36,6 +36,9 @@ dol_include_once('/core/class/commonobject.class.php');
  */
 class bankApi extends CommonObject
 {
+	// Pages of 100 transactions read at most for one display, so that a very wide period can't hang the page
+	// (Qonto also refuses page x per_page above 10,000)
+	const QONTO_MAX_PAGES = 50;
 
 	public $dolibarrBankId;
 	public $bankLabel;
@@ -51,6 +54,8 @@ class bankApi extends CommonObject
 	public $balance;
 	public $authorized_balance;
 	public $rappro;
+	// true when the period has more transactions than QONTO_MAX_PAGES pages: only the most recent ones are listed
+	public $transactionsTruncated = false;
 	
 /*
 	public $transaction=array(
@@ -205,13 +210,17 @@ class bankApi extends CommonObject
 			}
 
 			
-			$transactions = $qonto->listTransactions(array(
+			// All pages, not only the first one: Qonto sends 100 transactions per page at most, so the oldest
+			// transactions of a busy period were missing, and so were their amounts in the totals.
+			// Newest first, as shown before, so that a truncated list keeps the most recent transactions.
+			$transactions = $qonto->listAllTransactions(array(
 				'slug' => $organization->bank_accounts[$qontoAccountIndex]->slug, //slug required
 				'iban' => $organization->bank_accounts[$qontoAccountIndex]->iban, //iban required
 				'settled_at_from' => $this->dateFrom,
 				'settled_at_to' => $this->dateTo,
-				'current_page' => 1,
-			));
+				'sort_by' => 'settled_at:desc',
+			), self::QONTO_MAX_PAGES);
+			$this->transactionsTruncated = $transactions->truncated;
 			
 			$this->organization = $organization;
 			$this->iban = $organization->bank_accounts[$qontoAccountIndex]->iban;
@@ -219,8 +228,8 @@ class bankApi extends CommonObject
 			$this->balance = $organization->bank_accounts[$qontoAccountIndex]->balance;
 			$this->authorized_balance = $organization->bank_accounts[$qontoAccountIndex]->authorized_balance;
 
-			$totalDebit = 0;
-			$totalCredit = 0;
+			$this->totalDebit = 0;
+			$this->totalCredit = 0;
 
 			$i=0;
 
@@ -228,7 +237,9 @@ class bankApi extends CommonObject
 			$this->transaction = array();
 
 			foreach($transactions->transactions as $key=>$val){
-				if(!empty($val->transaction_id)){
+				// A transaction settled while the pages are read shifts the next pages by one: the transaction
+				// at the end of a page comes again at the start of the next one, and must be counted once.
+				if(!empty($val->transaction_id) && !isset($this->transaction[$val->transaction_id])){
 
 				
 					$i = $val->transaction_id;

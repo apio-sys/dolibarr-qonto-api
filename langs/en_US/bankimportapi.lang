@@ -122,6 +122,7 @@ HowManyDaysToShow = How many days do we show in list of bank transaction
 HideImported = Hide imported line
 ShowImported = Show imported line
 NoTransactionInPeriod = No transaction in the selected period
+TransactionsListTruncated = Only the %s most recent transactions of the period are listed, and the Credit / Debit totals only cover them. Choose a shorter period to see the older ones.
 PayeInvoice = Paye invoice
 CreateAndPayeInvoice = Create and paye invoice
 CreateAndPayeCreditNote = Create and paye credit note

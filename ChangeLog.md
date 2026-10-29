@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.3
+FIX : The transactions page only listed the first page of the Qonto API response, so a period with more than 100 transactions lost the oldest ones: they could not be imported, linked or reconciled from the module, and the Credit / Debit totals left them out, with nothing on screen to tell. The module now reads every page (100 transactions each, newest first) and lists each transaction once, even when one is settled while the pages are read. Reading stops after 50 pages (5,000 transactions): the page then keeps the most recent ones and shows a warning to choose a shorter period.
+
 ## 3.4.2
 FIX : Social contributions. "Create and pay" failed on Dolibarr 23 with "Incorrect date value: '' for column periode", because the core now reads the period from $period and the module only set $periode: both are set now. The contribution, its due date and its payment were given 'Y-m-d H:i:s' strings, which the core reads as GMT and completes with the current time, so an import made late in the evening was dated the next day: they now get timestamps, as the invoice endpoints do. "Reconcile" looked for the payment's bank line with the type of a salary payment: it reconciled the bank line of a salary payment that happened to have the same id, or silently did nothing. It now uses the payment's own bank line (payment_sc). The link shown for an imported social contribution opened the contribution whose id equals the payment id (another contribution, or none): "create and pay" and "link" both store the payment id, and the link now opens that payment.
 

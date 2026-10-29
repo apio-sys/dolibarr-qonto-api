@@ -208,7 +208,9 @@ $createAllowed = bankimportapiCreateAllowed();
 
 <?php
 
-
+if (!empty($bankApiObject->transactionsTruncated)) {
+	print '<div class="warning">'.$langs->trans("TransactionsListTruncated", count($bankApiObject->transaction)).'</div>';
+}
 
 if(empty($bankApiObject->transaction)){
 	
