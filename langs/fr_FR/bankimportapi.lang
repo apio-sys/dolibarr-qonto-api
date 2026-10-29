@@ -124,6 +124,7 @@ HowManyDaysToShow = Combien de jour afficher dans la liste des transactions
 HideImported = Cacher les lignes importees
 ShowImported = Montrer les lignes importees
 NoTransactionInPeriod = Aucune transaction sur la période sélectionnée
+TransactionsListTruncated = Seules les %s transactions les plus récentes de la période sont affichées, et les totaux Crédit / Débit ne portent que sur elles. Choisissez une période plus courte pour voir les plus anciennes.
 PayeInvoice = Payer les factures
 CreateAndPayeInvoice = Créer et payer les factures
 CreateAndPayeCreditNote = Créer et payer un avoir
