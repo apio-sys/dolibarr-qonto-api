@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.6
+FIX : Paying an expense report from a transaction always failed with ErrorBadValueForParameterCreatePaymentExpenseReport (#41): the module set the payment date in $datepaid, while the core requires $datep. The payment now gets the transaction time as a timestamp. The payment amount was also assigned to the user making the import instead of the employee of the expense report, so the bank line would have been linked to the wrong user: it is now assigned to the employee, as the core does.
+
 ## 3.4.5
 FIX : Dates of the elements and payments created from a transaction (#40). The VAT, salary, loan payment, customer invoice, vendor invoice and credit note endpoints gave the core 'Y-m-d H:i:s' strings, as the social contributions did before 3.4.2. With a payment term, a customer invoice got a due date in January 1970, because the core adds the term days to the invoice date. The core also reads such a string as GMT, so an import made late in the evening could date the element, its payment and its bank line the next day. They now get timestamps: the transaction time for operation and payment dates, and noon of the chosen day for the dates entered in the dialogs, as the core forms do. The salary payment date was also taken from an undefined variable.
 
