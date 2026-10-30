@@ -21,7 +21,7 @@
  * \brief   Get file attachement from Qonto API
  */
 
-define('NOCSRFCHECK', 1); //Allow ajax with same token
+define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
 
 $res=@include("../main.inc.php");					// For root directory
 if (! $res && file_exists($_SERVER['DOCUMENT_ROOT']."/main.inc.php"))
@@ -109,9 +109,9 @@ if(empty($retour['error'])){
 			$retour['message'] .= $langs->trans("NoProviderInvoice").'<br>';
 		}
 	}else{
-
+		dol_syslog('ajax_get_provider_invoices.php SQL error: '.$db->lasterror(), LOG_ERR);
 		$retour['error']++;
-		$retour['message'] .= 'Error SQL : '.$db->lasterror().'<br>';
+		$retour['message'] .= 'SQL error, see Dolibarr logs<br>';
 
 	}
 

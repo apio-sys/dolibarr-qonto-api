@@ -211,6 +211,7 @@ function callForFfourResult(imgId)
 	json["amountPayment"] = $("#amountpayment").attr("value");
 	json["amounts"] = _elemToJson(form.find("input.amount"));
 	json["remains"] = _elemToJson(form.find("input.remain"));
+	json["token"] = "<?php echo currentToken(); ?>";
 
 	if (imgId != null) {
 		json["imgClicked"] = imgId;

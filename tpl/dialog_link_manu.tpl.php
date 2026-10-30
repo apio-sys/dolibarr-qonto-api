@@ -187,6 +187,7 @@ $('#dialog_link_manu').find('select[name="link_type"]').change(function() {
 		data: {
 			link_type: link_type,
 			transactionLine: jsonTransactionLine,
+			token: '<?php echo currentToken(); ?>',
 		},
 		beforeSend: function(){
 		 $(".loading_spinner_2").show();
