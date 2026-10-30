@@ -16,140 +16,133 @@
 #
 # Générique
 #
-
 BankImportApi = Bank API (Qonto)
 ModuleBankImportApiName = Bank API (Qonto)
 ModuleBankImportApiDesc = Récupère les transactions bancaires via l'API Qonto, puis crée, paie et rapproche les éléments Dolibarr correspondants
 dolimportDesc = Récupère les transactions bancaires via l'API Qonto, puis crée, paie et rapproche les éléments Dolibarr correspondants
 
-
 #
 # Page d'administration
 #
+BANKIMPORTAPISetup = Bank API (Qonto) - Configuration
+BANKIMPORTAPISetupPage = Page de configuration
 Settings = Réglages
 DefautProjet = Projet par défaut
-HelpDefautProjet = Choisissez un projet par défaut pour les imports
-DefautVAT = Valeur de TVA par défaut
-HelpDefautVAT = Permet le calcul par défaut du montant HT des factures
-GenerateUniqueRef = Générer un code unique dans les factures fournisseurs
-HelpGenerateUniqueRef = Permet d'éviter les erreurs pour doublons de références des factures fournisseurs (0=inactif 1=actif)
-BankAccountID = ID du compte en banque
-HelpBankAccountID = Renseigner l'ID de votre compte en banque par défaut pour les imports<br> ex : Importer les relevés sur le compte bancaire ID=1<br>Valeur -> 1
+HelpDefautProjet = Projet sélectionné par défaut dans les fenêtres d'import
+DefautVAT = Taux de TVA par défaut
+HelpDefautVAT = Sert au calcul par défaut du montant HT
+GenerateUniqueRef = Générer un code unique pour la référence des factures fournisseurs
+HelpGenerateUniqueRef = Évite l'erreur de référence de facture fournisseur en double (0=inactif 1=actif)
 AllowFileTransfertFromQonto = Permettre le transfert des fichiers depuis Qonto vers Dolibarr
-HelpAllowFileTransfertFromQonto = Au moment de la création d'une facture, les fichiers sont transférés (0=inactif 1=actif)
+HelpAllowFileTransfertFromQonto = Les fichiers joints à la transaction dans Qonto sont transférés vers l'élément Dolibarr créé depuis celle-ci (0=inactif 1=actif)
 AllowCreateElements = Autoriser la création de nouveaux éléments
 HelpAllowCreateElements = Affiche les actions "créer et payer" (facture client, avoir, facture fournisseur, TVA, salaire, charge sociale/fiscale). Mettre 0 pour seulement payer ou lier des éléments existants (0=inactif 1=actif)
+HowManyDaysToShow = Nombre de jours affichés par défaut dans la liste des transactions bancaires
+HideVatWarning = Cacher l'icône d'avertissement quand la TVA n'est pas importée
+Put1ToHideVatWarning = Mettre la valeur 1 pour cacher l'icône (0 par défaut)
+DebugMode = Mode debug
+Put1InCaseOfBugToHelpDevTeam = Mettre la valeur 1 en cas de bug pour aider les développeurs (0 par défaut)
 
 #
 # Page À propos
 #
+BankImportApiAbout = Bank API (Qonto) - À propos
 About = À propos
 
 #
-# Page index
+# Page des transactions
 #
 Import = Importer
+HideImported = Cacher les lignes importées
+ShowImported = Montrer les lignes importées
+NoTransactionInPeriod = Aucune transaction sur la période sélectionnée
+TransactionsListTruncated = Seules les %s transactions les plus récentes de la période sont affichées, et les totaux Crédit / Débit ne portent que sur elles. Choisissez une période plus courte pour voir les plus anciennes.
+NoVatInQonto = Pas de montant de TVA dans Qonto pour cette transaction
+ForgetImport = Oublier l'import, pour pouvoir importer la transaction à nouveau
+Unlink = Supprimer le lien
+SureToUnlink = Êtes-vous sûr de vouloir supprimer le lien ?
 
 #
-# Page liste
+# Actions
 #
-Imported = importé(s)
+PayeInvoice = Payer des factures
+CreateAndPayeInvoice = Créer et payer une facture
+CreateAndPayeCreditNote = Créer et payer un avoir
+CreateAndPayeVAT = Créer et payer la TVA
+CreateAndPayeSalary = Créer et payer un salaire
+CreateAndPayeCharge = Créer et payer une charge sociale/fiscale
+PayeLoan = Payer un emprunt
+PayeExpenseReport = Payer une note de frais
+CreateManually = Lier
 
 #
-# Page process
+# Dialogues
 #
-TypeOfSocialFiscalCharge = Type
-ProviderReference = Référence fournisseur
+ReleveRef = Relevé bancaire
+InvoiceRefClient = Réf. client
+SalaryRef = Libellé
 Provider = Fournisseur
-OperationDate = Date
+ProviderInvoice = Facture fournisseur
+Product/Service = Produit
 HTAmount = Montant HT
 VATAmount = Montant TVA
 DetailsLine = Détail
-IncludingInterest = Dont intêrets
-IncludingInsurance = Dont assurance
-TypeOfSocialFiscalCharge = Type de charge
-Employee = Employé
+TypeOfSocialFiscalCharge = Type
+Employee = Salarié
 PeriodStartDate = Début de période
 PeriodEndDate = Fin de période
+amountCapital = Montant du capital
+IncludingInterest = Dont intérêts
+IncludingInsurance = Dont assurance
+Invoice = Facture
+Payment = Paiement
+Loan = Emprunt
+VAT = TVA
+SocialTaxCharges = Charges sociales et fiscales
+LinkTo = Lier à
+NoLink = Aucun lien
+PaymentCustomerInvoice = Paiement de facture client
+PaymentSupplierInvoice = Paiement de facture fournisseur
+PaymentSalary = Paiement de salaire
+PaymentLoan = Paiement d'emprunt
+PaymentVarious = Paiement divers
 
 #
 # Listes
 #
-
-ProviderInvoice = Facture fournisseur
-SocialTaxCharges = Charges sociales et fiscales
-VAT = TVA
-Salary = Salaire
-Loan = Emprunt
-CustomerInvoice = Facture client
+NoPaymentFound = Aucun paiement trouvé de ce montant sur cette période
+NoUnpaidCustomerInvoice = Aucune facture impayée pour ce client
+NoUnpaidProviderInvoice = Aucune facture impayée pour ce fournisseur
+NoProviderInvoice = Aucune facture pour ce fournisseur
 
 #
-# Erreurs et msg events
+# Erreurs
 #
-
-ImpossibleToUpdate = Mise à jour impossible
-Updated = actualisé
-EmptyRowid = id non défini
-ElementTypeUndefine = type element non defini
-EmptyRefImport = RefImport non défini
-EmptyLabel = Label non défini
+EmptyBankid = Compte bancaire non défini
+EmptyRowid = Transaction non définie
+EmptyRefElement = Référence non définie
+EmptyExpenseReportId = Note de frais non définie
+EmptyLinkType = Type de lien non défini
+EmptyidLineDetails = Choisissez un produit ou saisissez le détail de la ligne
+ReleveNotDefined = Relevé bancaire non défini
+PaymentModeNotDefined = Mode de règlement non défini
+PaymentTypeNotDefine = Type de lien inconnu
+LinkTypeNotDefined = Type de lien non défini
+PaymentNotDefined = Paiement non défini
 DateBadFormat = Mauvais format de date
-ProjectNotValid = Projet non valide
 AmountNotValid = Montant non valide
+AmountNotNumeric = Un montant n'est pas un nombre
+AmountNotEqualToInvoices = Les montants payés (%s) diffèrent du montant de la transaction (%s)
 ProviderNotValid = Fournisseur non valide
+CustomerNotValid = Client non valide
 HTNotHigherThanTTC = Montant HT > montant TTC
 TVANotHigherThanTTC = Montant TVA > montant TTC
-StatementLinkSQLError = Erreur SQL pendant le rapprochement
-CustomerInvoiceNotvalid = Facture client non valide
 LoanNotValid = Emprunt non valide
-InterestNotValid = Intêrets non valides
+InterestNotValid = Intérêts non valides
 InsuranceNotValid = Assurance non valide
-InterestAndInsuranceValueTooHigh = Valeur trop grandes pour l'assurance et les intêrets
-UserUndefine = Utilisateur non défini
-
-ElementDeleted = Element supprimé
-Invoice = Facture
-Created = ok
-StatementLink = Rapprochement
-Payment = Paiement
-PaymentCustomerInvoice = Paiement de la facture client
-PaymentLoan = Paiement de l'emprunt
-
-#
-# dolimport API
-#
-BANKIMPORTAPISetup = Bank API (Qonto) - Administration
-BANKIMPORTAPISetupPage = Page d'administration
-HowManyDaysToShow = Combien de jour afficher dans la liste des transactions
-HideImported = Cacher les lignes importees
-ShowImported = Montrer les lignes importees
-NoTransactionInPeriod = Aucune transaction sur la période sélectionnée
-TransactionsListTruncated = Seules les %s transactions les plus récentes de la période sont affichées, et les totaux Crédit / Débit ne portent que sur elles. Choisissez une période plus courte pour voir les plus anciennes.
-PayeInvoice = Payer les factures
-CreateAndPayeInvoice = Créer et payer les factures
-CreateAndPayeCreditNote = Créer et payer un avoir
-CreateAndPayeVAT = Créer et payer la TVA
-CreateAndPayeSalary = Créer et payer un salaire
-CreateAndPayeCharge = Créer et payer des charges/impôts
-PayeLoan = Payer un prêt
-PayeExpenseReport = Payer une note de frais
-CreateManually = Lier
-Product/Service = Produit
-Unlink = Supprimer le lien
-ImportVat = Importer la TVA
-UserUndefine = Utilisateur non défini
-SureToUnlink = Es-tu sur de vouloir supprimer le lien?
-TypeCodeUndefine = El tipo de carga no esta definido
-NoPaymentFound = Aucun payment trouvé de ce montant pour cette période
-NoUnpaidCustomerInvoice = Aucune facture impayée pour ce client
-NoUnpaidProviderInvoice =  Aucune facture payée pour ce founrisseur
-amountDoesNotFitWithExpenseReport = Les montants ne correspondent pas
+InterestAndInsuranceValueTooHigh = Les intérêts et l'assurance dépassent le montant de la transaction
+UserUndefine = Salarié non défini
+TypeCodeUndefine = Type de charge non défini
+SourceInvoiceShouldBeDefined = Choisissez la facture que l'avoir corrige
+amountDoesNotFitWithExpenseReport = Le montant ne correspond pas à la note de frais
 TransactionAlreadyImported = Cette transaction est déjà importée sur ce compte bancaire : rien n'a été créé. Rechargez la page pour la voir.
-amountCapital = Montant du capital
-CustomerNotValid = Client non valide
-EmptyidLineDetails = Choisir un produit
-InvoiceRefClient = Référence client
-DebugMode = Mode debug
-Put1InCaseOfBugToHelpDevTeam = Mettez à 1 en cas de bug pour aider l'équipe de développeurs (sinon 0)
-HideVatWarning = Cacher l'icone warning lorsque la TVA n'est pas importée
-Put1ToHideVatWarning = Mettez la valeur 1 si vous souhaitez cacher l'icone (sinon 0)

@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    /bankimportapi/lib/ajax_import_ffour.php
- * \ingroup ban
- * \brief   Create provider invoice from Ajax
+ * \file    bankimportapi/lib/ajax_import_p_fclient.php
+ * \ingroup bankimportapi
+ * \brief   Pay customer invoices from a transaction
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -112,12 +112,12 @@ if (empty($bankId)){
 
 if(!empty($bank_rappro) && empty($releve)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("ReleveNoot defined").'<br>';
+	$retour['message'] .= $langs->trans("ReleveNotDefined").'<br>';
 }
 
 if (empty($mode_reglement_id)){
 	$retour['error']++;
-	$retour['message'] = $langs->trans("fk_paiementNotDefined");
+	$retour['message'] .= $langs->trans("PaymentModeNotDefined").'<br>';
 }
 
 if (empty($id_line)){
@@ -151,7 +151,7 @@ $montant_ttc = trim ($montant_ttc);
 
 if (empty($totalPayment) || $totalPayment != $montant_ttc){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("AmountNotEgualAsInvoices totalPayment : ".$totalPayment." != montant_ttc :".$montant_ttc).'<br>';
+	$retour['message'] .= $langs->trans("AmountNotEqualToInvoices", price($totalPayment), price($montant_ttc)).'<br>';
 }
 
 

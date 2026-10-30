@@ -16,8 +16,8 @@
  */
 
 /**
- * \file    gmao/lib/ajax_get_attachement.php
- * \ingroup gmao
+ * \file    bankimportapi/lib/ajax_get_attachement_url.php
+ * \ingroup bankimportapi
  * \brief   Get file attachement from Qonto API
  */
 

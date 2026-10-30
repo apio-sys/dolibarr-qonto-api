@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    /bankimportapi/lib/ajax_import_ffour.php
- * \ingroup ban
- * \brief   Create provider invoice from Ajax
+ * \file    bankimportapi/lib/ajax_link_manu.php
+ * \ingroup bankimportapi
+ * \brief   Link a transaction to an existing payment
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -85,7 +85,7 @@ if (empty($bankId)){
 /*
 if (empty($mode_reglement_id)){
 	$retour['error']++;
-	$retour['message'] = $langs->trans("fk_paiementNotDefined");
+	$retour['message'] .= $langs->trans("PaymentModeNotDefined").'<br>';
 }
 */
 
@@ -114,13 +114,13 @@ if (empty($montant_ttc) || !is_double($montant_ttc) || $montant_ttc < 0){
 
 if (empty($link_type)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("link_typeNotDefine");
+	$retour['message'] .= $langs->trans("LinkTypeNotDefined").'<br>';
 }
 
 
 if (empty($payment_id) && $link_type != 'no_link'){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("lpayment_idNotDefine");
+	$retour['message'] .= $langs->trans("PaymentNotDefined").'<br>';
 }
 
 

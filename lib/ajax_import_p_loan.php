@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    /bankimportapi/lib/ajax_import_ffour.php
- * \ingroup ban
- * \brief   Create provider invoice from Ajax
+ * \file    bankimportapi/lib/ajax_import_p_loan.php
+ * \ingroup bankimportapi
+ * \brief   Pay a loan from a transaction
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -88,12 +88,12 @@ if (empty($bankId)){
 
 if(!empty($bank_rappro) && empty($releve)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("ReleveNoot defined").'<br>';
+	$retour['message'] .= $langs->trans("ReleveNotDefined").'<br>';
 }
 
 if (empty($mode_reglement_id)){
 	$retour['error']++;
-	$retour['message'] = $langs->trans("fk_paiementNotDefined");
+	$retour['message'] .= $langs->trans("PaymentModeNotDefined").'<br>';
 }
 
 if (empty($id_line)){
@@ -122,7 +122,7 @@ if (empty($montant_ttc) || !is_double($montant_ttc) || $montant_ttc < 0){
 
 if (empty($emprunt_id) || $emprunt_id < 1){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("LoanNotValid");
+	$retour['message'] .= $langs->trans("LoanNotValid").'<br>';
 }
 
 if ($amount_interest != "" && $amount_interest != 0){
@@ -130,7 +130,7 @@ if ($amount_interest != "" && $amount_interest != 0){
 	$amount_interest = floatval($amount_interest);
 	if (empty($amount_interest) || !is_double($amount_interest) || $amount_interest < 0){
 		$retour['error']++;
-		$retour['message'] .= $langs->trans("InterestNotValid");
+		$retour['message'] .= $langs->trans("InterestNotValid").'<br>';
 	}
 }else{
 	$amount_interest = 0;
@@ -141,7 +141,7 @@ if ($amount_insurance != "" && $amount_insurance != 0){
 	$amount_insurance = floatval($amount_insurance);
 	if (empty($amount_insurance) || !is_double($amount_insurance) || $amount_insurance < 0){
 		$retour['error']++;
-		$retour['message'] .= $langs->trans("InsurancetNotValid");
+		$retour['message'] .= $langs->trans("InsuranceNotValid").'<br>';
 	}
 }else{
 	$amount_insurance = 0;
@@ -151,7 +151,7 @@ $amount_capital = $montant_ttc - $amount_insurance - $amount_interest;
 
 if($amount_capital < 0){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("InterestAndInsuranceValueTooHigh");
+	$retour['message'] .= $langs->trans("InterestAndInsuranceValueTooHigh").'<br>';
 }
 
 

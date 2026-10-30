@@ -46,7 +46,7 @@ if(empty($bankId))accessforbidden('ID bank not defined');
 if(!$user->rights->bankimportapi->mybankimports->read) accessforbidden();
 
 // Load translation files required by the page
-$langs->loadLangs(array("bankimportapi@bankimportapi", "other"));
+$langs->loadLangs(array("bankimportapi@bankimportapi", "other", "bills", "banks", "compta", "companies", "donations"));
 
 $form = new form($db);
 
@@ -179,7 +179,7 @@ $createAllowed = bankimportapiCreateAllowed();
 					print $form->selectDate($datestartfiltre, 'datestart', 0, 0, 1, '', 1, 0);
 					print $form->selectDate($dateendToShow, 'dateend', 0, 0, 1, '', 1, 0);
 					?>
-					<input type="submit" class="button" value="<?php print $langs->trans("show") ?>">
+					<input type="submit" class="button" value="<?php print $langs->trans("Show") ?>">
 				</form>
 			
 			</td>
@@ -263,7 +263,7 @@ if(empty($bankApiObject->transaction)){
 				<tr class="liste_titre">
 					
 					<th class="liste_titre"><b><?php print $langs->trans("Label"); ?></b></th>
-					<th class="liste_titre"><b><?php print $langs->trans("Reference"); ?></b></th>
+					<th class="liste_titre"><b><?php print $langs->trans("Ref"); ?></b></th>
 					<th class="liste_titre"><b><?php print $langs->trans("Date"); ?></b></th>
 					<th class="liste_titre"><b><?php print $langs->trans("Amount"); ?></b></th>
 					<th class="liste_titre"><b><?php print $langs->trans("Action"); ?></b></th>
@@ -318,9 +318,9 @@ if(empty($bankApiObject->transaction)){
 
 						if(empty($conf->global->BANKIMPORTAPI_HIDE_VAT_WARNING)){
 							if(!is_null($val['vat_amount'])){
-								print '<i title="VAT : '.$val['vat_amount'].'" style="margin-left:5px;color:green;" class="fa fa-check-circle"></i>';
+								print '<i title="'.$langs->trans('VATAmount').' : '.$val['vat_amount'].'" style="margin-left:5px;color:green;" class="fa fa-check-circle"></i>';
 							}else{
-								print '<i title="NO VAT" style="margin-left:5px;color:red;" class="fas fa-exclamation-triangle"></i>';
+								print '<i title="'.$langs->trans('NoVatInQonto').'" style="margin-left:5px;color:red;" class="fas fa-exclamation-triangle"></i>';
 								print $val['vat_amount'];
 							}
 						}
