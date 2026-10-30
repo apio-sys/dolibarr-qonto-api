@@ -323,7 +323,7 @@ function addImportedLine($id_line,$id_bank,$element_type,$ref_element){
  *
  * @param  string $id_line Qonto transaction id
  * @param  int    $id_bank Dolibarr bank account id
- * @return int             1 if imported, 0 if not, -1 on error
+ * @return int             1 if imported, 0 if not, -1 on error (logged here: the callers only show a generic message)
  */
 function isImportedLine($id_line, $id_bank)
 {
@@ -334,6 +334,7 @@ function isImportedLine($id_line, $id_bank)
 	$sql .= " AND ref = '".$db->escape($id_line)."'";
 	$resql = $db->query($sql);
 	if (!$resql) {
+		dol_syslog(__FUNCTION__.' SQL error: '.$db->lasterror(), LOG_ERR);
 		return -1;
 	}
 	$num = $db->num_rows($resql);
