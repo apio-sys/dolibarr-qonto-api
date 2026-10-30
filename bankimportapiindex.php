@@ -279,9 +279,12 @@ if(empty($bankApiObject->transaction)){
 					
 					$dateEmittedFormated = dol_print_date($val['emitted_at'],'%d/%m/%Y');
 					$dateSettledFormated = dol_print_date($val['settled_at'],'%d/%m/%Y');
+					// The settlement date is the one that counts (before it, a transaction can still be cancelled) and the one
+					// Qonto filters the period on. The bank line keeps the emission date as operation date.
+					$settledAt = empty($val['settled_at']) ? $val['emitted_at'] : $val['settled_at'];
 					
 					if (empty($val['statement_name'])){
-						$nom_releve = $bankApiObject->bankLabel.'_'.dol_print_date($val['emitted_at'],'%Y').'-'.dol_print_date($val['emitted_at'],'%m');
+						$nom_releve = $bankApiObject->bankLabel.'_'.dol_print_date($settledAt,'%Y').'-'.dol_print_date($settledAt,'%m');
 					}else{
 						$nom_releve = $val['statement_name'];
 					}
@@ -331,7 +334,7 @@ if(empty($bankApiObject->transaction)){
 					
 					print'</td>';
 					
-					print'<td>'.$dateEmittedFormated.'</td>';
+					print'<td>'.dol_print_date($settledAt,'%d/%m/%Y').'</td>';
 					
 					if($val['side'] == 'credit'){
 						print'<td><strong>+ '.$val['amount'].' '.$val['currency'].'</strong></td>';

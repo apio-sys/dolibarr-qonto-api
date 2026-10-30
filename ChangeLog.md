@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.11
+FIX : The transactions list showed the emission date of each transaction while the period is filtered on its settlement date (#56): a card payment settled the day after was missing from the period of the date it showed. The list now shows the settlement date, the one that counts (a transaction can still be cancelled before it settles), and the bank statement name is taken from its month. The bank line keeps the emission date as operation date and the settlement date as value date.
+
 ## 3.4.10
 SEC : The AJAX endpoints of the module disabled the CSRF check of the core (NOCSRFCHECK) (#52). Only the SameSite=Lax session cookie protected them: a page of the same site (another subdomain, for example) opened by a logged-in user could create, pay, link and reconcile in their name. The core check now applies to every endpoint, and the endpoints that create, pay or link also check the token themselves, so a wrong token is refused even when the core check is disabled. The page and its dialogs send the current token on each call (the payments list sent none), and the endpoints no longer renew it, so it stays valid with MAIN_SECURITY_CSRF_TOKEN_RENEWAL_ON_EACH_CALL. The "pay invoices" dialogs also send it to the core compta/ajaxpayment.php, which refused them without it: the automatic calculation of the amounts works again.
 SEC : The supplier invoices list of the credit note dialog returned the database error message to the browser. The error now goes to the Dolibarr log, as in the other lists.
