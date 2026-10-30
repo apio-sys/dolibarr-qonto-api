@@ -344,6 +344,101 @@ function isImportedLine($id_line, $id_bank)
 }
 
 /**
+ * Forgets the imports of the Qonto transactions whose bank line is being deleted
+ *
+ * Called by the module trigger on BANKACCOUNTLINE_DELETE, before the core deletes the line and its links. Deleting
+ * a payment in Dolibarr deletes its bank line: the transaction must then be importable again, instead of staying
+ * marked as imported with a link to a payment that no longer exists. The core refuses to delete a reconciled line.
+ *
+ * @param  AccountLine $line Bank line being deleted
+ * @return int               Number of marks forgotten, -1 on SQL error (logged here)
+ */
+function bankimportapiForgetBankLine($line)
+{
+	global $db;
+
+	// Link of the bank line => type of the marks that point to it, as recorded by the imports and the "link" dialog:
+	// the payment, except for a VAT, whose marks point to the VAT itself
+	$markTypes = array(
+		'payment' => 'payment',
+		'payment_supplier' => 'payment_supplier',
+		'payment_sc' => 'chargesociales',
+		'payment_salary' => 'payment_salary',
+		'payment_loan' => 'payment_loan',
+		'payment_expensereport' => 'payment_expensereport',
+		'payment_donation' => 'payment_donation',
+		'payment_various' => 'payment_various',
+		'vat' => 'tva',
+	);
+
+	$resql = $db->query("SELECT url_id, type FROM ".MAIN_DB_PREFIX."bank_url WHERE fk_bank = ".((int) $line->id));
+	if (!$resql) {
+		dol_syslog(__FUNCTION__.' SQL error: '.$db->lasterror(), LOG_ERR);
+		return -1;
+	}
+	$links = array();
+	while ($obj = $db->fetch_object($resql)) {
+		if (!empty($markTypes[$obj->type])) {
+			$links[] = $obj;
+		}
+	}
+	$db->free($resql);
+
+	$where = array();
+	foreach ($links as $link) {
+		if ($link->type == 'vat') {
+			// A VAT paid in several times keeps its marks while another bank line still pays it: they can't be told
+			// apart, and forgetting them all would let the other payments be imported a second time
+			$resql = $db->query("SELECT COUNT(*) AS nb FROM ".MAIN_DB_PREFIX."bank_url WHERE type = 'vat' AND url_id = ".((int) $link->url_id)." AND fk_bank <> ".((int) $line->id));
+			$obj = $resql ? $db->fetch_object($resql) : null;
+			if (!$obj) {
+				dol_syslog(__FUNCTION__.' SQL error: '.$db->lasterror(), LOG_ERR);
+				return -1;
+			}
+			if ($obj->nb > 0) {
+				continue;
+			}
+		}
+		$where[] = "(import_type = '".$db->escape($markTypes[$link->type])."' AND ref_element = '".((int) $link->url_id)."')";
+	}
+	if (empty($where)) {
+		return 0;
+	}
+
+	$sql = "DELETE FROM ".MAIN_DB_PREFIX."bankimportapi_importedline";
+	$sql .= " WHERE fk_bank = ".((int) $line->fk_account)." AND (".implode(" OR ", $where).")";
+	$resql = $db->query($sql);
+	if (!$resql) {
+		dol_syslog(__FUNCTION__.' SQL error: '.$db->lasterror(), LOG_ERR);
+		return -1;
+	}
+
+	return $db->affected_rows($resql);
+}
+
+/**
+ * Forgets the imports that point to a customer payment being deleted
+ *
+ * Paiement::delete() removes the links of its bank line before deleting the line, so bankimportapiForgetBankLine()
+ * can't lead to the payment: the module trigger calls this function on PAYMENT_CUSTOMER_DELETE instead.
+ *
+ * @param  int $paymentId Id of the customer payment being deleted
+ * @return int            Number of marks forgotten, -1 on SQL error (logged here)
+ */
+function bankimportapiForgetCustomerPayment($paymentId)
+{
+	global $db;
+
+	$resql = $db->query("DELETE FROM ".MAIN_DB_PREFIX."bankimportapi_importedline WHERE import_type = 'payment' AND ref_element = '".((int) $paymentId)."'");
+	if (!$resql) {
+		dol_syslog(__FUNCTION__.' SQL error: '.$db->lasterror(), LOG_ERR);
+		return -1;
+	}
+
+	return $db->affected_rows($resql);
+}
+
+/**
  * Ends the database transaction of an import: commit if every step succeeded, roll back otherwise
  *
  * An import is all or nothing: a failed step must not leave an element, a payment or a bank line without the
