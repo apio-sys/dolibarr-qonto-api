@@ -169,49 +169,14 @@ if (!$retour['error']) {
 //-----------------------------------------------------------------
 if (!$retour['error'])
 {
+	// One transaction for the whole import, ended by bankimportapiImportEnd(): all or nothing
+	$transactionLevel = $db->transaction_opened;
+	$db->begin();
 
 	if($conf->global->BANKIMPORTAPI_DEV_MODE == 2){
 		$retour['error']++;
 	}
 
-	//----------------------------------------------------------------------------------------
-	//Transfert des fichiers
-	//----------------------------------------------------------------------------------------
-	if(!empty($conf->global->BANKIMPORTAPI_ALLOW_FILES_TRANSFERT)){
-
-		if($conf->global->BANKIMPORTAPI_DEV_MODE == 2){
-			$retour['message'] .= 'transfert file step1 </br>';
-		}
-
-		if(!empty($transactionLine['attachment_ids'])){
-
-			if($conf->global->BANKIMPORTAPI_DEV_MODE == 2){
-				$retour['message'] .= 'transfert file step2 </br>';
-			}
-
-			foreach($tab as $key => $val){
-				$object=new FactureFournisseur($db);				
-				$object->fetch($key);
-		
-				$listOfIdsAttachement = array();
-				
-				foreach($transactionLine['attachment_ids'] as $v){
-					$listOfIdsAttachement[] = $v;
-				}
-
-				if($conf->global->BANKIMPORTAPI_DEV_MODE == 2){
-					$retour['message'] .= 'transfert file step3 id:'.$key.' /bankid:'.$bankId.' /idAttach:'.implode("-",$listOfIdsAttachement).' </br>';
-				}
-				
-				$res = transferFiles($bankId,$object,$listOfIdsAttachement);
-
-				if(!empty($res['error'])){
-					$retour['error']++;
-					$retour['message'] .= $res['message'];
-				}
-			}
-		}
-	}
 
 	//----------------------------------------------------------------------------------------
 	//Réglement de la facture
@@ -276,6 +241,17 @@ if (!$retour['error'])
 			$retour['message'] .= '<a class="link_forget" href="'.bankimportapiForgetUrl($bankId, $id_line).'">';
 			$retour['message'] .= '<i style="margin-left:10px;" title="'.$langs->trans("ForgetImport").'" class="fas fa-unlink"></i>';
 			$retour['message'] .= '</a>';
+		}
+	}
+
+	$retour = bankimportapiImportEnd($retour, $transactionLevel, $id_line, $bankId);
+	// The attachments go to each paid invoice
+	if (!$retour['error'] && !empty($transactionLine['attachment_ids'])) {
+		foreach ($tab as $key => $val) {
+			$invoice = new FactureFournisseur($db);
+			if ($invoice->fetch($key) > 0) {
+				$retour = bankimportapiCopyAttachments($retour, $bankId, $invoice, $transactionLine);
+			}
 		}
 	}
 }

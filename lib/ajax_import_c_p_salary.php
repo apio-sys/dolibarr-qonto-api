@@ -155,6 +155,10 @@ if (!$retour['error']) {
 //-----------------------------------------------------------------
 if (!$retour['error'])
 {
+	// One transaction for the whole import, ended by bankimportapiImportEnd(): all or nothing
+	$transactionLevel = $db->transaction_opened;
+	$db->begin();
+
 	//----------------------------------------------------------------------------------------
 	//Créer salaire
 	//----------------------------------------------------------------------------------------
@@ -227,26 +231,7 @@ if (!$retour['error'])
 
 
 
-	//----------------------------------------------------------------------------------------
-	//Transfert des fichiers
-	//----------------------------------------------------------------------------------------
-	if(!empty($conf->global->BANKIMPORTAPI_ALLOW_FILES_TRANSFERT) && !$retour['error']){
-
-		
-		if(!empty($transactionLine['attachment_ids'])){
-			$listOfIdsAttachement = array();
-			
-			foreach($transactionLine['attachment_ids'] as $v){
-				$listOfIdsAttachement[] = $v;
-			}
-
-			$retFile = transferFiles($bankId,$object,$listOfIdsAttachement);
-		}
-	}
 	
-	if(!empty($retFile['error'])){
-		$retour = $retFile;
-	} 
 
 
 
@@ -299,6 +284,8 @@ if (!$retour['error'])
 		}
 	}
 
+	$retour = bankimportapiImportEnd($retour, $transactionLevel, $id_line, $bankId);
+	$retour = bankimportapiCopyAttachments($retour, $bankId, $object, $transactionLine);
 }
 
 

@@ -146,3 +146,4 @@ TypeCodeUndefine = Type of tax not defined
 SourceInvoiceShouldBeDefined = Choose the invoice the credit note corrects
 amountDoesNotFitWithExpenseReport = The amount does not match the expense report
 TransactionAlreadyImported = This transaction is already imported on this bank account: nothing was created. Reload the page to see it.
+AttachmentsNotCopied = The import is done, but the Qonto attachments could not be copied:

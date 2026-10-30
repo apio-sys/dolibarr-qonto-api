@@ -146,3 +146,4 @@ TypeCodeUndefine = Tipo de impuesto no definido
 SourceInvoiceShouldBeDefined = Elija la factura que corrige el abono
 amountDoesNotFitWithExpenseReport = El importe no corresponde al informe de gastos
 TransactionAlreadyImported = Esta transacción ya está importada en esta cuenta bancaria: no se ha creado nada. Recargue la página para verla.
+AttachmentsNotCopied = La importación se ha realizado, pero los adjuntos de Qonto no se han podido copiar:

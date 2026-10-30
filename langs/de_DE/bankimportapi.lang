@@ -146,3 +146,4 @@ TypeCodeUndefine = Art der Abgabe nicht definiert
 SourceInvoiceShouldBeDefined = Wählen Sie die Rechnung, die die Gutschrift korrigiert
 amountDoesNotFitWithExpenseReport = Der Betrag entspricht nicht der Spesenabrechnung
 TransactionAlreadyImported = Diese Transaktion ist auf diesem Bankkonto bereits importiert: es wurde nichts erstellt. Laden Sie die Seite neu, um sie zu sehen.
+AttachmentsNotCopied = Der Import ist erfolgt, aber die Qonto-Anhänge konnten nicht kopiert werden:
