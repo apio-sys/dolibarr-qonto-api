@@ -343,10 +343,86 @@ function isImportedLine($id_line, $id_bank)
 	return ($num > 0 ? 1 : 0);
 }
 
+/**
+ * Ends the database transaction of an import: commit if every step succeeded, roll back otherwise
+ *
+ * An import is all or nothing: a failed step must not leave an element, a payment or a bank line without the
+ * others, nor without the mark that keeps the transaction from being imported again. As the mark is written in
+ * the same transaction, the unique key on the marks makes the second of two simultaneous imports of a
+ * transaction fail on its mark and roll back entirely.
+ *
+ * @param  array  $retour  Result of the endpoint: 'error' count and 'message'
+ * @param  int    $level   Transaction level before the $db->begin() of the import
+ * @param  string $id_line Qonto transaction id
+ * @param  int    $id_bank Dolibarr bank account id
+ * @return array           $retour, with an error when the import could not be committed
+ */
+function bankimportapiImportEnd($retour, $level, $id_line, $id_bank)
+{
+	global $db, $langs;
+
+	// A step that left its own transaction open would make commit() close only that one, and the import would be
+	// lost when the connection closes
+	if (!$retour['error'] && $db->transaction_opened == $level + 1 && $db->commit()) {
+		return $retour;
+	}
+
+	if (!$retour['error']) {
+		dol_syslog(__FUNCTION__.' import not committed, transaction level '.$db->transaction_opened.': '.$db->lasterror(), LOG_ERR);
+		$retour['error']++;
+		$retour['message'] = 'SQL error, see Dolibarr logs<br>';
+	}
+	while ($db->transaction_opened > $level) {
+		$db->rollback();
+	}
+
+	// The other of two simultaneous imports of this transaction was committed first: say so, rather than the
+	// database error of this one
+	if (isImportedLine($id_line, $id_bank) > 0) {
+		$retour['message'] = $langs->trans("TransactionAlreadyImported").'<br>';
+	}
+
+	return $retour;
+}
+
+/**
+ * Copies the Qonto attachments of an imported transaction to the element of the import
+ *
+ * Files can't be rolled back: they are copied once the import is committed, and a failed copy is reported
+ * without undoing the import.
+ *
+ * @param  array        $retour          Result of the endpoint: 'error' count and 'message'
+ * @param  int          $bankId          Dolibarr bank account id
+ * @param  CommonObject $object          Element created or paid by the import
+ * @param  array        $transactionLine Qonto transaction sent by the page
+ * @return array                         $retour, with a warning when the copy failed
+ */
+function bankimportapiCopyAttachments($retour, $bankId, $object, $transactionLine)
+{
+	global $conf, $langs;
+
+	if ($retour['error'] || empty($conf->global->BANKIMPORTAPI_ALLOW_FILES_TRANSFERT) || empty($transactionLine['attachment_ids'])) {
+		return $retour;
+	}
+
+	// Fetched again because an endpoint may change the object for its answer, and the copy builds the
+	// directory from its ref
+	$object->fetch($object->id);
+	$res = transferFiles($bankId, $object, array_values((array) $transactionLine['attachment_ids']));
+	if (!empty($res['error'])) {
+		$retour['message'] .= '<br>'.$langs->trans("AttachmentsNotCopied").' '.$res['message'];
+	}
+
+	return $retour;
+}
+
 
 //Transfert Qonto Files to Dolibarr
 function transferFiles($bankId,$object,$listOfIdsAttachement){
 	global $db,$conf, $langs;
+
+	// The failure branches below add to it: the callers read $res['error'] and $res['message']
+	$retour = array('error' => 0, 'message' => '');
 
 	//GetListOf URL from id attachement
 	dol_include_once('/bankimportapi/class/bankapi.class.php');

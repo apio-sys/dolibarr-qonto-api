@@ -146,3 +146,4 @@ TypeCodeUndefine = Type de charge non défini
 SourceInvoiceShouldBeDefined = Choisissez la facture que l'avoir corrige
 amountDoesNotFitWithExpenseReport = Le montant ne correspond pas à la note de frais
 TransactionAlreadyImported = Cette transaction est déjà importée sur ce compte bancaire : rien n'a été créé. Rechargez la page pour la voir.
+AttachmentsNotCopied = L'import est fait, mais les pièces jointes Qonto n'ont pas pu être copiées :

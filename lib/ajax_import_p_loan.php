@@ -170,6 +170,10 @@ if (!$retour['error']) {
 //-----------------------------------------------------------------
 if (!$retour['error'])
 {
+	// One transaction for the whole import, ended by bankimportapiImportEnd(): all or nothing
+	$transactionLevel = $db->transaction_opened;
+	$db->begin();
+
 	//----------------------------------------------------------------------------------------
 	//Créer crédit
 	//----------------------------------------------------------------------------------------
@@ -251,6 +255,8 @@ if (!$retour['error'])
 			$retour['message'] .= '</a>';
 		}
 	}
+
+	$retour = bankimportapiImportEnd($retour, $transactionLevel, $id_line, $bankId);
 }
 
 
