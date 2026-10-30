@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    gmao/lib/ajax_get_attachement.php
- * \ingroup gmao
- * \brief   Get file attachement from Qonto API
+ * \file    bankimportapi/lib/ajax_get_provider_invoices.php
+ * \ingroup bankimportapi
+ * \brief   List the vendor invoices of a vendor, for the source invoice of a credit note
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -40,7 +40,7 @@ $soc_id = GETPOST('soc_id', 'int');
 
 if (empty($soc_id)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("EmptyBankid").'<br>';
+	$retour['message'] .= $langs->trans("ProviderNotValid").'<br>';
 }
 
 $htmlList .= '';

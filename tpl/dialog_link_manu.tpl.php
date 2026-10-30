@@ -47,24 +47,24 @@ if (empty($bankApiObject) || !is_object($bankApiObject))
 		<input type="hidden" name="url_ajax" value="lib/ajax_link_manu.php">
 	
 		<tr>
-			<td class="titlefield"><span class="fieldrequired"><?php print $langs->trans("ExpenseReport"); ?> <i style="display: none;" class="fas fa-spinner fa-spin loading_spinner_2"></span></td>
+			<td class="titlefield"><span class="fieldrequired"><?php print $langs->trans("LinkTo"); ?> <i style="display: none;" class="fas fa-spinner fa-spin loading_spinner_2"></span></td>
 			<td>
 				<select class="flat" name="link_type">
 				
 				<?php
-					print'<option value="no_link">'.$langs->trans("Nolink").'</option>';
+					print'<option value="no_link">'.$langs->trans("NoLink").'</option>';
 					
 					if(! empty($conf->don->enabled)) print'<option class="side_credit" value="payment_donation">'.$langs->trans("Donation").'</option>';
-					if(! empty($conf->facture->enabled)) print'<option class="side_credit" value="payment">'.$langs->trans("paymentCustomer").'</option>';
-					if(! empty($conf->facture->enabled)) print'<option class="side_debit" value="payment_supplier">'.$langs->trans("paymentSupplier").'</option>';
-					if(! empty($conf->tax->enabled)) print'<option class="side_debit" value="tva">'.$langs->trans("Vat").'</option>';
-					if(! empty($conf->tax->enabled)) print'<option class="side_debit" value="chargesociales">'.$langs->trans("chargesociales").'</option>';
-					if(! empty($conf->salaries->enabled)) print'<option class="side_debit" value="payment_salary">'.$langs->trans("payment_salary").'</option>';
+					if(! empty($conf->facture->enabled)) print'<option class="side_credit" value="payment">'.$langs->trans("PaymentCustomerInvoice").'</option>';
+					if(! empty($conf->facture->enabled)) print'<option class="side_debit" value="payment_supplier">'.$langs->trans("PaymentSupplierInvoice").'</option>';
+					if(! empty($conf->tax->enabled)) print'<option class="side_debit" value="tva">'.$langs->trans("VAT").'</option>';
+					if(! empty($conf->tax->enabled)) print'<option class="side_debit" value="chargesociales">'.$langs->trans("SocialTaxCharges").'</option>';
+					if(! empty($conf->salaries->enabled)) print'<option class="side_debit" value="payment_salary">'.$langs->trans("PaymentSalary").'</option>';
 					if(! empty($conf->expensereport->enabled)) print'<option class="side_debit" value="payment_expensereport">'.$langs->trans("ExpenseReport").'</option>';
-					if(! empty($conf->loan->enabled)) print'<option class="side_debit" value="payment_loan">'.$langs->trans("payment_loan").'</option>';
+					if(! empty($conf->loan->enabled)) print'<option class="side_debit" value="payment_loan">'.$langs->trans("PaymentLoan").'</option>';
 					
-					print'<option class="side_debit" value="payment_various">'.$langs->trans("payment_various").'</option>';
-					print'<option class="side_credit" value="payment_various">'.$langs->trans("payment_various").'</option>';
+					print'<option class="side_debit" value="payment_various">'.$langs->trans("PaymentVarious").'</option>';
+					print'<option class="side_credit" value="payment_various">'.$langs->trans("PaymentVarious").'</option>';
 				
 				
 				?>

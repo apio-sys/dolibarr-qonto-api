@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    gmao/lib/ajax_get_attachement.php
- * \ingroup gmao
- * \brief   Get file attachement from Qonto API
+ * \file    bankimportapi/lib/ajax_get_payments_list.php
+ * \ingroup bankimportapi
+ * \brief   List the existing payments that a transaction can be linked to
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls

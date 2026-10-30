@@ -1,5 +1,4 @@
 # Copyright (C) 2019 SuperAdmin
-# Copyright (C) 2019 SuperAdmin
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +16,6 @@
 #
 # Générique
 #
-
 BankImportApi = Bank API (Qonto)
 ModuleBankImportApiName = Bank API (Qonto)
 ModuleBankImportApiDesc = Recupera las transacciones bancarias desde la API de Qonto y luego crea, paga y concilia los elementos de Dolibarr correspondientes
@@ -26,133 +24,125 @@ dolimportDesc = Recupera las transacciones bancarias desde la API de Qonto y lue
 #
 # Page d'administration
 #
-
+BANKIMPORTAPISetup = Bank API (Qonto) - Configuración
+BANKIMPORTAPISetupPage = Página de configuración
 Settings = Ajustes
-
 DefautProjet = Proyecto por defecto
-HelpDefautProjet = Elige un proyecto por defecto para las importaciones
-DefautVAT = Valor del IVA por defecto
-HelpDefautVAT = Permite el calculo del importe sin IVA de las facturas proveedor
-GenerateUniqueRef = Generar un codigo unico para la referencia de las facturas proveedores
-HelpGenerateUniqueRef = Permite evitar errores de doble referencias (0=inactivo 1=activo)
-AllowFileTransfertFromQonto = Permitir la transferencia de archivo desde Qonto hasta Dolibarr
-HelpAllowFileTransfertFromQonto = Los archivos estan transferidos cuando se crea una factura (0=inactivo 1=activ0)
+HelpDefautProjet = Proyecto seleccionado por defecto en los diálogos de importación
+DefautVAT = Tipo de IVA por defecto
+HelpDefautVAT = Sirve para calcular por defecto el importe sin IVA
+GenerateUniqueRef = Generar un código único para la referencia de las facturas de proveedor
+HelpGenerateUniqueRef = Evita el error de una referencia de factura de proveedor duplicada (0=inactivo 1=activo)
+AllowFileTransfertFromQonto = Permitir la transferencia de archivos desde Qonto a Dolibarr
+HelpAllowFileTransfertFromQonto = Los archivos adjuntos a la transacción en Qonto se transfieren al elemento de Dolibarr creado a partir de ella (0=inactivo 1=activo)
 AllowCreateElements = Permitir crear nuevos elementos
 HelpAllowCreateElements = Muestra las acciones "crear y pagar" (factura a cliente, abono, factura de proveedor, IVA, salario, impuesto social/fiscal). Poner 0 para solo pagar o vincular elementos existentes (0=inactivo 1=activo)
-
+HowManyDaysToShow = Número de días mostrados por defecto en la lista de transacciones bancarias
+HideVatWarning = Ocultar el icono de aviso cuando el IVA no está importado
+Put1ToHideVatWarning = Poner el valor 1 para ocultar el icono (0 por defecto)
+DebugMode = Modo debug
+Put1InCaseOfBugToHelpDevTeam = Poner el valor 1 en caso de errores para ayudar a los desarrolladores (0 por defecto)
 
 #
 # Page À propos
 #
-About = Sobre
+BankImportApiAbout = Bank API (Qonto) - Acerca de
+About = Acerca de
 
 #
-# Page index
+# Page des transactions
 #
 Import = Importar
-CheckModuleConfiguration = Antes de empezar, configurar el ID de la cuenta de banco que quiere utilizar en la pagina de configuracion del modulo.
+HideImported = Ocultar las líneas importadas
+ShowImported = Mostrar las líneas importadas
+NoTransactionInPeriod = Ninguna transacción en el periodo seleccionado
+TransactionsListTruncated = Solo se muestran las %s transacciones más recientes del periodo, y los totales Crédito / Débito solo las incluyen. Elija un periodo más corto para ver las más antiguas.
+NoVatInQonto = Sin importe de IVA en Qonto para esta transacción
+ForgetImport = Olvidar la importación, para poder importar la transacción de nuevo
+Unlink = Desvincular
+SureToUnlink = ¿Está seguro de que quiere desvincular?
 
 #
-# Page liste
+# Actions
 #
-Imported = importada(s)
+PayeInvoice = Pagar facturas
+CreateAndPayeInvoice = Crear y pagar una factura
+CreateAndPayeCreditNote = Crear y pagar un abono
+CreateAndPayeVAT = Crear y pagar el IVA
+CreateAndPayeSalary = Crear y pagar un salario
+CreateAndPayeCharge = Crear y pagar un impuesto social/fiscal
+PayeLoan = Pagar un préstamo
+PayeExpenseReport = Pagar un informe de gastos
+CreateManually = Vincular
 
 #
-# Page process
+# Dialogues
 #
-TypeOfSocialFiscalCharge = Tipo
-ProviderReference = Referencia proveedor
+ReleveRef = Extracto bancario
+InvoiceRefClient = Ref. cliente
+SalaryRef = Etiqueta
 Provider = Proveedor
-OperationDate = Date
+ProviderInvoice = Factura de proveedor
+Product/Service = Producto
 HTAmount = Importe sin IVA
 VATAmount = Importe del IVA
 DetailsLine = Detalle
-IncludingInterest = Incluso intereses
-IncludingInsurance = Incluso seguro
-TypeOfSocialFiscalCharge = Tipo de impuesto
+TypeOfSocialFiscalCharge = Tipo
 Employee = Empleado
-PeriodStartDate = Principio del periodo
-PeriodEndDate = Final del periodo
+PeriodStartDate = Inicio del periodo
+PeriodEndDate = Fin del periodo
+amountCapital = Importe del capital
+IncludingInterest = De los cuales intereses
+IncludingInsurance = De los cuales seguro
+Invoice = Factura
+Payment = Pago
+Loan = Préstamo
+VAT = IVA
+SocialTaxCharges = Impuestos sociales/fiscales
+LinkTo = Vincular a
+NoLink = Sin vínculo
+PaymentCustomerInvoice = Pago de factura a cliente
+PaymentSupplierInvoice = Pago de factura de proveedor
+PaymentSalary = Pago de salario
+PaymentLoan = Pago de préstamo
+PaymentVarious = Pago varios
 
 #
 # Listes
 #
-
-ProviderInvoice = Factura proveedor
-SocialTaxCharges = Impuesto fiscale/sociale
-VAT = IVA
-Salary = Salario
-Loan = Prestamo
-CustomerInvoice = Factura cliente
+NoPaymentFound = No se ha encontrado ningún pago con este importe en este periodo
+NoUnpaidCustomerInvoice = Ninguna factura pendiente de pago para este cliente
+NoUnpaidProviderInvoice = Ninguna factura pendiente de pago para este proveedor
+NoProviderInvoice = Ninguna factura para este proveedor
 
 #
-# Erreurs et msg events
+# Erreurs
 #
-SelectColumnAmount = Seleccionar columna(s) Importe
-
-ImpossibleToUpdate = Impossible actualizar
-Updated = actualizado
-EmptyRowid = id no definido
-ElementTypeUndefine = typo de elemento no definido
-EmptyRefImport = RefImport no definido
-EmptyLabel = Descripción no definida
-DateBadFormat = El formato de la fecha no esta correcto
-ProjectNotValid = Proyecto no valido
-AmountNotValid = Importe no valido
-ProviderNotValid = Proveedor no valido
+EmptyBankid = Cuenta bancaria no definida
+EmptyRowid = Transacción no definida
+EmptyRefElement = Referencia no definida
+EmptyExpenseReportId = Informe de gastos no definido
+EmptyLinkType = Tipo de vínculo no definido
+EmptyidLineDetails = Elija un producto o introduzca el detalle de la línea
+ReleveNotDefined = Extracto bancario no definido
+PaymentModeNotDefined = Forma de pago no definida
+PaymentTypeNotDefine = Tipo de vínculo desconocido
+LinkTypeNotDefined = Tipo de vínculo no definido
+PaymentNotDefined = Pago no definido
+DateBadFormat = Formato de fecha incorrecto
+AmountNotValid = Importe no válido
+AmountNotNumeric = Un importe no es un número
+AmountNotEqualToInvoices = Los importes pagados (%s) difieren del importe de la transacción (%s)
+ProviderNotValid = Proveedor no válido
+CustomerNotValid = Cliente no válido
 HTNotHigherThanTTC = Importe sin IVA > importe con IVA
-TVANotHigherThanTTC = IVA > Importe con IVA
-StatementLinkSQLError = Error SQL durante la conciliación
-CustomerInvoiceNotvalid = Factura cliente no valida
-LoanNotValid = Prestamo no valido
-InterestNotValid = Intereses no validos
-InsuranceNotValid = Seguro no valido
-InterestAndInsuranceValueTooHigh = El valos de los intereses y del seguro es demasiado grande
-UserUndefine = Usuario no definido
-
-ElementDeleted = Elemento eliminado
-Invoice = Factura
-Created = ok
-StatementLink = conciliación
-Payment = Pago
-PaymentCustomerInvoice = Pago de la factura a cliente
-PaymentLoan = Pago del prestamo
-
-#
-# dolimport API
-#
-BANKIMPORTAPISetup = Bank API (Qonto) - Administracion
-BANKIMPORTAPISetupPage = Pagina de administracion
-HowManyDaysToShow = Cuantos dias mostrar por defecto en la lista de importes
-HideImported = Esconder lineas importadas
-ShowImported = Mostrar lineas importadas
-NoTransactionInPeriod = Ninguna transacción en el periodo seleccionado
-TransactionsListTruncated = Solo se muestran las %s transacciones más recientes del periodo, y los totales Crédito / Débito solo las incluyen. Elija un periodo más corto para ver las más antiguas.
-PayeInvoice = Pagar facturas
-CreateAndPayeInvoice = Crear y pagar factura
-CreateAndPayeCreditNote = Crear y pagar abono
-CreateAndPayeVAT = Crear y pagar IVA
-CreateAndPayeSalary = Crear y pagar sueldo
-CreateAndPayeCharge = Crear y pagar cargas
-PayeLoan = Pagar prestamo
-PayeExpenseReport = Pagar nota de gastos
-CreateManually = Relacionar
-Product/Service = Producto
-ImportProviderInvoice = Importar factura de proveedor
-Unlink = Desenlazar
-ImportVat = Importar IVA
-UserUndefine = Usuario no definido
-SureToUnlink = Estas seguro de querer desenlazar?
-TypeCodeUndefine = El tipo de carga no esta definido
-ImportSalary = Importar sueldos
-ImportCharges = Importar cargas
-NoPaymentFound = No se ha encontrado pago con este importe en este periodo
-NoUnpaidCustomerInvoice = No se ha encontrado factura no pagada para este cliente
-NoUnpaidProviderInvoice =  No se ha encontrado factura no pagada para este proveedor
-amountDoesNotFitWithExpenseReport = Los importes no corresponden
+TVANotHigherThanTTC = IVA > importe con IVA
+LoanNotValid = Préstamo no válido
+InterestNotValid = Intereses no válidos
+InsuranceNotValid = Seguro no válido
+InterestAndInsuranceValueTooHigh = Los intereses y el seguro superan el importe de la transacción
+UserUndefine = Empleado no definido
+TypeCodeUndefine = Tipo de impuesto no definido
+SourceInvoiceShouldBeDefined = Elija la factura que corrige el abono
+amountDoesNotFitWithExpenseReport = El importe no corresponde al informe de gastos
 TransactionAlreadyImported = Esta transacción ya está importada en esta cuenta bancaria: no se ha creado nada. Recargue la página para verla.
-amountCapital = Importe del capital
-DebugMode = Modo debug
-Put1InCaseOfBugToHelpDevTeam = Poner a 1 en caso de bugs para ayudar al equipo de desarroladores (sino 0)
-HideVatWarning = Esconder el icono warning cuando el IVA no esta importado
-Put1ToHideVatWarning = Poner el valor a 1 para esconder el icono (sino 0)

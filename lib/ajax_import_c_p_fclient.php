@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    /bankimportapi/lib/ajax_import_ffour.php
- * \ingroup ban
- * \brief   Create provider invoice from Ajax
+ * \file    bankimportapi/lib/ajax_import_c_p_fclient.php
+ * \ingroup bankimportapi
+ * \brief   Create and pay a customer invoice from a transaction
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -45,7 +45,7 @@ $retour['error'] = 0;
 $retour['message'] = '';
 $now = dol_now();
 
-$langs->loadLangs(array("bankimportapi@bankimportapi", "other"));
+$langs->loadLangs(array("bankimportapi@bankimportapi", "other", "bills"));
 
 //-----------------------------------------------------------------
 //GET DATAS FROM POST
@@ -99,12 +99,12 @@ if (empty($bankId)){
 
 if(!empty($bank_rappro) && empty($releve)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("ReleveNoot defined").'<br>';
+	$retour['message'] .= $langs->trans("ReleveNotDefined").'<br>';
 }
 
 if (empty($mode_reglement_id)){
 	$retour['error']++;
-	$retour['message'] = $langs->trans("fk_paiementNotDefined");
+	$retour['message'] .= $langs->trans("PaymentModeNotDefined").'<br>';
 }
 
 if (empty($id_line)){

@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    gmao/lib/ajax_get_attachement.php
- * \ingroup gmao
- * \brief   Get file attachement from Qonto API
+ * \file    bankimportapi/lib/ajax_get_unpaid_customer_invoices.php
+ * \ingroup bankimportapi
+ * \brief   List the unpaid invoices of a customer, to pay them from a transaction
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -34,13 +34,13 @@ require_once __DIR__ . '/security_ajax.inc.php';
 
 dol_include_once('/compta/facture/class/facture.class.php');
 
-$langs->loadLangs(array("bankimportapi@bankimportapi", "other", 'bills', 'banks', 'companies'));
+$langs->loadLangs(array("bankimportapi@bankimportapi", "other", 'bills', 'banks', 'companies', 'multicurrency'));
 
 $soc_id = GETPOST('soc_id', 'int');
 
 if (empty($soc_id)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("EmptyBankid").'<br>';
+	$retour['message'] .= $langs->trans("CustomerNotValid").'<br>';
 }
 
 $htmlList = '';

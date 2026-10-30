@@ -24,92 +24,125 @@ dolimportDesc = Ruft Banktransaktionen über die Qonto-API ab und erstellt, beza
 #
 # Page d'administration
 #
-Settings =  Einstellungen
-DefautProjet =  Standardprojekt
-HelpDefautProjet = Standardprojekt für den Import
-DefautVAT = Standard Mehrwertsteuer
-HelpDefautVAT = So berechnen Sie standardmäßig den Betrag vor Mehrwertsteuer
-GenerateUniqueRef = Generieren Sie einen eindeutigen Code für das Referenzfeld der Lieferantenrechnungen
-HelpGenerateUniqueRef = Fehler bei doppelter Referenz vermeiden (0=inactive 1=active)
-BankAccountID = Bankkonto-ID
-HelpBankAccountID = Geben Sie Ihre Standard-Bankkonto-ID für die Importe an.<br>ex : Importieren der Kontoauszugszeilen der Bankkonto-ID  = 1 -> value -> 1
+BANKIMPORTAPISetup = Bank API (Qonto) - Einstellungen
+BANKIMPORTAPISetupPage = Einstellungsseite
+Settings = Einstellungen
+DefautProjet = Standardprojekt
+HelpDefautProjet = In den Importdialogen standardmäßig ausgewähltes Projekt
+DefautVAT = Standard-Mehrwertsteuersatz
+HelpDefautVAT = Dient zur standardmäßigen Berechnung des Nettobetrags
+GenerateUniqueRef = Eindeutigen Code für die Referenz der Lieferantenrechnungen erzeugen
+HelpGenerateUniqueRef = Vermeidet den Fehler einer doppelten Lieferantenrechnungsreferenz (0=inaktiv 1=aktiv)
+AllowFileTransfertFromQonto = Übertragung der Dateien von Qonto nach Dolibarr erlauben
+HelpAllowFileTransfertFromQonto = Die in Qonto an die Transaktion angehängten Dateien werden an das daraus erstellte Dolibarr-Element übertragen (0=inaktiv 1=aktiv)
 AllowCreateElements = Erstellen neuer Elemente erlauben
 HelpAllowCreateElements = Zeigt die Aktionen "Erstellen und bezahlen" (Kundenrechnung, Gutschrift, Lieferantenrechnung, MwSt., Gehalt, Sozialabgabe/Steuer). 0 setzen, um nur bestehende Elemente zu bezahlen oder zu verknüpfen (0=inaktiv 1=aktiv)
+HowManyDaysToShow = Anzahl der standardmäßig in der Liste der Banktransaktionen angezeigten Tage
+HideVatWarning = Warnsymbol ausblenden, wenn die MwSt. nicht importiert ist
+Put1ToHideVatWarning = Wert 1 setzen, um das Symbol auszublenden (Standard 0)
+DebugMode = Debug-Modus
+Put1InCaseOfBugToHelpDevTeam = Bei Fehlern den Wert 1 setzen, um den Entwicklern zu helfen (Standard 0)
 
 #
 # Page À propos
 #
-About = Info 
+BankImportApiAbout = Bank API (Qonto) - Über
+About = Über
 
 #
-# Page index
+# Page des transactions
 #
-Import = Import
-CheckModuleConfiguration = Bitte stellen Sie Ihre Standard-Bankkonto-ID auf der Modulkonfigurationsseite ein, bevor Sie beginnen
+Import = Importieren
+HideImported = Importierte Zeilen ausblenden
+ShowImported = Importierte Zeilen anzeigen
+NoTransactionInPeriod = Keine Transaktion im ausgewählten Zeitraum
+TransactionsListTruncated = Nur die %s neuesten Transaktionen des Zeitraums werden angezeigt, und die Summen Haben / Soll beziehen sich nur auf diese. Wählen Sie einen kürzeren Zeitraum, um die älteren zu sehen.
+NoVatInQonto = Kein MwSt.-Betrag in Qonto für diese Transaktion
+ForgetImport = Import vergessen, damit die Transaktion erneut importiert werden kann
+Unlink = Verknüpfung aufheben
+SureToUnlink = Möchten Sie die Verknüpfung wirklich aufheben?
 
 #
-# Page liste
+# Actions
 #
-Imported = importiert
+PayeInvoice = Rechnungen bezahlen
+CreateAndPayeInvoice = Rechnung erstellen und bezahlen
+CreateAndPayeCreditNote = Gutschrift erstellen und bezahlen
+CreateAndPayeVAT = MwSt. erstellen und bezahlen
+CreateAndPayeSalary = Gehalt erstellen und bezahlen
+CreateAndPayeCharge = Sozialabgabe/Steuer erstellen und bezahlen
+PayeLoan = Darlehen bezahlen
+PayeExpenseReport = Spesenabrechnung bezahlen
+CreateManually = Verknüpfen
 
 #
-# Page process
+# Dialogues
 #
-TypeOfSocialFiscalCharge = Typ
-ProviderReference = Referenz des Anbieters
-Provider = Anbieter
-OperationDate = Datum
-HTAmount = Betrag (ohne Mehrwertsteuer)
+ReleveRef = Kontoauszug
+InvoiceRefClient = Kundenreferenz
+SalaryRef = Bezeichnung
+Provider = Lieferant
+ProviderInvoice = Lieferantenrechnung
+Product/Service = Produkt
+HTAmount = Betrag (netto)
+VATAmount = MwSt.-Betrag
 DetailsLine = Details
-IncludingInterest = einschließlich Zinsen
-IncludingInsurance = einschließlich Versicherung
-TypeOfSocialFiscalCharge = Gebührentyp
-Employee = Mitarbeiter_in
-PeriodStartDate = Beginn der Periode
-PeriodEndDate = Ende der Periode
+TypeOfSocialFiscalCharge = Typ
+Employee = Mitarbeiter
+PeriodStartDate = Beginn des Zeitraums
+PeriodEndDate = Ende des Zeitraums
+amountCapital = Tilgungsbetrag
+IncludingInterest = davon Zinsen
+IncludingInsurance = davon Versicherung
+Invoice = Rechnung
+Payment = Zahlung
+Loan = Darlehen
+VAT = MwSt.
+SocialTaxCharges = Sozialabgaben/Steuern
+LinkTo = Verknüpfen mit
+NoLink = Keine Verknüpfung
+PaymentCustomerInvoice = Zahlung einer Kundenrechnung
+PaymentSupplierInvoice = Zahlung einer Lieferantenrechnung
+PaymentSalary = Gehaltszahlung
+PaymentLoan = Darlehenszahlung
+PaymentVarious = Sonstige Zahlung
 
 #
 # Listes
 #
-
-ProviderInvoice = Lieferanten-Rechnung
-SocialTaxCharges = Sozialabgaben
-VAT = VAT
-Salary = Gehälter
-Loan = Darlehen
-CustomerInvoice = Kundenrechnung
+NoPaymentFound = Keine Zahlung mit diesem Betrag in diesem Zeitraum gefunden
+NoUnpaidCustomerInvoice = Keine unbezahlte Rechnung für diesen Kunden
+NoUnpaidProviderInvoice = Keine unbezahlte Rechnung für diesen Lieferanten
+NoProviderInvoice = Keine Rechnung für diesen Lieferanten
 
 #
-# Erreurs et msg events
+# Erreurs
 #
-
-ImpossibleToUpdate = Aktualisierung nicht möglich
-Updated = aktualisiert
-EmptyRowid = id nicht definiert
-ElementTypeUndefine = Element type  nicht definiert
-EmptyRefImport = RefImport nicht definiert
-EmptyLabel = Begünstigter/Zahlungspflichtiger nicht definiert
-DateBadFormat = falsches Datumsformat
-ProjectNotValid = Projekt nicht gültig
+EmptyBankid = Bankkonto nicht definiert
+EmptyRowid = Transaktion nicht definiert
+EmptyRefElement = Referenz nicht definiert
+EmptyExpenseReportId = Spesenabrechnung nicht definiert
+EmptyLinkType = Art der Verknüpfung nicht definiert
+EmptyidLineDetails = Wählen Sie ein Produkt oder geben Sie die Details der Zeile ein
+ReleveNotDefined = Kontoauszug nicht definiert
+PaymentModeNotDefined = Zahlungsart nicht definiert
+PaymentTypeNotDefine = Unbekannte Art der Verknüpfung
+LinkTypeNotDefined = Art der Verknüpfung nicht definiert
+PaymentNotDefined = Zahlung nicht definiert
+DateBadFormat = Falsches Datumsformat
 AmountNotValid = Betrag nicht gültig
-ProviderNotValid = Anbieter nicht gültig
-HTNotHigherThanTTC = Betrag (ohne Mehrwertsteuer) > Betrag (inkl. Mehrwertsteuer)
-TVANotHigherThanTTC = VAT > Betrag (inkl. Mehrwertsteuer)
-StatementLinkSQLError = SQL-Fehler während Abgleich
-CustomerInvoiceNotvalid = Kundenrechnung nicht gültig
+AmountNotNumeric = Ein Betrag ist keine Zahl
+AmountNotEqualToInvoices = Die gezahlten Beträge (%s) weichen vom Betrag der Transaktion (%s) ab
+ProviderNotValid = Lieferant nicht gültig
+CustomerNotValid = Kunde nicht gültig
+HTNotHigherThanTTC = Betrag (netto) > Betrag (brutto)
+TVANotHigherThanTTC = MwSt. > Betrag (brutto)
 LoanNotValid = Darlehen nicht gültig
-InterestNotValid = Zins nicht gültig 
+InterestNotValid = Zinsen nicht gültig
 InsuranceNotValid = Versicherung nicht gültig
-InterestAndInsuranceValueTooHigh = zu großer Wert Zins und Versicherung
-UserUndefine = Mitarbeiter ist nicht definiert
-
-ElementDeleted = Element gelöscht
-Invoice = Rechnung
-Created = ok
-StatementLink = Finanzabgleich
-Payment = Zahlung
-PaymentCustomerInvoice = Zahlung der Kundenrechnung
-PaymentLoan = Auszahlung des Darlehens
-NoTransactionInPeriod = Keine Transaktion im ausgewählten Zeitraum
-TransactionsListTruncated = Nur die %s neuesten Transaktionen des Zeitraums werden angezeigt, und die Summen Haben / Soll beziehen sich nur auf diese. Wählen Sie einen kürzeren Zeitraum, um die älteren zu sehen.
+InterestAndInsuranceValueTooHigh = Zinsen und Versicherung übersteigen den Betrag der Transaktion
+UserUndefine = Mitarbeiter nicht definiert
+TypeCodeUndefine = Art der Abgabe nicht definiert
+SourceInvoiceShouldBeDefined = Wählen Sie die Rechnung, die die Gutschrift korrigiert
+amountDoesNotFitWithExpenseReport = Der Betrag entspricht nicht der Spesenabrechnung
 TransactionAlreadyImported = Diese Transaktion ist auf diesem Bankkonto bereits importiert: es wurde nichts erstellt. Laden Sie die Seite neu, um sie zu sehen.

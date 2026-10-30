@@ -16,9 +16,9 @@
  */
 
 /**
- * \file    /bankimportapi/lib/ajax_import_ffour.php
- * \ingroup ban
- * \brief   Create provider invoice from Ajax
+ * \file    bankimportapi/lib/ajax_import_c_p_creditnote.php
+ * \ingroup bankimportapi
+ * \brief   Create and pay a credit note from a transaction
  */
 
 define('NOTOKENRENEWAL', 1); // Keep the token of the page valid for its next calls
@@ -118,12 +118,12 @@ if (empty($bankId)){
 
 if(!empty($bank_rappro) && empty($releve)){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("ReleveNoot defined").'<br>';
+	$retour['message'] .= $langs->trans("ReleveNotDefined").'<br>';
 }
 
 if (empty($mode_reglement_id)){
 	$retour['error']++;
-	$retour['message'] = $langs->trans("fk_paiementNotDefined");
+	$retour['message'] .= $langs->trans("PaymentModeNotDefined").'<br>';
 }
 
 if (empty($id_line)){
@@ -154,7 +154,7 @@ if (!validateDate($datefacturation)){
 
 if (empty($sourceinvoice) || $sourceinvoice < 0){
 	$retour['error']++;
-	$retour['message'] .= $langs->trans("SourceInvoiceSHouldBeDefined").'<br>';
+	$retour['message'] .= $langs->trans("SourceInvoiceShouldBeDefined").'<br>';
 }
 
 if (empty($ref_element)){
