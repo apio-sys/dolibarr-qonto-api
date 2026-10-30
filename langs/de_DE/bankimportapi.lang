@@ -112,3 +112,4 @@ PaymentCustomerInvoice = Zahlung der Kundenrechnung
 PaymentLoan = Auszahlung des Darlehens
 NoTransactionInPeriod = Keine Transaktion im ausgewählten Zeitraum
 TransactionsListTruncated = Nur die %s neuesten Transaktionen des Zeitraums werden angezeigt, und die Summen Haben / Soll beziehen sich nur auf diese. Wählen Sie einen kürzeren Zeitraum, um die älteren zu sehen.
+TransactionAlreadyImported = Diese Transaktion ist auf diesem Bankkonto bereits importiert: es wurde nichts erstellt. Laden Sie die Seite neu, um sie zu sehen.

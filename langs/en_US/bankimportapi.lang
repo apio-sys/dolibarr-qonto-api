@@ -143,6 +143,7 @@ NoPaymentFound = No payment found with this amount in this period
 NoUnpaidCustomerInvoice = No invoice customer invoice found
 NoUnpaidProviderInvoice =  No provider invoice invoice found
 amountDoesNotFitWithExpenseReport = The amount does not correspond
+TransactionAlreadyImported = This transaction is already imported on this bank account: nothing was created. Reload the page to see it.
 amountCapital = Capital amount
 DebugMode = Debug mode
 Put1InCaseOfBugToHelpDevTeam = Put the value at 1 in case of bugs to help dev team (default 0)

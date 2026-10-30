@@ -138,6 +138,16 @@ if ($expensereport->total_ttc != $montant_ttc){
 
 
 
+// Before any write: a transaction already imported on this bank account is refused, so that a double click,
+// a second tab, a second user or a retry does not create a second payment and a second bank line
+if (!$retour['error']) {
+	$imported = isImportedLine($id_line, $bankId);
+	if ($imported != 0) {
+		$retour['error']++;
+		$retour['message'] .= ($imported > 0 ? $langs->trans("TransactionAlreadyImported") : 'SQL error, see Dolibarr logs').'<br>';
+	}
+}
+
 //-----------------------------------------------------------------
 //CREATION
 //-----------------------------------------------------------------
@@ -171,7 +181,7 @@ if (!$retour['error'])
 	if (!$retour['error'])
 	{
 		$result=$payment->addPaymentToBank($user, 'payment_expensereport', '(ExpenseReportPayment)', $bankId, '', '');
-		if (! $result > 0)
+		if (!($result > 0))
 		{
 			$retour['error']++;
 			$retour['message'] .= $payment->error.'<br>';
@@ -183,7 +193,7 @@ if (!$retour['error'])
 		$payment->fetch($idPaymentER);
 		if ($expensereport->total_ttc - $payment->amount == 0) {
 			$result = $expensereport->set_paid($expensereport->id, $user);
-			if (!$result > 0) {
+			if (!($result > 0)) {
 				$retour['error']++;
 				$retour['message'] .= $expensereport->error.'<br>';
 			}

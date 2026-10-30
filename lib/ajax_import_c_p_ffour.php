@@ -178,6 +178,16 @@ if($montant_tva > $montant_ttc){
 	$retour['message'] .= $langs->trans("TVANotHigherThanTTC").'<br>';
 }
 
+// Before any write: a transaction already imported on this bank account is refused, so that a double click,
+// a second tab, a second user or a retry does not create a second payment and a second bank line
+if (!$retour['error']) {
+	$imported = isImportedLine($id_line, $bankId);
+	if ($imported != 0) {
+		$retour['error']++;
+		$retour['message'] .= ($imported > 0 ? $langs->trans("TransactionAlreadyImported") : 'SQL error, see Dolibarr logs').'<br>';
+	}
+}
+
 //-----------------------------------------------------------------
 //CREATION
 //-----------------------------------------------------------------
@@ -376,11 +386,7 @@ if (!$retour['error'])
 		
 		$res = addImportedLine($id_line,$bankId,$element_type,$ref_element);
 		
-		if ($res['errorFile'])
-		{
-			$retour['error']++;
-			$retour['message'] .= $res['message'].'<br>';
-		}elseif ($res['error'])
+		if ($res['error'])
 		{
 			$retour['error']++;
 			$retour['message'] .= $res['message'].'<br>';
