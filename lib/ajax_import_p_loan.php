@@ -161,7 +161,7 @@ if (!$retour['error']) {
 	$imported = isImportedLine($id_line, $bankId);
 	if ($imported != 0) {
 		$retour['error']++;
-		$retour['message'] .= ($imported > 0 ? $langs->trans("TransactionAlreadyImported") : dol_escape_htmltag($db->lasterror())).'<br>';
+		$retour['message'] .= ($imported > 0 ? $langs->trans("TransactionAlreadyImported") : 'SQL error, see Dolibarr logs').'<br>';
 	}
 }
 
