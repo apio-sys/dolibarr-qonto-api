@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.15
+FIX : "Create and pay" a vendor invoice or a vendor credit note with VAT counted the amount of the transaction, which includes the VAT, as the amount without VAT, then added the VAT on top: the invoice total was higher than the payment, and the invoice stayed partly paid. The amount of the transaction is now passed as the total with VAT, so the core derives the amount without VAT and the VAT from it, and the payment pays the invoice in full. The module never told the core which kind of price it passed; Dolibarr 19 computed from the total with VAT in that case, Dolibarr 20 and later compute from the amount without VAT.
+
 ## 3.4.14
 FIX : Deleting in Dolibarr a payment created or linked by an import left its Qonto transaction marked as imported, with a link to a payment that no longer exists: it could not be imported again without the "forget" action. When the bank line of the payment is deleted, the module now forgets the import of its transaction, which can be imported again. A VAT paid in several times keeps its marks while one of its payments remains, since they can't be told apart. The core keeps the bank line of a deleted expense report payment, so its transaction stays imported too.
 

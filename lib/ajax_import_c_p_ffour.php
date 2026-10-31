@@ -244,7 +244,9 @@ if (!$retour['error'])
 			$date_end,
 			0,
 			$tva_npr,
-			$price_base_type,
+			// $pu is the TTC of the transaction, so that the total is the amount paid: Dolibarr 20+ reads an empty base
+			// type as HT and adds the VAT on top
+			'TTC',
 			$type,
 			-1,
 			0,
