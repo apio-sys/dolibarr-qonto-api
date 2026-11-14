@@ -136,7 +136,7 @@ AmountNotEqualToInvoices = Les montants payés (%s) diffèrent du montant de la 
 ProviderNotValid = Fournisseur non valide
 CustomerNotValid = Client non valide
 HTNotHigherThanTTC = Montant HT > montant TTC
-TVANotHigherThanTTC = Montant TVA > montant TTC
+TVANotHigherThanTTC = Montant TVA >= montant TTC
 LoanNotValid = Emprunt non valide
 InterestNotValid = Intérêts non valides
 InsuranceNotValid = Assurance non valide

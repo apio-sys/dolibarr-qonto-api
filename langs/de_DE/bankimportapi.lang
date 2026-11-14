@@ -136,7 +136,7 @@ AmountNotEqualToInvoices = Die gezahlten Beträge (%s) weichen vom Betrag der Tr
 ProviderNotValid = Lieferant nicht gültig
 CustomerNotValid = Kunde nicht gültig
 HTNotHigherThanTTC = Betrag (netto) > Betrag (brutto)
-TVANotHigherThanTTC = MwSt. > Betrag (brutto)
+TVANotHigherThanTTC = MwSt. >= Betrag (brutto)
 LoanNotValid = Darlehen nicht gültig
 InterestNotValid = Zinsen nicht gültig
 InsuranceNotValid = Versicherung nicht gültig

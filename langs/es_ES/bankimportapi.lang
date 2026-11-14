@@ -136,7 +136,7 @@ AmountNotEqualToInvoices = Los importes pagados (%s) difieren del importe de la 
 ProviderNotValid = Proveedor no válido
 CustomerNotValid = Cliente no válido
 HTNotHigherThanTTC = Importe sin IVA > importe con IVA
-TVANotHigherThanTTC = IVA > importe con IVA
+TVANotHigherThanTTC = IVA >= importe con IVA
 LoanNotValid = Préstamo no válido
 InterestNotValid = Intereses no válidos
 InsuranceNotValid = Seguro no válido
