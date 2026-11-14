@@ -116,7 +116,20 @@ class InterfaceBankImportApiTriggers extends DolibarrTriggers
 			$moduleBankApi->insert_menus();
 
             return 1;
-			
+
+		}elseif($action == 'BANKACCOUNTLINE_DELETE' || $action == 'PAYMENT_CUSTOMER_DELETE'){
+			// A payment deleted in Dolibarr deletes its bank line: its Qonto transaction must be importable again.
+			// A customer payment removes the links of its line before deleting it, so its own event is used instead.
+			// An error cancels the deletion, so that the line and its mark don't get out of step.
+			dol_include_once('/bankimportapi/lib/bankimportapi.lib.php');
+			$res = ($action == 'BANKACCOUNTLINE_DELETE') ? bankimportapiForgetBankLine($object) : bankimportapiForgetCustomerPayment($object->id);
+			if ($res < 0) {
+				$this->errors[] = 'SQL error, see Dolibarr logs';
+				return -1;
+			}
+
+			return 1;
+
 		}else{
 			dol_syslog("Trigger '".$this->name."' for action '$action' launched by ".__FILE__.". id=".$object->id);
 

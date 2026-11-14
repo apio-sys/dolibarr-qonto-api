@@ -1,5 +1,8 @@
 # CHANGELOG BANK API (QONTO) FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
 
+## 3.4.14
+FIX : Deleting in Dolibarr a payment created or linked by an import left its Qonto transaction marked as imported, with a link to a payment that no longer exists: it could not be imported again without the "forget" action. When the bank line of the payment is deleted, the module now forgets the import of its transaction, which can be imported again. A VAT paid in several times keeps its marks while one of its payments remains, since they can't be told apart. The core keeps the bank line of a deleted expense report payment, so its transaction stays imported too.
+
 ## 3.4.13
 FIX : Imports were not atomic (#36): when a step failed, the steps before it stayed, for example a validated invoice and its payment without bank line, and the transaction was not marked as imported, so it could be imported again. Each import now runs in one database transaction: if any step fails, nothing is written. Two simultaneous imports of the same transaction from two sessions also left the elements of the second one: it is now rolled back entirely and reports the transaction as already imported. The Qonto attachments are copied once the import is committed, since files can't be rolled back: a failed copy no longer cancels the import and is reported with it.
 
