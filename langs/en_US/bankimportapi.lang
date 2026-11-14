@@ -136,7 +136,7 @@ AmountNotEqualToInvoices = The amounts paid (%s) differ from the amount of the t
 ProviderNotValid = Vendor not valid
 CustomerNotValid = Customer not valid
 HTNotHigherThanTTC = Amount (excl. VAT) > amount (incl. VAT)
-TVANotHigherThanTTC = VAT > amount (incl. VAT)
+TVANotHigherThanTTC = VAT >= amount (incl. VAT)
 LoanNotValid = Loan not valid
 InterestNotValid = Interest not valid
 InsuranceNotValid = Insurance not valid

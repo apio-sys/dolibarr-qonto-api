@@ -171,7 +171,8 @@ if($montant_ht > $montant_ttc){
 	$retour['message'] .= $langs->trans("HTNotHigherThanTTC").'<br>';
 }
 
-if($montant_tva > $montant_ttc){
+// Equal is refused too: no amount without VAT would be left to find the rate on
+if($montant_tva >= $montant_ttc){
 	$retour['error']++;
 	$retour['message'] .= $langs->trans("TVANotHigherThanTTC").'<br>';
 }
@@ -231,7 +232,7 @@ if (!$retour['error'])
 	if($idFac > 0){
 		
 		$desc = ($detail_achat)?$detail_achat:$ref_element;
-		$tva_tx = round((($montant_tva)/$montant_ht)*100,1);
+		$tva_tx = bankimportapiVatRate($montant_ht, $montant_tva);
 		$pu = round($montant_ttc/(1+($tva_tx/100)),2);
 		$qty = 1;
 		$type = 1;

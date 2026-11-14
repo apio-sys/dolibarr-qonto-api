@@ -511,6 +511,67 @@ function bankimportapiCopyAttachments($retour, $bankId, $object, $transactionLin
 	return $retour;
 }
 
+/**
+ * Active VAT rates of the dictionary for the country of the company
+ *
+ * @return float[] Rates in percent, loaded once per request
+ */
+function bankimportapiDictionaryVatRates()
+{
+	global $db, $mysoc;
+	static $rates = null;
+
+	if ($rates === null) {
+		require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
+		$form = new Form($db);
+		$rates = array();
+		if ($form->load_cache_vatrates("'".$db->escape($mysoc->country_code)."'") > 0) {
+			foreach ($form->cache_vatrates as $vat) {
+				// A "not perceived but recoverable" rate (NPR) is a regime of its own, which an import never sets
+				if (empty($vat['nprtva']) && !in_array((float) $vat['txtva'], $rates)) {
+					$rates[] = (float) $vat['txtva'];
+				}
+			}
+		}
+	}
+
+	return $rates;
+}
+
+/**
+ * VAT rate of a line created from a transaction, recognized among the rates of the dictionary
+ *
+ * The VAT of a transaction is rounded to the cent, so on a small amount the ratio of the VAT to the amount without
+ * VAT is not the rate: 0.33 of VAT on 2.00 gives 19.8 % instead of 20 %. The rate kept is the one whose VAT on the
+ * amount without VAT is the closest to the VAT received, within one cent, and the highest one on a tie. When no
+ * rate is that close (foreign VAT, several rates on one receipt), the rate is computed from the amounts.
+ *
+ * @param  float        $amountExcl Amount without VAT, above zero
+ * @param  float        $vatAmount  VAT amount
+ * @param  float[]|null $rates      Candidate rates in percent, the rates of the dictionary when null
+ * @return float                    VAT rate in percent
+ */
+function bankimportapiVatRate($amountExcl, $vatAmount, $rates = null)
+{
+	if ($rates === null) {
+		$rates = bankimportapiDictionaryVatRates();
+	}
+	rsort($rates, SORT_NUMERIC);
+
+	$best = null;
+	$bestGap = PHP_INT_MAX;
+	foreach ($rates as $rate) {
+		// In whole cents, since a difference of one cent can read 0.0100000000000002 in floats
+		$gap = (int) round(abs(round($amountExcl * $rate / 100, 2) - $vatAmount) * 100);
+		if ($gap < $bestGap) {
+			$best = (float) $rate;
+			$bestGap = $gap;
+		}
+	}
+
+	return ($bestGap <= 1) ? $best : round(($vatAmount / $amountExcl) * 100, 1);
+}
+
 
 //Transfert Qonto Files to Dolibarr
 function transferFiles($bankId,$object,$listOfIdsAttachement){
