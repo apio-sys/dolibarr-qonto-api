@@ -233,7 +233,6 @@ if (!$retour['error'])
 		
 		$desc = ($detail_achat)?$detail_achat:$ref_element;
 		$tva_tx = bankimportapiVatRate($montant_ht, $montant_tva);
-		$pu = round($montant_ttc/(1+($tva_tx/100)),2);
 		$qty = 1;
 		$type = 1;
 		
@@ -252,7 +251,7 @@ if (!$retour['error'])
 		$descline .= ' - '.$srcobject->ref;
 		$result = $object->addline(
 				$desc,
-				$pu, // subprice
+				0, // subprice: derived by the core from the price with VAT
 				1, // quantity
 				$tva_tx, // vat rate
 				0, // localtax1_tx
@@ -264,8 +263,10 @@ if (!$retour['error'])
 				0,
 				'', // info_bits
 				0,
-				'HT',
-				0,
+				// From the amount of the transaction with VAT, so that the total is the amount paid: a unit price
+				// without VAT rounded to the cent gave a total one cent off, and the invoice stayed partly paid
+				'TTC',
+				$montant_ttc, // pu_ttc
 				0, // product_type
 				1,
 				'',
